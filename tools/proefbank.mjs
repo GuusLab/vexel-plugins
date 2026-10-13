@@ -63,8 +63,9 @@ const RUNTIME = `(function () {
     opCommando: function (id, fn) { handlers.set(String(id), fn); if (gestart === String(id)) start(); },
     document: function () { return vraag('document'); },
     selectie: function () { return vraag('selectie'); },
-    maak: function (v) { return vraag('maak', v); },
+    maak: function (v, o) { return vraag('maak', o ? { vormen: v, opties: o } : v); },
     wijzigSelectie: function (s) { return vraag('wijzigSelectie', s); },
+    wijzig: function (l) { return vraag('wijzig', l); },
     melding: function (t, s) { vraag('melding', { tekst: String(t), soort: s || 'info' }); },
     bewaar: function (k, w) { return vraag('bewaar', { sleutel: String(k), waarde: w }); },
     haal: function (k) { return vraag('haal', { sleutel: String(k) }); },
@@ -141,6 +142,9 @@ function stijl(v) {
   if (vu !== undefined) s.vulling = vu; if (li !== undefined) s.lijn = li;
   if (v.lijndikte !== undefined) s.lijndikte = getal(v.lijndikte, 0, 1000, 'lijndikte');
   if (v.dekking !== undefined) s.dekking = getal(v.dekking, 0, 1, 'dekking');
+  if (v.streep !== undefined) { if (!Array.isArray(v.streep) || v.streep.length > 20) fout('streep is een lijst van hooguit 20 getallen (pt).'); s.streep = v.streep.map((n) => getal(n, 0, 1000, 'streep')); }
+  if (v.lijneinde !== undefined) s.lijneinde = ['butt', 'round', 'square'].includes(v.lijneinde) ? v.lijneinde : fout("lijneinde is 'butt', 'round' of 'square'.");
+  if (v.lijnhoek !== undefined) s.lijnhoek = ['miter', 'round', 'bevel'].includes(v.lijnhoek) ? v.lijnhoek : fout("lijnhoek is 'miter', 'round' of 'bevel'.");
   return s;
 }
 function bouw(v, t, d = 0) {
@@ -163,6 +167,10 @@ function bouw(v, t, d = 0) {
     case 'tekst':
       if (typeof v.inhoud !== 'string' || !v.inhoud || v.inhoud.length > 10000) fout('Tekst moet 1 tot 10 000 tekens hebben.');
       Object.assign(o, { x: x(v.x, 'x'), y: x(v.y, 'y'), inhoud: v.inhoud, grootte: v.grootte === undefined ? 12 : getal(v.grootte, 1, 1000, 'grootte') });
+      if (v.gewicht !== undefined) o.gewicht = [100, 200, 300, 400, 500, 600, 700, 800, 900].includes(v.gewicht) ? v.gewicht : fout('gewicht is 100, 200, … of 900.');
+      if (v.uitlijning !== undefined) o.uitlijning = ['links', 'midden', 'rechts'].includes(v.uitlijning) ? v.uitlijning : fout("uitlijning is 'links', 'midden' of 'rechts'.");
+      if (v.regelafstand !== undefined) o.regelafstand = getal(v.regelafstand, 1, 2000, 'regelafstand');
+      if (v.letterafstand !== undefined) o.letterafstand = getal(v.letterafstand, -500, 2000, 'letterafstand');
       o.stijl.vulling = { cmyk: [0, 0, 0, 100] }; o.stijl.lijn = null; break;
     case 'groep':
       if (d >= 8) fout('Groepen gaan hooguit 8 diep.');
@@ -172,6 +180,27 @@ function bouw(v, t, d = 0) {
   }
   Object.assign(o.stijl, stijl(v));
   return o;
+}
+// rechthoek en ellips zijn in Vexel paden: zo leest de plugin ze ook
+const soortVoorPlugin = (o) => (o.soort === 'rechthoek' || o.soort === 'ellips') ? 'pad' : o.soort;
+function alsPad(o) {
+  if (o.soort === 'rechthoek') return [{ gesloten: true, punten: [{ x: o.x, y: o.y }, { x: o.x + o.b, y: o.y }, { x: o.x + o.b, y: o.y + o.h }, { x: o.x, y: o.y + o.h }] }];
+  if (o.soort === 'ellips') { const k = 0.5522847498, ox = o.rx * k, oy = o.ry * k, cx = o.cx, cy = o.cy, rx = o.rx, ry = o.ry;
+    return [{ gesloten: true, punten: [{ x: cx, y: cy - ry, in: { x: cx - ox, y: cy - ry }, uit: { x: cx + ox, y: cy - ry } }, { x: cx + rx, y: cy, in: { x: cx + rx, y: cy - oy }, uit: { x: cx + rx, y: cy + oy } },
+      { x: cx, y: cy + ry, in: { x: cx + ox, y: cy + ry }, uit: { x: cx - ox, y: cy + ry } }, { x: cx - rx, y: cy, in: { x: cx - rx, y: cy + oy }, uit: { x: cx - rx, y: cy - oy } }] }]; }
+  return o.subpaden;
+}
+function geometrie(o) {
+  if (o.soort === 'tekst') return { inhoud: o.inhoud, grootte: o.grootte };
+  if (o.soort === 'groep') return { aantal: o.kinderen.length };
+  return { subpaden: JSON.parse(JSON.stringify(alsPad(o))) };
+}
+function transformeer(o, m) {
+  const tp = (p) => { const x = m[0] * p.x + m[2] * p.y + m[4], y = m[1] * p.x + m[3] * p.y + m[5]; p.x = x; p.y = y; };
+  if (o.soort === 'groep') { o.kinderen.forEach((k) => transformeer(k, m)); return; }
+  if (o.soort === 'tekst') { const a = o.m || [1, 0, 0, 1, 0, 0]; o.m = [m[0] * a[0] + m[2] * a[1], m[1] * a[0] + m[3] * a[1], m[0] * a[2] + m[2] * a[3], m[1] * a[2] + m[3] * a[3], m[0] * a[4] + m[2] * a[5] + m[4], m[1] * a[4] + m[3] * a[5] + m[5]]; return; }
+  if (o.soort === 'rechthoek' || o.soort === 'ellips') { o.subpaden = alsPad(o); o.soort = 'pad'; }
+  for (const s of o.subpaden) for (const p of s.punten) { tp(p); if (p.in) tp(p.in); if (p.uit) tp(p.uit); }
 }
 function kader(o) {
   if (o.soort === 'rechthoek') return { x: o.x, y: o.y, b: o.b, h: o.h };
@@ -192,11 +221,18 @@ function teken() {
     else if (o.soort === 'rechthoek') { e = document.createElementNS(NS, 'rect'); [['x', o.x], ['y', o.y], ['width', o.b], ['height', o.h]].forEach(([k, v]) => e.setAttribute(k, v)); }
     else if (o.soort === 'ellips') { e = document.createElementNS(NS, 'ellipse'); [['cx', o.cx], ['cy', o.cy], ['rx', o.rx], ['ry', o.ry]].forEach(([k, v]) => e.setAttribute(k, v)); }
     else if (o.soort === 'tekst') { e = document.createElementNS(NS, 'text'); e.setAttribute('x', o.x); e.setAttribute('y', o.y); e.setAttribute('font-size', o.grootte); e.setAttribute('font-family', 'Inter, system-ui, sans-serif');
-      o.inhoud.split('\n').forEach((r, i) => { const t = document.createElementNS(NS, 'tspan'); t.setAttribute('x', o.x); t.setAttribute('y', o.y + i * o.grootte * 1.2); t.textContent = r; e.append(t); }); }
+      if (o.gewicht) e.setAttribute('font-weight', o.gewicht);
+      if (o.letterafstand) e.setAttribute('letter-spacing', o.letterafstand / 1000 * o.grootte);
+      e.setAttribute('text-anchor', { midden: 'middle', rechts: 'end' }[o.uitlijning] || 'start');
+      o.inhoud.split('\n').forEach((r, i) => { const t = document.createElementNS(NS, 'tspan'); t.setAttribute('x', o.x); t.setAttribute('y', o.y + i * (o.regelafstand || o.grootte * 1.2)); t.textContent = r; e.append(t); }); }
     else { e = document.createElementNS(NS, 'path'); e.setAttribute('d', o.subpaden.map((s) => { let d = 'M' + s.punten[0].x + ' ' + s.punten[0].y; const n = s.punten.length;
         for (let i = 1; i <= (s.gesloten ? n : n - 1); i++) { const a = s.punten[i - 1], b = s.punten[i % n]; const c1 = a.uit || a, c2 = b.in || b; d += ' C' + c1.x + ' ' + c1.y + ' ' + c2.x + ' ' + c2.y + ' ' + b.x + ' ' + b.y; }
         return d + (s.gesloten ? 'Z' : ''); }).join(' ')); }
-    if (o.stijl) { e.setAttribute('fill', css(o.stijl.vulling)); e.setAttribute('stroke', css(o.stijl.lijn)); e.setAttribute('stroke-width', o.stijl.lijndikte); e.setAttribute('opacity', o.stijl.dekking); }
+    if (o.stijl) { e.setAttribute('fill', css(o.stijl.vulling)); e.setAttribute('stroke', css(o.stijl.lijn)); e.setAttribute('stroke-width', o.stijl.lijndikte); e.setAttribute('opacity', o.stijl.dekking);
+      if (o.stijl.streep && o.stijl.streep.length) e.setAttribute('stroke-dasharray', o.stijl.streep.join(' '));
+      if (o.stijl.lijneinde) e.setAttribute('stroke-linecap', o.stijl.lijneinde);
+      if (o.stijl.lijnhoek) e.setAttribute('stroke-linejoin', o.stijl.lijnhoek); }
+    if (o.m) e.setAttribute('transform', 'matrix(' + o.m.join(' ') + ')');
     if (gekozen.has(o.id)) { e.setAttribute('outline', '1'); e.style.filter = 'drop-shadow(0 0 2px #4f7cff)'; }
     e.addEventListener('click', (ev) => { ev.stopPropagation(); if (!ev.shiftKey) gekozen.clear(); gekozen.add(o.id); teken(); });
     return e;
@@ -210,10 +246,25 @@ function schrijven() { if (document.getElementById('alleenLezen').checked) fout(
 function voer(soort, data) {
   switch (soort) {
     case 'document': return { naam: 'Proefbank', eenheid: 'mm', kleurruimte: document.getElementById('ruimte').value, tekengebied: { b: B, h: H }, alleenLezen: document.getElementById('alleenLezen').checked };
-    case 'selectie': mag('selectie.lezen'); return vormen.filter((o) => gekozen.has(o.id)).map((o) => ({ id: o.id, soort: o.soort, naam: o.naam, kader: kader(o), vulling: o.stijl ? o.stijl.vulling : null, lijn: o.stijl ? o.stijl.lijn : null, lijndikte: o.stijl && o.stijl.lijn ? o.stijl.lijndikte : 0 }));
-    case 'maak': { mag('document.schrijven'); schrijven(); if (!Array.isArray(data) || !data.length) fout('Geef een lijst met vormen.');
-      const t = { n: 0, p: 0 }; const nieuw = data.map((v) => bouw(v, t)); vormen.push(...nieuw); gekozen = new Set(nieuw.map((o) => o.id)); teken();
-      log('maak: ' + nieuw.length + ' vorm(en), ' + t.n + ' in totaal, ' + t.p + ' punten', 'ok'); return nieuw.map((o) => o.id); }
+    case 'selectie': mag('selectie.lezen'); return vormen.filter((o) => gekozen.has(o.id)).map((o) => ({ id: o.id, soort: soortVoorPlugin(o), naam: o.naam, kader: kader(o), vulling: o.stijl ? o.stijl.vulling : null, lijn: o.stijl ? o.stijl.lijn : null, lijndikte: o.stijl && o.stijl.lijn ? o.stijl.lijndikte : 0, dekking: o.stijl ? o.stijl.dekking : 1, ...geometrie(o) }));
+    case 'maak': { mag('document.schrijven'); schrijven();
+      const lijstV = Array.isArray(data) ? data : data && data.vormen, opties = Array.isArray(data) ? {} : (data && data.opties) || {};
+      if (!Array.isArray(lijstV) || !lijstV.length) fout('Geef een lijst met vormen.');
+      if (opties.vervangSelectie && !gekozen.size) fout('Selecteer eerst wat er vervangen moet worden.');
+      const t = { n: 0, p: 0 }; const nieuw = lijstV.map((v) => bouw(v, t));
+      if (opties.vervangSelectie) { const plek = vormen.findIndex((o) => gekozen.has(o.id)); vormen = vormen.filter((o) => !gekozen.has(o.id)); vormen.splice(Math.max(0, plek), 0, ...nieuw); } else vormen.push(...nieuw);
+      gekozen = new Set(nieuw.map((o) => o.id)); teken();
+      log('maak: ' + nieuw.length + ' vorm(en), ' + t.n + ' in totaal, ' + t.p + ' punten' + (opties.vervangSelectie ? ' (selectie vervangen)' : ''), 'ok'); return nieuw.map((o) => o.id); }
+    case 'wijzig': { mag('document.schrijven'); schrijven(); if (!Array.isArray(data) || !data.length) fout('Geef een lijst met wijzigingen: [{ id, … }].');
+      const plan = data.map((w) => { if (!w || !gekozen.has(w.id)) fout('Je kunt alleen objecten wijzigen die geselecteerd zijn.'); return w; });
+      for (const w of plan) { const o = vormen.find((x) => x.id === w.id); const k = kader(o), cx = k.x + k.b / 2, cy = k.y + k.h / 2;
+        let m = [1, 0, 0, 1, 0, 0]; const maal = (a) => { const [p, q, r, s2, t2, u] = m, [A, B2, C, D2, E, F] = a; m = [A * p + C * q, B2 * p + D2 * q, A * r + C * s2, B2 * r + D2 * s2, A * t2 + C * u + E, B2 * t2 + D2 * u + F]; };
+        if (w.schaal !== undefined) { const sx = getal(typeof w.schaal === 'number' ? w.schaal : w.schaal.x, 0.001, 1000, 'schaal'), sy = getal(typeof w.schaal === 'number' ? w.schaal : w.schaal.y, 0.001, 1000, 'schaal'); maal([sx, 0, 0, sy, cx - sx * cx, cy - sy * cy]); }
+        if (w.draai !== undefined) { const r = getal(w.draai, -36000, 36000, 'draai') * Math.PI / 180, c = Math.cos(r), s2 = Math.sin(r); maal([c, s2, -s2, c, cx - c * cx + s2 * cy, cy - s2 * cx - c * cy]); }
+        if (w.verplaats !== undefined) maal([1, 0, 0, 1, getal(w.verplaats.dx, -G, G, 'verplaats.dx'), getal(w.verplaats.dy, -G, G, 'verplaats.dy')]);
+        if (m.join() !== '1,0,0,1,0,0') transformeer(o, m);
+        const s3 = stijl(w); if (Object.keys(s3).length) { const zet = (x) => { if (x.stijl) Object.assign(x.stijl, s3); (x.kinderen || []).forEach(zet); }; zet(o); } }
+      teken(); log('wijzig: ' + plan.length + ' object(en)', 'ok'); return { aangepast: plan.length }; }
     case 'wijzigSelectie': { mag('document.schrijven'); schrijven(); const s = stijl(data || {}); if (!Object.keys(s).length) fout('Er is niets om te veranderen.'); if (!gekozen.size) fout('Selecteer eerst iets.');
       const zet = (o) => { if (o.stijl) Object.assign(o.stijl, s); (o.kinderen || []).forEach(zet); }; vormen.filter((o) => gekozen.has(o.id)).forEach(zet); teken(); log('wijzigSelectie: ' + JSON.stringify(s), 'ok'); return { aangepast: gekozen.size }; }
     case 'melding': log(M.naam + ': ' + String(data && data.tekst).slice(0, 300), (data && data.soort) || 'info'); return null;

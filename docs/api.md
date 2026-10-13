@@ -115,17 +115,22 @@ tonen, en `kleurruimte` om CMYK- of RGB-kleuren te kiezen.
 ```js
 const items = await vexel.selectie();
 // [{
-//   id: 'v12',
-//   soort: 'rechthoek',
+//   id: 'o12',
+//   soort: 'pad',                                    // pad, samengesteld, tekst, groep, beeld, …
 //   naam: 'Achtergrond',
 //   kader: { x: 28.35, y: 28.35, b: 200, h: 120 },   // in pt
-//   vulling: { cmyk: [0, 60, 100, 0] },             // Kleur of null
-//   lijn: null,                                     // Kleur of null
-//   lijndikte: 0
+//   vulling: { cmyk: [0, 60, 100, 0], hex: '#f07c00' }, // of null
+//   lijn: null,                                      // of een kleur
+//   lijndikte: 0,
+//   dekking: 1,
+//   subpaden: [{ gesloten: true, punten: [{ x, y, in?, uit? }, …] }]   // bij pad en samengesteld
 // }]
 ```
 
-Een lege lijst betekent: niets geselecteerd.
+Een lege lijst betekent: niets geselecteerd. Een rechthoek of ellips is in
+Vexel gewoon een `pad`. Bij `pad` en `samengesteld` krijg je de `subpaden`
+(in hetzelfde stelsel als bij `maak`, hooguit 50 000 punten); bij `tekst`
+krijg je `inhoud` en `grootte`; bij een `groep` het `aantal` kinderen.
 
 ### `vexel.maak(vormen)` (recht `document.schrijven`)
 
@@ -141,6 +146,34 @@ const ids = await vexel.maak([
 
 Maximaal 5000 vormen en 50 000 punten per aanroep; groepen hooguit 8 diep.
 Zie [Vormen](#vormen).
+
+Met `{ vervangSelectie: true }` vervangt het nieuwe de selectie, op dezelfde
+plek in de lagen, in één stap. Handig voor een plugin die een pad omzet:
+
+```js
+const [pad] = await vexel.selectie();
+await vexel.maak([{ soort: 'pad', subpaden: maakGolvend(pad.subpaden), vulling: pad.vulling }], { vervangSelectie: true });
+```
+
+### `vexel.wijzig(lijst)` (recht `document.schrijven`)
+
+Verandert geselecteerde objecten, elk apart. Draaien en schalen gaan om het
+midden van het object. Alles samen is één stap voor ongedaan maken. Een id die
+niet geselecteerd is, wordt geweigerd.
+
+```js
+const sel = await vexel.selectie();
+await vexel.wijzig(sel.map((o, i) => ({
+  id: o.id,
+  verplaats: { dx: i * 10, dy: 0 },   // pt
+  draai: 15,                           // graden, met de klok mee
+  schaal: 1.2,                         // of { x: 1.2, y: 0.8 }
+  vulling: { cmyk: [0, 0, 0, 20 + i * 10] },
+})));
+```
+
+Naast `verplaats`, `draai` en `schaal` kan alles uit `stijl` (zie
+[Vormen](#vormen)) en `naam`.
 
 ### `vexel.wijzigSelectie(stijl)` (recht `document.schrijven`)
 
@@ -203,7 +236,7 @@ begin je met `\n` in `inhoud`.
 { soort: 'rechthoek', x, y, b, h, ...stijl }
 { soort: 'ellips', cx, cy, rx, ry, ...stijl }
 { soort: 'pad', subpaden: [{ gesloten, punten: [{ x, y, in?: { x, y }, uit?: { x, y } }] }], ...stijl }
-{ soort: 'tekst', x, y, inhoud: 'tekst', grootte?, ...stijl }   // inhoud hooguit 10 000 tekens
+{ soort: 'tekst', x, y, inhoud: 'tekst', grootte?, gewicht?, uitlijning?, regelafstand?, letterafstand?, ...stijl }   // inhoud hooguit 10 000 tekens
 { soort: 'groep', kinderen: [vorm, ...], naam? }
 ```
 
@@ -215,6 +248,14 @@ begin je met `\n` in `inhoud`.
 | `lijn` | een Kleur of `null` (geen lijn) |
 | `lijndikte` | 0 tot 1000 pt |
 | `dekking` | 0 tot 1 |
+| `streep` | streeplijn: `[streep, tussenruimte, …]` in pt, hooguit 20 getallen; `[]` is doorgetrokken |
+| `lijneinde` | `'butt'`, `'round'` of `'square'` |
+| `lijnhoek` | `'miter'`, `'round'` of `'bevel'` |
+
+Bij tekst kan ook: `gewicht` (100, 200, … 900), `uitlijning` (`'links'`,
+`'midden'`, `'rechts'`; bij midden en rechts is `x` het midden of de
+rechterkant), `regelafstand` (pt) en `letterafstand` (duizendsten van een em).
+Tekst staat in Inter.
 | `naam` | hooguit 100 tekens; zo heet de vorm in het lagenpaneel |
 
 Een driehoek als pad:
