@@ -164,7 +164,7 @@ function bouw(v, t, d = 0) {
   if (++t.n > 5000) fout('Te veel vormen in één keer (hooguit 5000).');
   if (v.naam !== undefined && (typeof v.naam !== 'string' || v.naam.length > 100)) fout('Ongeldige naam.');
   const x = (n, w) => getal(n, -G, G, w), m = (n, w) => getal(n, 0, G, w);
-  const o = { id: 'o' + (++teller), soort: v.soort, naam: v.naam || '', stijl: { vulling: { cmyk: [0, 0, 0, 0] }, lijn: { cmyk: [0, 0, 0, 100] }, lijndikte: 1, dekking: 1 } };
+  const o = { id: 'o' + (++teller), soort: v.soort, naam: v.naam || '', zichtbaar: v.zichtbaar !== false, stijl: { vulling: { cmyk: [0, 0, 0, 0] }, lijn: { cmyk: [0, 0, 0, 100] }, lijndikte: 1, dekking: 1 } };
   switch (v.soort) {
     case 'rechthoek': Object.assign(o, { x: x(v.x, 'x'), y: x(v.y, 'y'), b: m(v.b, 'b'), h: m(v.h, 'h') }); break;
     case 'ellips': Object.assign(o, { cx: x(v.cx, 'cx'), cy: x(v.cy, 'cy'), rx: m(v.rx, 'rx'), ry: m(v.ry, 'ry') }); break;
@@ -208,7 +208,7 @@ function alsPad(o) {
 function geometrie(o) {
   if (o.soort === 'tekst') return { inhoud: o.inhoud, grootte: o.grootte };
   if (o.soort === 'groep') return { aantal: o.kinderen.length };
-  return { subpaden: JSON.parse(JSON.stringify(alsPad(o))) };
+  return { subpaden: JSON.parse(JSON.stringify(alsPad(o))), vulregel: o.vulregel || 'nonzero' };
 }
 function transformeer(o, m) {
   const tp = (p) => { const x = m[0] * p.x + m[2] * p.y + m[4], y = m[1] * p.x + m[3] * p.y + m[5]; p.x = x; p.y = y; };
@@ -248,6 +248,7 @@ function teken() {
       if (o.stijl.lijneinde) e.setAttribute('stroke-linecap', o.stijl.lijneinde);
       if (o.stijl.lijnhoek) e.setAttribute('stroke-linejoin', o.stijl.lijnhoek); }
     if (o.m) e.setAttribute('transform', 'matrix(' + o.m.join(' ') + ')');
+    if (!o.zichtbaar) e.setAttribute('display', 'none');
     if (gekozen.has(o.id)) { e.setAttribute('outline', '1'); e.style.filter = 'drop-shadow(0 0 2px #4f7cff)'; }
     e.addEventListener('click', (ev) => { ev.stopPropagation(); if (!ev.shiftKey) gekozen.clear(); gekozen.add(o.id); teken(); });
     return e;
@@ -324,9 +325,9 @@ function hostPagina() {
   return `<!doctype html><html lang="nl"><head><meta charset="utf-8"><title>Proefbank · ${manifest.naam ? String(manifest.naam).replace(/[<&"]/g, '') : ''}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-:root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;background:#111216;color:#e8e9ec;font:13px/1.45 Inter,system-ui,sans-serif;display:grid;grid-template-columns:1fr 360px;height:100vh}
+:root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;background:#111216;color:#e8e9ec;font:13px/1.45 Inter,system-ui,sans-serif;display:grid;grid-template-columns:minmax(0,1fr) auto;height:100vh}
 main{overflow:auto;display:grid;place-items:center;padding:24px;background:#0b0c0f}#vel{width:min(100%,560px);height:auto;box-shadow:0 8px 30px #0008;cursor:default}
-aside{border-left:1px solid #2c2e35;padding:16px;display:flex;flex-direction:column;gap:12px;overflow:auto;background:#17181c}
+aside{min-width:360px;max-width:860px;border-left:1px solid #2c2e35;padding:16px;display:flex;flex-direction:column;gap:12px;overflow:auto;background:#17181c}
 h1{font-size:15px;margin:0}.zacht{color:#9a9eaa;font-size:12px}.rij{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .knop{height:28px;padding:0 12px;border:1px solid #464954;border-radius:5px;background:#2c2e35;color:#e8e9ec;font:inherit;cursor:pointer}.knop.primair{background:#c6ff3d;border-color:#c6ff3d;color:#11130a;font-weight:600}
 select,label{font:inherit;color:#e8e9ec}select{background:#24262c;border:1px solid #34363e;border-radius:5px;height:26px}

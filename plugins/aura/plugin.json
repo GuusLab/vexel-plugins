@@ -1,0 +1,12 @@
+{
+  "id": "aura",
+  "naam": "Aura",
+  "beschrijving": "Vul het tekengebied met zachte, in elkaar overlopende kleurvlekken als achtergrond, helemaal in vectoren.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "kleur",
+  "rechten": ["document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Aura maken…", "venster": { "breedte": 620, "hoogte": 460 } }
+  ]
+}

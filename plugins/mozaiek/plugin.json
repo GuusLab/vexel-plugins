@@ -1,0 +1,12 @@
+{
+  "id": "mozaiek",
+  "naam": "Mozaïek",
+  "beschrijving": "Vul het tekengebied of de selectie met een low-poly- of celmozaïek in een zacht kleurverloop.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "patronen",
+  "rechten": ["selectie.lezen", "document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Mozaïek maken…", "venster": { "breedte": 440, "hoogte": 624 } }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "geometrische-compositie",
+  "naam": "Geometrische compositie",
+  "beschrijving": "Maak een geometrische compositie in een raster met cirkels, bogen, driehoeken en strepen in een beperkt palet.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "patronen",
+  "rechten": ["document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Compositie maken…", "venster": { "breedte": 620, "hoogte": 460 } }
+  ]
+}

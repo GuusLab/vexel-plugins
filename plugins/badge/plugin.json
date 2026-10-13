@@ -1,0 +1,12 @@
+{
+  "id": "badge",
+  "naam": "Badge",
+  "beschrijving": "Maak stickers en badges, zoals een prijsster, rozet of schild, met gecentreerde tekst erin.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "vormen",
+  "rechten": ["document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Badge maken…", "venster": { "breedte": 620, "hoogte": 500 } }
+  ]
+}

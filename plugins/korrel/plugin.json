@@ -1,0 +1,12 @@
+{
+  "id": "korrel",
+  "naam": "Korrel",
+  "beschrijving": "Maak een spikkel- of stippeltextuur van vectorstippen, met een verloop van dicht naar ijl.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "patronen",
+  "rechten": ["selectie.lezen", "document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Korrel maken…", "venster": { "breedte": 620, "hoogte": 460 } }
+  ]
+}

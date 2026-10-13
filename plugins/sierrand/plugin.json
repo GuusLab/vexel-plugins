@@ -1,0 +1,12 @@
+{
+  "id": "sierrand",
+  "naam": "Sierrand",
+  "beschrijving": "Zet een sierlijk kader met hoekornamenten langs het tekengebied of de selectie, voor uitnodigingen en menukaarten.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "vormen",
+  "rechten": ["selectie.lezen", "document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Sierrand maken…", "venster": { "breedte": 620, "hoogte": 510 } }
+  ]
+}

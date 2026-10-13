@@ -1,0 +1,12 @@
+{
+  "id": "confetti",
+  "naam": "Confetti",
+  "beschrijving": "Strooi rondjes, strookjes, driehoekjes, kronkels en sterretjes die elkaar niet raken, overal of langs de randen.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "patronen",
+  "rechten": ["selectie.lezen", "document.schrijven"],
+  "commandos": [
+    { "id": "strooien", "titel": "Confetti strooien…", "venster": { "breedte": 440, "hoogte": 600 } }
+  ]
+}

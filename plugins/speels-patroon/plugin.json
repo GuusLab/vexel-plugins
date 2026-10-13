@@ -1,0 +1,12 @@
+{
+  "id": "speels-patroon",
+  "naam": "Speels patroon",
+  "beschrijving": "Vul het tekengebied met een speels patroon in jaren-80-stijl: kronkels, driehoekjes, stippen en zigzagjes.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "patronen",
+  "rechten": ["document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Patroon maken…", "venster": { "breedte": 620, "hoogte": 460 } }
+  ]
+}

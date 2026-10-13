@@ -1,0 +1,12 @@
+{
+  "id": "blob",
+  "naam": "Blob",
+  "beschrijving": "Teken organische blobvormen, los of als compositie van overlappende blobs in een kleurpalet.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "vormen",
+  "rechten": ["document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Blob maken…", "venster": { "breedte": 620, "hoogte": 410 } }
+  ]
+}

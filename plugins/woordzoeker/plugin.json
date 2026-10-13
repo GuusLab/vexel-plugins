@@ -1,0 +1,12 @@
+{
+  "id": "woordzoeker",
+  "naam": "Woordzoeker",
+  "beschrijving": "Maak een woordzoeker uit je eigen woordenlijst, met de lijst eronder en desgewenst de oplossing.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "tekst",
+  "rechten": ["document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Woordzoeker maken…", "venster": { "breedte": 480, "hoogte": 600 } }
+  ]
+}

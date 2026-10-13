@@ -1,0 +1,12 @@
+{
+  "id": "arcering",
+  "naam": "Arcering",
+  "beschrijving": "Vul een gesloten vorm met evenwijdige lijnen, kruisarcering, stippels of verlopende lijnen met een gravure-gevoel.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "patronen",
+  "rechten": ["selectie.lezen", "document.schrijven"],
+  "commandos": [
+    { "id": "arceren", "titel": "Arceren…", "venster": { "breedte": 400, "hoogte": 560 } }
+  ]
+}

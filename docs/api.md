@@ -130,7 +130,7 @@ const items = await vexel.selectie();
 
 Een lege lijst betekent: niets geselecteerd. Een rechthoek of ellips is in
 Vexel gewoon een `pad`. Bij `pad` en `samengesteld` krijg je de `subpaden`
-(in hetzelfde stelsel als bij `maak`, hooguit 50 000 punten); bij `tekst`
+(in hetzelfde stelsel als bij `maak`, hooguit 50 000 punten) en de `vulregel`; bij `tekst`
 krijg je `inhoud` en `grootte`; bij een `groep` het `aantal` kinderen.
 
 ### `vexel.maak(vormen)` (recht `document.schrijven`)
@@ -260,6 +260,10 @@ begin je met `\n` in `inhoud`.
 | `lijneinde` | `'butt'`, `'round'` of `'square'` |
 | `lijnhoek` | `'miter'`, `'round'` of `'bevel'` |
 | `overdrukLijn`, `overdrukVulling` | `true`: deze kleur overdrukt (voor snij- en rillijnen in een eigen steunkleur) |
+
+Elke vorm kan `zichtbaar: false` krijgen: hij staat dan verborgen in het
+document en is in het lagenpaneel aan te zetten (bijvoorbeeld de oplossing
+van een puzzel).
 
 Bij een `pad` kan ook `vulregel`: `'nonzero'` (standaard) of `'evenodd'`
 (een ring of letter met een gat). Bij `tekst` kan ook `draai` (graden, om het

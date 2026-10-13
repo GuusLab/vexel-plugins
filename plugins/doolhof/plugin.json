@@ -1,0 +1,12 @@
+{
+  "id": "doolhof",
+  "naam": "Doolhof",
+  "beschrijving": "Maak een rechthoekig of rond doolhof voor puzzelboekjes en werkbladen, met de oplossing als aparte groep.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "patronen",
+  "rechten": ["document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Doolhof maken…", "venster": { "breedte": 420, "hoogte": 560 } }
+  ]
+}
