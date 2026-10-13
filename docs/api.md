@@ -1,4 +1,4 @@
-# De plugin-API (v1)
+# De plugin-API (v1.1)
 
 Alles wat een plugin nodig heeft: de bestanden, het manifest, de API in de
 plugin, het venster, wat de controle afwijst en het formaat van de index.
@@ -103,6 +103,7 @@ const doc = await vexel.document();
 //   eenheid: 'mm',              // 'mm' | 'pt' | 'cm' | 'in' | 'px': wat de gebruiker ziet
 //   kleurruimte: 'cmyk',        // 'cmyk' | 'rgb' | ...
 //   tekengebied: { b: 595.28, h: 841.89 },   // in pt
+//   afloop: { boven: 8.5, rechts: 8.5, onder: 8.5, links: 8.5 },   // in pt (3 mm)
 //   alleenLezen: false
 // }
 ```
@@ -217,6 +218,10 @@ onzichtbaar en moet `vexel.sluit()` aanroepen als het klaar is.
 
 Rekent millimeter om naar punt: `vexel.mm(10)` is ongeveer `28.35`.
 
+### `vexel.naarMm(pt)`
+
+Het omgekeerde van `vexel.mm`: punt naar millimeter.
+
 ### `vexel.thema`
 
 De kleuren van het venster, voor bijvoorbeeld een voorvertoning op een
@@ -251,6 +256,11 @@ begin je met `\n` in `inhoud`.
 | `streep` | streeplijn: `[streep, tussenruimte, …]` in pt, hooguit 20 getallen; `[]` is doorgetrokken |
 | `lijneinde` | `'butt'`, `'round'` of `'square'` |
 | `lijnhoek` | `'miter'`, `'round'` of `'bevel'` |
+| `overdrukLijn`, `overdrukVulling` | `true`: deze kleur overdrukt (voor snij- en rillijnen in een eigen steunkleur) |
+
+Bij een `pad` kan ook `vulregel`: `'nonzero'` (standaard) of `'evenodd'`
+(een ring of letter met een gat). Bij `tekst` kan ook `draai` (graden, om het
+punt `x, y`; negatief is tegen de klok in, handig voor een asbijschrift).
 
 Bij tekst kan ook: `gewicht` (100, 200, … 900), `uitlijning` (`'links'`,
 `'midden'`, `'rechts'`; bij midden en rechts is `x` het midden of de
@@ -294,8 +304,17 @@ Een `Kleur` is een van:
 ```js
 { cmyk: [c, m, y, k] }   // elk 0 tot 100
 { hex: '#rrggbb' }
+{ steunkleur: { naam: 'Stans', cmyk: [0, 100, 0, 0] }, tint: 100 }   // een steunkleur (zie hieronder)
+{ registratie: true }     // de registratiekleur (op alle platen), voor paskruizen
 null                      // geen kleur
 ```
+
+Een **steunkleur** wordt een staal in het document. Bestaat er al een
+steunkleur met die naam (hoofdletters tellen niet), dan wordt die gebruikt en
+mag je `cmyk` weglaten; anders is `cmyk` de kleur op het scherm en in de
+proef. Gebruik dit voor snij-, ril- en vouwlijnen, met `overdrukLijn: true`.
+`tint` (0–100) is optioneel. In `selectie()` staat bij zo'n kleur ook
+`steunkleur: 'Naam'`.
 
 Kies CMYK in een CMYK-document (`doc.kleurruimte === 'cmyk'`) en anders hex.
 

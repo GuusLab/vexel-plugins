@@ -130,8 +130,18 @@ const log = (t, soort = 'info') => { const li = document.createElement('li'); li
 const fout = (t) => { throw Object.assign(new Error(t), { plugin: true }); };
 const getal = (v, min, max, wat) => (typeof v === 'number' && Number.isFinite(v) && v >= min && v <= max) ? v : fout('Ongeldige waarde voor ' + wat + '.');
 const G = 1e6;
+const stalen = new Map();
 function kleur(k, wat) {
   if (k === undefined) return undefined; if (k === null) return null;
+  if (k && k.registratie === true) return { cmyk: [100, 100, 100, 100], registratie: true };
+  if (k && k.steunkleur) {
+    const naam = String(k.steunkleur.naam || '').trim(); if (!naam || naam.length > 60) fout('Een steunkleur heeft een naam van 1 tot 60 tekens (' + wat + ').');
+    const tint = k.tint === undefined ? 100 : getal(k.tint, 0, 100, 'tint');
+    let st = stalen.get(naam.toLowerCase());
+    if (!st) { if (!Array.isArray(k.steunkleur.cmyk) || k.steunkleur.cmyk.length !== 4) fout('Geef bij een nieuwe steunkleur ook cmyk: [c, m, y, k] (' + wat + ').');
+      st = { naam, cmyk: k.steunkleur.cmyk.map((v) => getal(v, 0, 100, wat)) }; stalen.set(naam.toLowerCase(), st); log('nieuwe steunkleur: ' + naam, 'info'); }
+    return { cmyk: st.cmyk.map((v) => v * tint / 100), steunkleur: st.naam };
+  }
   if (Array.isArray(k && k.cmyk) && k.cmyk.length === 4) return { cmyk: k.cmyk.map((v) => getal(v, 0, 100, wat)) };
   if (typeof (k && k.hex) === 'string' && /^#[0-9a-f]{6}$/i.test(k.hex)) return { hex: k.hex };
   return fout('Ongeldige kleur voor ' + wat + ": gebruik { cmyk: [c, m, y, k] } of { hex: '#rrggbb' }.");
@@ -144,6 +154,8 @@ function stijl(v) {
   if (v.dekking !== undefined) s.dekking = getal(v.dekking, 0, 1, 'dekking');
   if (v.streep !== undefined) { if (!Array.isArray(v.streep) || v.streep.length > 20) fout('streep is een lijst van hooguit 20 getallen (pt).'); s.streep = v.streep.map((n) => getal(n, 0, 1000, 'streep')); }
   if (v.lijneinde !== undefined) s.lijneinde = ['butt', 'round', 'square'].includes(v.lijneinde) ? v.lijneinde : fout("lijneinde is 'butt', 'round' of 'square'.");
+  if (v.overdrukLijn !== undefined) s.overdrukLijn = !!v.overdrukLijn;
+  if (v.overdrukVulling !== undefined) s.overdrukVulling = !!v.overdrukVulling;
   if (v.lijnhoek !== undefined) s.lijnhoek = ['miter', 'round', 'bevel'].includes(v.lijnhoek) ? v.lijnhoek : fout("lijnhoek is 'miter', 'round' of 'bevel'.");
   return s;
 }
@@ -157,6 +169,8 @@ function bouw(v, t, d = 0) {
     case 'rechthoek': Object.assign(o, { x: x(v.x, 'x'), y: x(v.y, 'y'), b: m(v.b, 'b'), h: m(v.h, 'h') }); break;
     case 'ellips': Object.assign(o, { cx: x(v.cx, 'cx'), cy: x(v.cy, 'cy'), rx: m(v.rx, 'rx'), ry: m(v.ry, 'ry') }); break;
     case 'pad':
+      if (v.vulregel !== undefined && !['nonzero', 'evenodd'].includes(v.vulregel)) fout("vulregel is 'nonzero' of 'evenodd'.");
+      o.vulregel = v.vulregel || 'nonzero';
       if (!Array.isArray(v.subpaden) || !v.subpaden.length || v.subpaden.length > 1000) fout('Een pad heeft 1 tot 1000 subpaden.');
       o.subpaden = v.subpaden.map((sp) => {
         if (!Array.isArray(sp && sp.punten) || !sp.punten.length) fout('Een subpad heeft punten nodig.');
@@ -167,6 +181,7 @@ function bouw(v, t, d = 0) {
     case 'tekst':
       if (typeof v.inhoud !== 'string' || !v.inhoud || v.inhoud.length > 10000) fout('Tekst moet 1 tot 10 000 tekens hebben.');
       Object.assign(o, { x: x(v.x, 'x'), y: x(v.y, 'y'), inhoud: v.inhoud, grootte: v.grootte === undefined ? 12 : getal(v.grootte, 1, 1000, 'grootte') });
+      if (v.draai !== undefined) { const r = getal(v.draai, -360, 360, 'draai') * Math.PI / 180; o.m = [Math.cos(r), Math.sin(r), -Math.sin(r), Math.cos(r), o.x - (Math.cos(r) * o.x - Math.sin(r) * o.y), o.y - (Math.sin(r) * o.x + Math.cos(r) * o.y)]; }
       if (v.gewicht !== undefined) o.gewicht = [100, 200, 300, 400, 500, 600, 700, 800, 900].includes(v.gewicht) ? v.gewicht : fout('gewicht is 100, 200, … of 900.');
       if (v.uitlijning !== undefined) o.uitlijning = ['links', 'midden', 'rechts'].includes(v.uitlijning) ? v.uitlijning : fout("uitlijning is 'links', 'midden' of 'rechts'.");
       if (v.regelafstand !== undefined) o.regelafstand = getal(v.regelafstand, 1, 2000, 'regelafstand');
@@ -225,7 +240,7 @@ function teken() {
       if (o.letterafstand) e.setAttribute('letter-spacing', o.letterafstand / 1000 * o.grootte);
       e.setAttribute('text-anchor', { midden: 'middle', rechts: 'end' }[o.uitlijning] || 'start');
       o.inhoud.split('\n').forEach((r, i) => { const t = document.createElementNS(NS, 'tspan'); t.setAttribute('x', o.x); t.setAttribute('y', o.y + i * (o.regelafstand || o.grootte * 1.2)); t.textContent = r; e.append(t); }); }
-    else { e = document.createElementNS(NS, 'path'); e.setAttribute('d', o.subpaden.map((s) => { let d = 'M' + s.punten[0].x + ' ' + s.punten[0].y; const n = s.punten.length;
+    else { e = document.createElementNS(NS, 'path'); e.setAttribute('fill-rule', o.vulregel === 'evenodd' ? 'evenodd' : 'nonzero'); e.setAttribute('d', o.subpaden.map((s) => { let d = 'M' + s.punten[0].x + ' ' + s.punten[0].y; const n = s.punten.length;
         for (let i = 1; i <= (s.gesloten ? n : n - 1); i++) { const a = s.punten[i - 1], b = s.punten[i % n]; const c1 = a.uit || a, c2 = b.in || b; d += ' C' + c1.x + ' ' + c1.y + ' ' + c2.x + ' ' + c2.y + ' ' + b.x + ' ' + b.y; }
         return d + (s.gesloten ? 'Z' : ''); }).join(' ')); }
     if (o.stijl) { e.setAttribute('fill', css(o.stijl.vulling)); e.setAttribute('stroke', css(o.stijl.lijn)); e.setAttribute('stroke-width', o.stijl.lijndikte); e.setAttribute('opacity', o.stijl.dekking);
@@ -245,7 +260,7 @@ const mag = (r) => M.rechten.includes(r) || fout(M.naam + ' heeft geen toestemmi
 function schrijven() { if (document.getElementById('alleenLezen').checked) fout('Je kunt dit document alleen bekijken.'); }
 function voer(soort, data) {
   switch (soort) {
-    case 'document': return { naam: 'Proefbank', eenheid: 'mm', kleurruimte: document.getElementById('ruimte').value, tekengebied: { b: B, h: H }, alleenLezen: document.getElementById('alleenLezen').checked };
+    case 'document': return { naam: 'Proefbank', eenheid: 'mm', kleurruimte: document.getElementById('ruimte').value, tekengebied: { b: B, h: H }, afloop: { boven: 3 * PT, rechts: 3 * PT, onder: 3 * PT, links: 3 * PT }, alleenLezen: document.getElementById('alleenLezen').checked };
     case 'selectie': mag('selectie.lezen'); return vormen.filter((o) => gekozen.has(o.id)).map((o) => ({ id: o.id, soort: soortVoorPlugin(o), naam: o.naam, kader: kader(o), vulling: o.stijl ? o.stijl.vulling : null, lijn: o.stijl ? o.stijl.lijn : null, lijndikte: o.stijl && o.stijl.lijn ? o.stijl.lijndikte : 0, dekking: o.stijl ? o.stijl.dekking : 1, ...geometrie(o) }));
     case 'maak': { mag('document.schrijven'); schrijven();
       const lijstV = Array.isArray(data) ? data : data && data.vormen, opties = Array.isArray(data) ? {} : (data && data.opties) || {};
