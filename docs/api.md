@@ -145,8 +145,11 @@ const ids = await vexel.maak([
 ]);
 ```
 
-Maximaal 5000 vormen en 50 000 punten per aanroep; groepen hooguit 8 diep.
+Maximaal 5000 vormen en 50 000 punten per aanroep, 1000 subpaden per pad; groepen hooguit 8 diep.
 Zie [Vormen](#vormen).
+
+Met `{ achteraan: true }` komt het nieuwe onderin de actieve laag, achter
+alles wat er al staat: gebruik dit voor achtergronden en patronen.
 
 Met `{ vervangSelectie: true }` vervangt het nieuwe de selectie, op dezelfde
 plek in de lagen, in één stap. Handig voor een plugin die een pad omzet:

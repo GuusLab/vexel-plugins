@@ -267,7 +267,8 @@ function voer(soort, data) {
       if (!Array.isArray(lijstV) || !lijstV.length) fout('Geef een lijst met vormen.');
       if (opties.vervangSelectie && !gekozen.size) fout('Selecteer eerst wat er vervangen moet worden.');
       const t = { n: 0, p: 0 }; const nieuw = lijstV.map((v) => bouw(v, t));
-      if (opties.vervangSelectie) { const plek = vormen.findIndex((o) => gekozen.has(o.id)); vormen = vormen.filter((o) => !gekozen.has(o.id)); vormen.splice(Math.max(0, plek), 0, ...nieuw); } else vormen.push(...nieuw);
+      if (opties.vervangSelectie) { const plek = vormen.findIndex((o) => gekozen.has(o.id)); vormen = vormen.filter((o) => !gekozen.has(o.id)); vormen.splice(Math.max(0, plek), 0, ...nieuw); }
+      else if (opties.achteraan) vormen.unshift(...nieuw); else vormen.push(...nieuw);
       gekozen = new Set(nieuw.map((o) => o.id)); teken();
       log('maak: ' + nieuw.length + ' vorm(en), ' + t.n + ' in totaal, ' + t.p + ' punten' + (opties.vervangSelectie ? ' (selectie vervangen)' : ''), 'ok'); return nieuw.map((o) => o.id); }
     case 'wijzig': { mag('document.schrijven'); schrijven(); if (!Array.isArray(data) || !data.length) fout('Geef een lijst met wijzigingen: [{ id, … }].');
