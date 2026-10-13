@@ -1,0 +1,12 @@
+{
+  "id": "in-raster-schikken",
+  "naam": "In raster schikken",
+  "beschrijving": "Zet de geselecteerde objecten netjes in kolommen en rijen, uitgelijnd in gelijke cellen en desgewenst even groot.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "ordenen",
+  "rechten": ["selectie.lezen", "document.schrijven"],
+  "commandos": [
+    { "id": "schikken", "titel": "In raster schikken…", "venster": { "breedte": 360, "hoogte": 650 } }
+  ]
+}

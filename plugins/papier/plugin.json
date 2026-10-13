@@ -1,0 +1,12 @@
+{
+  "id": "papier",
+  "naam": "Papier",
+  "beschrijving": "Zet lijntjes, ruitjes, stippen, millimeterpapier, een isometrisch raster, zeshoeken of notenbalken op het tekengebied.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "patronen",
+  "rechten": ["document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Papier…", "venster": { "breedte": 420, "hoogte": 600 } }
+  ]
+}

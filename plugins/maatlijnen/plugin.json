@@ -1,0 +1,12 @@
+{
+  "id": "maatlijnen",
+  "naam": "Maatlijnen",
+  "beschrijving": "Zet maatlijnen met pijlpunten en een maatlabel in mm, cm of inch bij de geselecteerde objecten.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "hulpmiddelen",
+  "rechten": ["selectie.lezen", "document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Maatlijnen…", "venster": { "breedte": 420, "hoogte": 580 } }
+  ]
+}

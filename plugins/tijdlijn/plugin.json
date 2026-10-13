@@ -1,0 +1,12 @@
+{
+  "id": "tijdlijn",
+  "naam": "Tijdlijn",
+  "beschrijving": "Maak een nette tijdlijn uit regels met datum, titel en tekst, horizontaal of verticaal.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "ordenen",
+  "rechten": ["document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Tijdlijn maken…", "venster": { "breedte": 460, "hoogte": 680 } }
+  ]
+}

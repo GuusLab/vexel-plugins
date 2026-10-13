@@ -1,0 +1,12 @@
+{
+  "id": "envelop-ontwerp",
+  "naam": "Envelop-ontwerp",
+  "beschrijving": "Teken de stansvorm van een papieren envelop in een standaard- of eigen maat, met snij- en rillijnen.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "vormen",
+  "rechten": ["document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Envelop-ontwerp…", "venster": { "breedte": 440, "hoogte": 660 } }
+  ]
+}

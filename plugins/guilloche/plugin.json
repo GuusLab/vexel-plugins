@@ -1,0 +1,12 @@
+{
+  "id": "guilloche",
+  "naam": "Guilloche",
+  "beschrijving": "Teken een sierrand of medaillon van fijne, in elkaar gevlochten golflijnen, zoals op waardepapier en certificaten.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "patronen",
+  "rechten": ["selectie.lezen", "document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Guilloche…", "venster": { "breedte": 420, "hoogte": 670 } }
+  ]
+}

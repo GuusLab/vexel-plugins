@@ -1,0 +1,12 @@
+{
+  "id": "blindtekst",
+  "naam": "Blindtekst",
+  "beschrijving": "Vul een vlak of je tekengebied met natuurlijk ogende Nederlandse opvultekst, netjes afgebroken op de breedte.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "tekst",
+  "rechten": ["selectie.lezen", "document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Blindtekst…", "venster": { "breedte": 400, "hoogte": 560 } }
+  ]
+}

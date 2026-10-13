@@ -1,0 +1,12 @@
+{
+  "id": "typeschaal",
+  "naam": "Typeschaal",
+  "beschrijving": "Maak een specimenblad met een modulaire letterschaal van H1 tot klein, met maten in pt en advies voor de regelafstand.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "tekst",
+  "rechten": ["document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Typeschaal maken…", "venster": { "breedte": 460, "hoogte": 740 } }
+  ]
+}

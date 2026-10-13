@@ -1,0 +1,12 @@
+{
+  "id": "extruderen",
+  "naam": "Extruderen",
+  "beschrijving": "Maak van gesloten vormen een blok met diepte, met zijvlakken die vanzelf donkerder worden naarmate ze van het licht af staan.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "vormen",
+  "rechten": ["selectie.lezen", "document.schrijven"],
+  "commandos": [
+    { "id": "extruderen", "titel": "Extruderen…", "venster": { "breedte": 360, "hoogte": 520 } }
+  ]
+}

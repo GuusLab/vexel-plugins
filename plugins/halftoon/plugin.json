@@ -1,0 +1,12 @@
+{
+  "id": "halftoon",
+  "naam": "Halftoon",
+  "beschrijving": "Vul het tekengebied of je selectie met een halftoonraster van stippen, vierkantjes, ruiten of lijnen die in grootte verlopen.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "patronen",
+  "rechten": ["selectie.lezen", "document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Halftoon…", "venster": { "breedte": 400, "hoogte": 600 } }
+  ]
+}

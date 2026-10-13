@@ -1,0 +1,12 @@
+{
+  "id": "zonnestralen",
+  "naam": "Zonnestralen",
+  "beschrijving": "Vul het tekengebied tot in de afloop, of je selectie, met stralen in twee kleuren vanuit een middelpunt.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "patronen",
+  "rechten": ["selectie.lezen", "document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Zonnestralen…", "venster": { "breedte": 380, "hoogte": 620 } }
+  ]
+}

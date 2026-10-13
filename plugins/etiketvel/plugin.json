@@ -1,0 +1,12 @@
+{
+  "id": "etiketvel",
+  "naam": "Etiketvel",
+  "beschrijving": "Zet de contouren van rechthoekige, ronde of ovale etiketten netjes in kolommen en rijen op een vel.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "ordenen",
+  "rechten": ["document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Etiketvel…", "venster": { "breedte": 440, "hoogte": 680 } }
+  ]
+}

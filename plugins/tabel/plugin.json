@@ -1,0 +1,12 @@
+{
+  "id": "tabel",
+  "naam": "Tabel",
+  "beschrijving": "Maak een verzorgde tabel uit geplakte tekst, met kopregel, zebrastrepen, randen en getallen netjes rechts.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "tekst",
+  "rechten": ["document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Tabel maken…", "venster": { "breedte": 470, "hoogte": 760 } }
+  ]
+}

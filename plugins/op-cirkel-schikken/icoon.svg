@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#1f2a3a"/>
+  <circle cx="32" cy="32" r="19" fill="none" stroke="#3f5876" stroke-width="2"/>
+  <circle cx="32" cy="32" r="2.5" fill="#3f5876"/>
+  <rect x="27.5" y="8.5" width="9" height="9" rx="2" fill="#9cc8ff" transform="rotate(0 32.0 13.0)"/>
+  <rect x="40.9" y="14.1" width="9" height="9" rx="2" fill="#5aa2ff" transform="rotate(45 45.4 18.6)"/>
+  <rect x="46.5" y="27.5" width="9" height="9" rx="2" fill="#5aa2ff" transform="rotate(90 51.0 32.0)"/>
+  <rect x="40.9" y="40.9" width="9" height="9" rx="2" fill="#5aa2ff" transform="rotate(135 45.4 45.4)"/>
+  <rect x="27.5" y="46.5" width="9" height="9" rx="2" fill="#5aa2ff" transform="rotate(180 32.0 51.0)"/>
+  <rect x="14.1" y="40.9" width="9" height="9" rx="2" fill="#5aa2ff" transform="rotate(225 18.6 45.4)"/>
+  <rect x="8.5" y="27.5" width="9" height="9" rx="2" fill="#5aa2ff" transform="rotate(270 13.0 32.0)"/>
+  <rect x="14.1" y="14.1" width="9" height="9" rx="2" fill="#5aa2ff" transform="rotate(315 18.6 18.6)"/>
+</svg>

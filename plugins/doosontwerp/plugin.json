@@ -1,0 +1,12 @@
+{
+  "id": "doosontwerp",
+  "naam": "Doosontwerp",
+  "beschrijving": "Teken de stansvorm van een vouwdoos met insteekkleppen, met aparte snij- en rillijnen.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "vormen",
+  "rechten": ["document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Doosontwerp…", "venster": { "breedte": 440, "hoogte": 690 } }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "willekeurig",
+  "naam": "Willekeurig",
+  "beschrijving": "Geef elk geselecteerd object een eigen kleine afwijking in plek, draaiing, grootte, dekking of kleur, met een zaadje om terug te halen.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "ordenen",
+  "rechten": ["selectie.lezen", "document.schrijven"],
+  "commandos": [
+    { "id": "varieren", "titel": "Willekeurig variëren…", "venster": { "breedte": 380, "hoogte": 580 } }
+  ]
+}

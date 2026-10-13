@@ -1,0 +1,12 @@
+{
+  "id": "golven",
+  "naam": "Golven",
+  "beschrijving": "Vul het tekengebied of je selectie met gestapelde golflijnen of gevulde banden die vloeiend van kleur verlopen.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "patronen",
+  "rechten": ["selectie.lezen", "document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Golven…", "venster": { "breedte": 420, "hoogte": 720 } }
+  ]
+}

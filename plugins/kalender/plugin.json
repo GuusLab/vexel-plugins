@@ -1,0 +1,12 @@
+{
+  "id": "kalender",
+  "naam": "Kalender",
+  "beschrijving": "Maak een maand- of jaarkalender met ISO-weeknummers, Nederlandse feestdagen en ruimte voor notities.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "ordenen",
+  "rechten": ["document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Kalender maken…", "venster": { "breedte": 480, "hoogte": 600 } }
+  ]
+}

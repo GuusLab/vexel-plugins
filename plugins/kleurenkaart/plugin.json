@@ -1,0 +1,12 @@
+{
+  "id": "kleurenkaart",
+  "naam": "Kleurenkaart",
+  "beschrijving": "Zet een drukproef-kleurenkaart met tintenladders per inkt en een rijk-zwartvergelijking op het tekengebied.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "kleur",
+  "rechten": ["document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Kleurenkaart…", "venster": { "breedte": 400, "hoogte": 540 } }
+  ]
+}

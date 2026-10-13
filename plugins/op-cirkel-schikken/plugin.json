@@ -1,0 +1,12 @@
+{
+  "id": "op-cirkel-schikken",
+  "naam": "Op cirkel schikken",
+  "beschrijving": "Zet de geselecteerde objecten op gelijke afstand op een cirkel of boog, desgewenst meegedraaid naar buiten of naar het midden.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "ordenen",
+  "rechten": ["selectie.lezen", "document.schrijven"],
+  "commandos": [
+    { "id": "schikken", "titel": "Op cirkel schikken…", "venster": { "breedte": 360, "hoogte": 636 } }
+  ]
+}

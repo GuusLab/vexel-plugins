@@ -1,0 +1,12 @@
+{
+  "id": "folder-indeling",
+  "naam": "Folder-indeling",
+  "beschrijving": "Deel het tekengebied in voor een vouwfolder, met vouwlijnen, vouwtekens en benoemde panelen.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "ordenen",
+  "rechten": ["document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Folder-indeling…", "venster": { "breedte": 440, "hoogte": 540 } }
+  ]
+}

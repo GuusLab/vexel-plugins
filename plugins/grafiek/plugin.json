@@ -1,0 +1,12 @@
+{
+  "id": "grafiek",
+  "naam": "Grafiek",
+  "beschrijving": "Maak een staaf-, lijn-, taart- of donutdiagram als nette vectoren uit getypte of geplakte gegevens.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "ordenen",
+  "rechten": ["document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Grafiek maken…", "venster": { "breedte": 540, "hoogte": 760 } }
+  ]
+}

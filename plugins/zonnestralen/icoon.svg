@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs><clipPath id="vlak"><rect width="64" height="64" rx="14"/></clipPath></defs>
+  <rect width="64" height="64" rx="14" fill="#1f2a3a"/>
+  <path clip-path="url(#vlak)" fill="#3a6fb8" d="M32 40L20.3 -18.8L43.7 -18.8ZM32 40L65.3 -9.9L81.9 6.7ZM32 40L90.8 28.3L90.8 51.7ZM32 40L81.9 73.3L65.3 89.9ZM32 40L43.7 98.8L20.3 98.8ZM32 40L-1.3 89.9L-17.9 73.3ZM32 40L-26.8 51.7L-26.8 28.3ZM32 40L-17.9 6.7L-1.3 -9.9Z"/>
+  <circle cx="32" cy="40" r="13" fill="#5aa2ff" opacity="0.35"/>
+  <circle cx="32" cy="40" r="9" fill="#9cc8ff"/>
+</svg>
