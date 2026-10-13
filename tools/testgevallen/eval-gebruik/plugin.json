@@ -1,0 +1,19 @@
+{
+  "id": "eval-gebruik",
+  "naam": "Testgeval eval-gebruik",
+  "beschrijving": "Een testgeval voor de controle van deze repo.",
+  "auteur": {
+    "naam": "Test"
+  },
+  "licentie": "MIT",
+  "categorie": "hulpmiddelen",
+  "rechten": [
+    "document.schrijven"
+  ],
+  "commandos": [
+    {
+      "id": "teken",
+      "titel": "Teken"
+    }
+  ]
+}

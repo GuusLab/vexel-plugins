@@ -1,0 +1,19 @@
+{
+  "id": "goed",
+  "naam": "Testgeval goed",
+  "beschrijving": "Een testgeval voor de controle van deze repo.",
+  "auteur": {
+    "naam": "Test"
+  },
+  "licentie": "MIT",
+  "categorie": "hulpmiddelen",
+  "rechten": [
+    "document.schrijven"
+  ],
+  "commandos": [
+    {
+      "id": "teken",
+      "titel": "Teken"
+    }
+  ]
+}

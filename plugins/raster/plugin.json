@@ -1,0 +1,12 @@
+{
+  "id": "raster",
+  "naam": "Raster",
+  "beschrijving": "Verdeel het tekengebied in kolommen en rijen met gelijke tussenruimte.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "vormen",
+  "rechten": ["document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Raster maken…", "venster": { "breedte": 340, "hoogte": 400 } }
+  ]
+}

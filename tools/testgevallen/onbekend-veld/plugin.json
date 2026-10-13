@@ -1,0 +1,20 @@
+{
+  "id": "onbekend-veld",
+  "naam": "Testgeval onbekend-veld",
+  "beschrijving": "Een testgeval voor de controle van deze repo.",
+  "auteur": {
+    "naam": "Test"
+  },
+  "licentie": "MIT",
+  "categorie": "hulpmiddelen",
+  "rechten": [
+    "document.schrijven"
+  ],
+  "commandos": [
+    {
+      "id": "teken",
+      "titel": "Teken"
+    }
+  ],
+  "versie": "1.0.0"
+}

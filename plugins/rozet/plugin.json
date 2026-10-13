@@ -1,0 +1,12 @@
+{
+  "id": "rozet",
+  "naam": "Rozet",
+  "beschrijving": "Teken een sierlijk rozetpatroon als één pad, met instelbare lussen, straal en verhouding.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "patronen",
+  "rechten": ["document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Rozet maken…", "venster": { "breedte": 400, "hoogte": 340 } }
+  ]
+}

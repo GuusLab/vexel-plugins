@@ -1,0 +1,19 @@
+{
+  "id": "gpl-licentie",
+  "naam": "Testgeval gpl-licentie",
+  "beschrijving": "Een testgeval voor de controle van deze repo.",
+  "auteur": {
+    "naam": "Test"
+  },
+  "licentie": "GPL-3.0",
+  "categorie": "hulpmiddelen",
+  "rechten": [
+    "document.schrijven"
+  ],
+  "commandos": [
+    {
+      "id": "teken",
+      "titel": "Teken"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "kleurharmonie",
+  "naam": "Kleurharmonie",
+  "beschrijving": "Zet een rij CMYK-kleurvlakjes neer die passen bij de vulkleur van je selectie.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "kleur",
+  "rechten": ["selectie.lezen", "document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Kleurharmonie maken…", "venster": { "breedte": 380, "hoogte": 460 } }
+  ]
+}

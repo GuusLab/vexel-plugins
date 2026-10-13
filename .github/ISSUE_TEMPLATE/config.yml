@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Beveiligingsprobleem melden
+    url: https://github.com/GuusLab/vexel-plugins/security/advisories/new
+    about: Meld beveiligingsproblemen privé, niet in een openbaar issue.
+  - name: Een plugin maken
+    url: https://github.com/GuusLab/vexel-plugins#een-plugin-maken-in-5-minuten
+    about: Zo maak en publiceer je zelf een plugin.

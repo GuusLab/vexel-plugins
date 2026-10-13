@@ -1,0 +1,39 @@
+name: Fout in een plugin
+description: Een plugin doet iets anders dan je verwacht.
+title: "[fout] "
+labels: ["fout"]
+body:
+  - type: input
+    id: plugin
+    attributes:
+      label: Welke plugin?
+      description: Het id of de naam, bijvoorbeeld "raster".
+    validations:
+      required: true
+  - type: textarea
+    id: wat
+    attributes:
+      label: Wat gebeurde er?
+      description: En wat had je verwacht?
+    validations:
+      required: true
+  - type: textarea
+    id: stappen
+    attributes:
+      label: Hoe kunnen we het nadoen?
+      placeholder: |
+        1. Nieuw document in CMYK, A4
+        2. Plugins › Raster › Raster maken…
+        3. Kolommen 3, rijen 4, marge 10 mm
+        4. ...
+    validations:
+      required: true
+  - type: input
+    id: versie
+    attributes:
+      label: Versie van Vexel en je browser
+      description: Welke versie van Vexel, welke browser en welk besturingssysteem.
+  - type: markdown
+    attributes:
+      value: |
+        Gaat het om beveiliging (een plugin die meer kan dan zou moeten)? Meld het dan privé, zie SECURITY.md.

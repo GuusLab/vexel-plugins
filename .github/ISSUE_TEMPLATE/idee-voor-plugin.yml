@@ -1,0 +1,27 @@
+name: Idee voor een plugin
+description: Een plugin die je graag zou willen hebben.
+title: "[idee] "
+labels: ["idee"]
+body:
+  - type: textarea
+    id: wat
+    attributes:
+      label: Wat zou de plugin doen?
+      description: Beschrijf wat je wilt bereiken, niet hoe een ander programma het doet.
+    validations:
+      required: true
+  - type: textarea
+    id: waarom
+    attributes:
+      label: Waarvoor heb je het nodig?
+      description: Een voorbeeld uit je eigen werk helpt.
+  - type: dropdown
+    id: zelf
+    attributes:
+      label: Wil je hem zelf maken?
+      options:
+        - Ja, ik wil hem zelf maken
+        - Misschien, met wat hulp
+        - Nee, liever niet
+    validations:
+      required: true
