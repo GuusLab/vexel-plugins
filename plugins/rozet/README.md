@@ -6,7 +6,7 @@ certificaten, etiketten of gewoon als versiering.
 
 ## Gebruik
 
-1. Kies **Plugins › Rozet › Rozet maken…**.
+1. Kies **Plugins › Rozet…**.
 2. Speel met de schuiven en kijk naar het voorbeeld:
    - **Lussen**: hoeveel keer het patroon rond gaat (de symmetrie).
    - **Windingen**: hoe vaak de lijn om het midden draait voordat hij sluit.

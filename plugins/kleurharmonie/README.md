@@ -8,7 +8,7 @@ met de CMYK-waarden eronder.
 
 1. Selecteer een vorm met een vulkleur (hoeft niet: je kunt ook zelf een
    kleur intypen).
-2. Kies **Plugins › Kleurharmonie › Kleurharmonie maken…**.
+2. Kies **Plugins › Kleurharmonie…**.
 3. Kies een harmonie:
    - **Complementair**: de kleur, de tegenkleur en van beide een 50%-tint.
    - **Analoog**: vijf buren op de kleurcirkel, telkens 20° verder.

@@ -6,7 +6,7 @@ een etiketvel.
 
 ## Gebruik
 
-1. Kies **Plugins › Raster › Raster maken…**.
+1. Kies **Plugins › Raster…**.
 2. Vul het aantal **kolommen** en **rijen** in, de **tussenruimte** tussen de
    vakken en de **marge** rondom (in millimeter).
 3. Kies of je alleen een lijn wilt of licht gevulde vakken. Het voorbeeld en de
