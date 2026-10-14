@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200">
+<defs><clipPath id="lh"><rect width="160" height="200"/></clipPath><clipPath id="rh"><rect x="160" width="160" height="200"/></clipPath>
+<filter id="korrel" x="0" y="0" width="1" height="1"><feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="2" seed="4" result="n"/>
+<feColorMatrix in="n" values="0 0 0 0 0.08 0 0 0 0 0.07 0 0 0 0 0.06 0 0 0 -9 4.5"/></filter>
+<filter id="vlek" x="0" y="0" width="1" height="1"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="4" seed="9" result="n"/>
+<feColorMatrix in="n" values="0 0 0 0 0.1 0 0 0 0 0.08 0 0 0 0 0.07 0 0 0 -14 7.4"/></filter>
+<g id="affiche">
+<rect width="320" height="200" fill="#f1e6d2"/>
+<circle cx="230" cy="88" r="58" fill="#e8553d"/><circle cx="96" cy="120" r="40" fill="#1f6f78"/>
+<rect x="20" y="22" width="120" height="16" rx="2" fill="#1d2433"/><rect x="20" y="44" width="84" height="8" rx="2" fill="#1d2433" fill-opacity=".7"/>
+<path d="M0 164 C80 140 160 190 320 150 V200 H0Z" fill="#f2b631"/>
+<rect x="196" y="168" width="104" height="10" rx="2" fill="#1d2433"/>
+</g></defs>
+<use href="#affiche"/>
+<g clip-path="url(#rh)"><rect x="160" width="160" height="200" filter="url(#korrel)" opacity=".38"/><rect x="160" width="160" height="200" filter="url(#vlek)" opacity=".28"/>
+<path d="M170 30 q30 6 52 -4 M250 140 q20 -10 46 -2 M190 110 q12 10 30 8 M262 40 q8 14 26 18 M176 180 q24 -6 40 4" stroke="#2a2018" stroke-opacity=".35" stroke-width=".5" fill="none"/></g>
+<path d="M160 0 V200" stroke="#fff" stroke-width="1.5"/><circle cx="160" cy="100" r="9" fill="#fff"/>
+<path d="M156.5 96.5 l-3 3.5 l3 3.5 M163.5 96.5 l3 3.5 l-3 3.5" fill="none" stroke="#1f2a3a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><rect x="8" y="8" width="51.199999999999996" height="16" rx="8" fill="#000" fill-opacity=".45"/>
+<text x="14" y="19.5" font-family="Inter,Arial,sans-serif" font-size="9.5" fill="#fff">Ontwerp</text><rect x="242" y="8" width="73.6" height="16" rx="8" fill="#000" fill-opacity=".45"/>
+<text x="248" y="19.5" font-family="Inter,Arial,sans-serif" font-size="9.5" fill="#fff">Met textuur</text>
+</svg>

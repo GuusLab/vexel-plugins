@@ -1,0 +1,12 @@
+{
+  "id": "boekomslag",
+  "naam": "Boekomslag",
+  "beschrijving": "Teken de complete indeling van een boekomslag, met de rugdikte berekend uit pagina's, papier en bindwijze.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "hulpmiddelen",
+  "rechten": ["document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Boekomslag…", "venster": { "breedte": 480, "hoogte": 790 } }
+  ]
+}

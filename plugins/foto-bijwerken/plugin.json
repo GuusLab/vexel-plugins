@@ -1,0 +1,12 @@
+{
+  "id": "foto-bijwerken",
+  "naam": "Foto bijwerken",
+  "beschrijving": "Werk een foto bij met belichting, contrast, hooglichten, schaduwen, warmte, verzadiging en kant-en-klare looks.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "kleur",
+  "rechten": ["selectie.lezen", "beeld.lezen", "beeld.schrijven"],
+  "commandos": [
+    { "id": "bijwerken", "titel": "Foto bijwerken…", "venster": { "breedte": 800, "hoogte": 620 } }
+  ]
+}

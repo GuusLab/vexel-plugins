@@ -1,0 +1,12 @@
+{
+  "id": "pixeleren",
+  "naam": "Pixeleren",
+  "beschrijving": "Verdeel een foto in blokken, stippen of zeshoeken in de gemiddelde kleur, desgewenst met minder kleuren.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "kleur",
+  "rechten": ["selectie.lezen", "beeld.lezen", "beeld.schrijven"],
+  "commandos": [
+    { "id": "pixeleren", "titel": "Pixeleren…", "venster": { "breedte": 760, "hoogte": 560 } }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "stippelen",
+  "naam": "Stippelen",
+  "beschrijving": "Maak van een foto een stippeltekening met gelijkmatig verdeelde stippen die dichter staan waar de foto donker is.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "patronen",
+  "rechten": ["selectie.lezen", "beeld.lezen", "document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Stippelen…", "venster": { "breedte": 760, "hoogte": 560 } }
+  ]
+}

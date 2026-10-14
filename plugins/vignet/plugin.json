@@ -1,0 +1,12 @@
+{
+  "id": "vignet",
+  "naam": "Vignet",
+  "beschrijving": "Maak de randen van een foto zacht donkerder of lichter, met een middelpunt dat je zelf aanklikt.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "kleur",
+  "rechten": ["selectie.lezen", "beeld.lezen", "beeld.schrijven"],
+  "commandos": [
+    { "id": "vignet", "titel": "Vignet…", "venster": { "breedte": 760, "hoogte": 560 } }
+  ]
+}

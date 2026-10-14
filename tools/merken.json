@@ -1,9 +1,11 @@
 {
   "uitleg": "Namen van producten en bedrijven van anderen die niet in een plugin mogen staan (id, naam, beschrijving, README, code, icoon). Ze staan hier als sha256 van de naam in kleine letters (woorden met één spatie ertussen), zodat deze repo ze zelf niet noemt. Een naam toevoegen: node tools/merk-hash.mjs --voeg-toe \"Naam\" (of node tools/merk-hash.mjs \"Naam\" en plak de uitkomst hieronder).",
   "hashes": [
+    "01c82acf2d8a9a2121b8f7b2492b765b728b5f4aaf816bfc14096e49d0066c84",
     "059e8127089a55a0039e95ce551f5636648932d6c7ce398eec0858e48a9fe641",
     "0635a20482032382e3c33d9f36bbb7ebcf08b1593b315e3f2de5705be6b4d431",
     "074e849e344d56662e4204c6237737e7e62220bd3e79a6a50bca3e69cfecb798",
+    "0e8309dff245264cfe5854f8184c2ed1e98dcb3fa6a4f69b99fd29e0689f62d4",
     "17153ccce5eb2d38a26082a51eb1dc03b39ca6b4d632912f0b6e546d83de8809",
     "1de5d3ec842de9d3147c1d0067a3f374fcfd8f321726e15319121936a5134d16",
     "245136be5be4b1c0fa1231c85d75353a4891800adaefb96042d46273baf426e6",
@@ -11,6 +13,7 @@
     "2dcc4aa5ad913aa4e96a169adcbd3b7c4a10fa09f78d0b1ffd90243b8eee9efd",
     "2e72d58f580e17f415e798dcecb6cbc3e2042d0f1bf762b9005bc7ee51390da0",
     "323b62a298801501319a3d917a8f8cf6ff696c006f51ada9714f089188541239",
+    "3485ea9d54ae6228dd2c94df0351d166fb6bd1da64c84aea05cd49479fe39c58",
     "34d6acd14f56bcb432c7c18a5059d7bc04d5d1c0c310801d9ba62e376c9e05b0",
     "3504289d4024013f5d39ef0ab0a3bc750b0e14bd4d076e9924346f13a952ae4b",
     "3db1f560db626918c55619d64ee4f32a0cdafd42eb319b641581edf619a2d36f",
@@ -60,6 +63,7 @@
     "aea2f872e4d42c0c7e9d5da383aa631e75e232030a87f2cfe7d774a9d608d156",
     "afac327e73694e68c02f5c62f3bc0bcf0f239744ff12921e781487a0f9b3d5d0",
     "b52829d16074505eacd9f02136461cf1311210a787d0b10e790b40cf1ed0433d",
+    "b539927b8d7678cbab85939333bcc9b3594a7d2e24e069c16bcf179b5acf48b3",
     "ba9d19e7d8f02a7d8a197a94d42e2a98d6af5c79e2a8c338c73348d7f2e561bb",
     "bd4bdbe846085acf409dbb100caaacdd633a395725b9e1d3a4866b664219d4aa",
     "bed9acc2c51c7961682c2bf446be4dc3d82abe87e6e8eba358d958607398f951",

@@ -1,0 +1,12 @@
+{
+  "id": "stromingsveld",
+  "naam": "Stromingsveld",
+  "beschrijving": "Vul het tekengebied of de selectie met gelijk verdeelde, taps toelopende lijnen die een vloeiend stromingsveld volgen.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "patronen",
+  "rechten": ["selectie.lezen", "document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Stromingsveld…", "venster": { "breedte": 460, "hoogte": 700 } }
+  ]
+}

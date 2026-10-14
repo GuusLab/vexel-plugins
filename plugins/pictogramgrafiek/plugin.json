@@ -1,0 +1,12 @@
+{
+  "id": "pictogramgrafiek",
+  "naam": "Pictogramgrafiek",
+  "beschrijving": "Laat cijfers als \"8 van de 10\" zien met rijen pictogrammen, gedeeltelijk gevuld, ook met je eigen vorm als pictogram.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "ordenen",
+  "rechten": ["selectie.lezen", "document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Pictogramgrafiek maken…", "venster": { "breedte": 480, "hoogte": 745 } }
+  ]
+}

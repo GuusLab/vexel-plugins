@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs><clipPath id="vlak"><rect width="64" height="64" rx="14"/></clipPath></defs>
+  <rect width="64" height="64" rx="14" fill="#1f2a3a"/>
+  <g clip-path="url(#vlak)" stroke-linejoin="round" stroke-width="0.6">
+    <path d="M0 0 L26 0 L14 18 Z" fill="#2a3f5c" stroke="#2a3f5c"/>
+    <path d="M26 0 L48 0 L36 16 Z" fill="#33507a" stroke="#33507a"/>
+    <path d="M48 0 L64 0 L64 20 Z" fill="#2a3f5c" stroke="#2a3f5c"/>
+    <path d="M0 0 L14 18 L0 28 Z" fill="#24364f" stroke="#24364f"/>
+    <path d="M26 0 L36 16 L14 18 Z" fill="#3b6aa6" stroke="#3b6aa6"/>
+    <path d="M48 0 L64 20 L36 16 Z" fill="#4a7fc4" stroke="#4a7fc4"/>
+    <path d="M36 16 L64 20 L50 32 Z" fill="#9cc8ff" stroke="#9cc8ff"/>
+    <path d="M14 18 L36 16 L28 34 Z" fill="#5aa2ff" stroke="#5aa2ff"/>
+    <path d="M36 16 L50 32 L28 34 Z" fill="#7fb6ff" stroke="#7fb6ff"/>
+    <path d="M0 28 L14 18 L28 34 Z" fill="#3b6aa6" stroke="#3b6aa6"/>
+    <path d="M64 20 L64 44 L50 32 Z" fill="#5aa2ff" stroke="#5aa2ff"/>
+    <path d="M0 28 L28 34 L0 50 Z" fill="#2f5487" stroke="#2f5487"/>
+    <path d="M28 34 L50 32 L40 52 Z" fill="#4a7fc4" stroke="#4a7fc4"/>
+    <path d="M50 32 L64 44 L40 52 Z" fill="#3b6aa6" stroke="#3b6aa6"/>
+    <path d="M0 50 L28 34 L40 52 Z" fill="#2a4a78" stroke="#2a4a78"/>
+    <path d="M0 50 L40 52 L18 64 L0 64 Z" fill="#1f3657" stroke="#1f3657"/>
+    <path d="M40 52 L64 44 L64 64 L18 64 Z" fill="#26426a" stroke="#26426a"/>
+  </g>
+</svg>

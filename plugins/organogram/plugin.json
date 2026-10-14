@@ -1,0 +1,12 @@
+{
+  "id": "organogram",
+  "naam": "Organogram",
+  "beschrijving": "Maak een net organogram met vakken en haakse lijnen uit een ingesprongen lijst met namen en functies.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "ordenen",
+  "rechten": ["document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Organogram maken…", "venster": { "breedte": 480, "hoogte": 720 } }
+  ]
+}

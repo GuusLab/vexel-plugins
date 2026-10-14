@@ -1,0 +1,12 @@
+{
+  "id": "tekstballon",
+  "naam": "Tekstballonnen",
+  "beschrijving": "Teken spraak-, gedachte-, schreeuw- en fluisterballonnen met een staart die vloeiend in de vorm overloopt.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "vormen",
+  "rechten": ["selectie.lezen", "document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Tekstballon maken…", "venster": { "breedte": 660, "hoogte": 470 } }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "hernoemen",
+  "naam": "Objecten hernoemen",
+  "beschrijving": "Geef geselecteerde objecten in één keer een nette naam met een patroon, nummers, zoeken en vervangen en hoofdletters.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "ordenen",
+  "rechten": ["selectie.lezen", "document.schrijven"],
+  "commandos": [
+    { "id": "hernoemen", "titel": "Objecten hernoemen…", "venster": { "breedte": 440, "hoogte": 660 } }
+  ]
+}

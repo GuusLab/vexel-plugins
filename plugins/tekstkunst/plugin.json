@@ -1,0 +1,12 @@
+{
+  "id": "tekstkunst",
+  "naam": "Tekstkunst",
+  "beschrijving": "Maak van een foto een raster van letters of tekens, met een eigen tekst of een tekenset, in één kleur of de kleuren van de foto.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "tekst",
+  "rechten": ["selectie.lezen", "beeld.lezen", "document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Tekstkunst…", "venster": { "breedte": 760, "hoogte": 560 } }
+  ]
+}

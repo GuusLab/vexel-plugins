@@ -1,0 +1,14 @@
+{
+  "id": "dobbelstenen",
+  "naam": "Spelmateriaal",
+  "beschrijving": "Maak dobbelstenen met een vouwbare bouwplaat, speelkaarten met eigen kleursymbolen en een speelbord met genummerde vakken.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "vormen",
+  "rechten": ["document.schrijven"],
+  "commandos": [
+    { "id": "dobbelsteen", "titel": "Dobbelsteen…", "venster": { "breedte": 460, "hoogte": 520 } },
+    { "id": "kaarten", "titel": "Speelkaarten…", "venster": { "breedte": 520, "hoogte": 520 } },
+    { "id": "bord", "titel": "Speelbord…", "venster": { "breedte": 460, "hoogte": 500 } }
+  ]
+}

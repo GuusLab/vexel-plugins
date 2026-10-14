@@ -1,0 +1,12 @@
+{
+  "id": "terrazzo",
+  "naam": "Terrazzo",
+  "beschrijving": "Vul het tekengebied of de selectie met terrazzo-stenen, confetti-steen of golvende marmer-aders in een eigen palet.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "patronen",
+  "rechten": ["selectie.lezen", "document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Terrazzo…", "venster": { "breedte": 460, "hoogte": 690 } }
+  ]
+}

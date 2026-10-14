@@ -1,0 +1,12 @@
+{
+  "id": "palet-uit-foto",
+  "naam": "Palet uit foto",
+  "beschrijving": "Haal de hoofdkleuren uit een foto en zet ze als benoemde kleurvlakjes met CMYK- of hexwaarden naast de foto.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "kleur",
+  "rechten": ["selectie.lezen", "beeld.lezen", "document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Palet uit foto…", "venster": { "breedte": 760, "hoogte": 560 } }
+  ]
+}

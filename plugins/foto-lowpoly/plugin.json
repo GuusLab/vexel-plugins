@@ -1,0 +1,12 @@
+{
+  "id": "foto-lowpoly",
+  "naam": "Low-poly",
+  "beschrijving": "Maak van een foto een vlak van driehoeken met de gemiddelde kleur, dichter bij de randen zodat vormen herkenbaar blijven.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "vormen",
+  "rechten": ["selectie.lezen", "beeld.lezen", "document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Low-poly…", "venster": { "breedte": 760, "hoogte": 560 } }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "foto-halftoon",
+  "naam": "Foto naar halftoon",
+  "beschrijving": "Maak van een foto een echt vectorraster van punten of lijnen, in één kleur of als CMYK-scheiding met de klassieke rasterhoeken.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "patronen",
+  "rechten": ["selectie.lezen", "beeld.lezen", "document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Foto naar halftoon…", "venster": { "breedte": 760, "hoogte": 560 } }
+  ]
+}

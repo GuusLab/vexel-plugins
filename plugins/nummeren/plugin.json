@@ -1,0 +1,12 @@
+{
+  "id": "nummeren",
+  "naam": "Nummeren",
+  "beschrijving": "Maak genummerde tickets, bonnen en loten met afscheurstrook en perforatielijn, netjes verdeeld over vellen.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "tekst",
+  "rechten": ["selectie.lezen", "document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Nummeren…", "venster": { "breedte": 460, "hoogte": 790 } }
+  ]
+}

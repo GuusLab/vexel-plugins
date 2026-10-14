@@ -44,7 +44,32 @@ onbereikbaar is.
 
 ## Plugins
 
-38 plugins, per soort.
+81 plugins, per soort.
+
+### Foto's bewerken
+
+| | Plugin | Wat hij doet | Mag |
+|---|---|---|---|
+| <img src="plugins/dithering/icoon.svg" width="40" alt=""> | [**Dithering**](plugins/dithering) | Zet een foto om in 1-bit of een klein palet met foutverdeling of een geordend raster, met grove of fijne pixels. | selectie lezen, foto's lezen, foto's wijzigen |
+| <img src="plugins/filmkorrel/icoon.svg" width="40" alt=""> | [**Filmkorrel**](plugins/filmkorrel) | Geef een foto echte, klonterige filmkorrel, fijn of grof, in zwart-wit of kleur. | selectie lezen, foto's lezen, foto's wijzigen |
+| <img src="plugins/foto-bijwerken/icoon.svg" width="40" alt=""> | [**Foto bijwerken**](plugins/foto-bijwerken) | Werk een foto bij met belichting, contrast, hooglichten, schaduwen, warmte, verzadiging en kant-en-klare looks. | selectie lezen, foto's lezen, foto's wijzigen |
+| <img src="plugins/glitch/icoon.svg" width="40" alt=""> | [**Glitch**](plugins/glitch) | Geef een foto een digitale storing met verschoven kleurkanalen, verspringende stroken, scanlijnen en ruisblokken. | selectie lezen, foto's lezen, foto's wijzigen |
+| <img src="plugins/lichtlek/icoon.svg" width="40" alt=""> | [**Lichtlek**](plugins/lichtlek) | Zet warme, filmachtige lichtvlekken en gloed langs de rand van een foto, desgewenst met stofjes en krasjes. | selectie lezen, foto's lezen, foto's wijzigen |
+| <img src="plugins/pixeleren/icoon.svg" width="40" alt=""> | [**Pixeleren**](plugins/pixeleren) | Verdeel een foto in blokken, stippen of zeshoeken in de gemiddelde kleur, desgewenst met minder kleuren. | selectie lezen, foto's lezen, foto's wijzigen |
+| <img src="plugins/textuur/icoon.svg" width="40" alt=""> | [**Textuur**](plugins/textuur) | Maak een doorzichtige textuurfoto met korrel, papiervezel, vlekken, een rasterpatroon of krassen om over je ontwerp te leggen. | selectie lezen, document wijzigen, foto's wijzigen |
+| <img src="plugins/scherpte/icoon.svg" width="40" alt=""> | [**Vervagen en verscherpen**](plugins/scherpte) | Vervaag een foto zacht, verscherp hem met een onscherpmasker of geef hem bewegingsonscherpte onder elke hoek. | selectie lezen, foto's lezen, foto's wijzigen |
+| <img src="plugins/vignet/icoon.svg" width="40" alt=""> | [**Vignet**](plugins/vignet) | Maak de randen van een foto zacht donkerder of lichter, met een middelpunt dat je zelf aanklikt. | selectie lezen, foto's lezen, foto's wijzigen |
+
+### Foto naar vector
+
+| | Plugin | Wat hij doet | Mag |
+|---|---|---|---|
+| <img src="plugins/foto-halftoon/icoon.svg" width="40" alt=""> | [**Foto naar halftoon**](plugins/foto-halftoon) | Maak van een foto een echt vectorraster van punten of lijnen, in één kleur of als CMYK-scheiding met de klassieke rasterhoeken. | selectie lezen, foto's lezen, document wijzigen |
+| <img src="plugins/lijngravure/icoon.svg" width="40" alt=""> | [**Lijngravure**](plugins/lijngravure) | Maak van een foto een gravure van rechte of golvende lijnen, cirkels of een spiraal, met een dikte die de donkerte volgt. | selectie lezen, foto's lezen, document wijzigen |
+| <img src="plugins/foto-lowpoly/icoon.svg" width="40" alt=""> | [**Low-poly**](plugins/foto-lowpoly) | Maak van een foto een vlak van driehoeken met de gemiddelde kleur, dichter bij de randen zodat vormen herkenbaar blijven. | selectie lezen, foto's lezen, document wijzigen |
+| <img src="plugins/palet-uit-foto/icoon.svg" width="40" alt=""> | [**Palet uit foto**](plugins/palet-uit-foto) | Haal de hoofdkleuren uit een foto en zet ze als benoemde kleurvlakjes met CMYK- of hexwaarden naast de foto. | selectie lezen, foto's lezen, document wijzigen |
+| <img src="plugins/stippelen/icoon.svg" width="40" alt=""> | [**Stippelen**](plugins/stippelen) | Maak van een foto een stippeltekening met gelijkmatig verdeelde stippen die dichter staan waar de foto donker is. | selectie lezen, foto's lezen, document wijzigen |
+| <img src="plugins/tekstkunst/icoon.svg" width="40" alt=""> | [**Tekstkunst**](plugins/tekstkunst) | Maak van een foto een raster van letters of tekens, met een eigen tekst of een tekenset, in één kleur of de kleuren van de foto. | selectie lezen, foto's lezen, document wijzigen |
 
 ### Vormen
 
@@ -52,42 +77,19 @@ onbereikbaar is.
 |---|---|---|---|
 | <img src="plugins/badge/icoon.svg" width="40" alt=""> | [**Badge**](plugins/badge) | Maak stickers en badges, zoals een prijsster, rozet of schild, met gecentreerde tekst erin. | document wijzigen |
 | <img src="plugins/blob/icoon.svg" width="40" alt=""> | [**Blob**](plugins/blob) | Teken organische blobvormen, los of als compositie van overlappende blobs in een kleurpalet. | document wijzigen |
+| <img src="plugins/kortingsbon/icoon.svg" width="40" alt=""> | [**Bonnen en vouchers**](plugins/kortingsbon) | Maak genummerde cadeaubonnen, kortingsbonnen en stempelkaarten in vier stijlen, met afscheurstrook en zoveel per vel als past. | document wijzigen |
 | <img src="plugins/doosontwerp/icoon.svg" width="40" alt=""> | [**Doosontwerp**](plugins/doosontwerp) | Teken de stansvorm van een vouwdoos met insteekkleppen, met aparte snij- en rillijnen. | document wijzigen |
 | <img src="plugins/envelop-ontwerp/icoon.svg" width="40" alt=""> | [**Envelop-ontwerp**](plugins/envelop-ontwerp) | Teken de stansvorm van een papieren envelop in een standaard- of eigen maat, met snij- en rillijnen. | document wijzigen |
 | <img src="plugins/extruderen/icoon.svg" width="40" alt=""> | [**Extruderen**](plugins/extruderen) | Maak van gesloten vormen een blok met diepte, met zijvlakken die vanzelf donkerder worden naarmate ze van het licht af staan. | selectie lezen, document wijzigen |
+| <img src="plugins/fractalboom/icoon.svg" width="40" alt=""> | [**Fractalboom**](plugins/fractalboom) | Laat een boom, varen, koraal, wilg of bloesemtak groeien uit vertakkende, taps toelopende takken met bladeren of bloesem. | selectie lezen, document wijzigen |
+| <img src="plugins/isometrisch/icoon.svg" width="40" alt=""> | [**Isometrische blokken**](plugins/isometrisch) | Bouw isometrische blokken, trappen en cilinders uit een hoogteraster, in drie tinten van één kleur. | document wijzigen |
+| <img src="plugins/lint/icoon.svg" width="40" alt=""> | [**Linten en banners**](plugins/lint) | Maak linten met omgevouwen uiteinden, gebogen banners, hoeklinten, vaandels en labels met tekst erop. | selectie lezen, document wijzigen |
+| <img src="plugins/pijlen/icoon.svg" width="40" alt=""> | [**Pijlen**](plugins/pijlen) | Teken verzorgde pijlen als gevulde vormen, of zet een verbindingspijl tussen twee geselecteerde objecten. | selectie lezen, document wijzigen |
 | <img src="plugins/raster/icoon.svg" width="40" alt=""> | [**Raster**](plugins/raster) | Verdeel het tekengebied in kolommen en rijen met gelijke tussenruimte. | document wijzigen |
 | <img src="plugins/sierrand/icoon.svg" width="40" alt=""> | [**Sierrand**](plugins/sierrand) | Zet een sierlijk kader met hoekornamenten langs het tekengebied of de selectie, voor uitnodigingen en menukaarten. | selectie lezen, document wijzigen |
-
-### Kleur
-
-| | Plugin | Wat hij doet | Mag |
-|---|---|---|---|
-| <img src="plugins/aura/icoon.svg" width="40" alt=""> | [**Aura**](plugins/aura) | Vul het tekengebied met zachte, in elkaar overlopende kleurvlekken als achtergrond, helemaal in vectoren. | document wijzigen |
-| <img src="plugins/contrastcheck/icoon.svg" width="40" alt=""> | [**Contrastcheck**](plugins/contrastcheck) | Controleer of tekst goed leesbaar is op zijn achtergrond volgens de WCAG-normen en krijg zo nodig een kleur die het wel haalt. | selectie lezen, document wijzigen |
-| <img src="plugins/kleurenkaart/icoon.svg" width="40" alt=""> | [**Kleurenkaart**](plugins/kleurenkaart) | Zet een drukproef-kleurenkaart met tintenladders per inkt en een rijk-zwartvergelijking op het tekengebied. | document wijzigen |
-| <img src="plugins/kleurharmonie/icoon.svg" width="40" alt=""> | [**Kleurharmonie**](plugins/kleurharmonie) | Zet een rij CMYK-kleurvlakjes neer die passen bij de vulkleur van je selectie. | selectie lezen, document wijzigen |
-
-### Tekst
-
-| | Plugin | Wat hij doet | Mag |
-|---|---|---|---|
-| <img src="plugins/blindtekst/icoon.svg" width="40" alt=""> | [**Blindtekst**](plugins/blindtekst) | Vul een vlak of je tekengebied met natuurlijk ogende Nederlandse opvultekst, netjes afgebroken op de breedte. | selectie lezen, document wijzigen |
-| <img src="plugins/tabel/icoon.svg" width="40" alt=""> | [**Tabel**](plugins/tabel) | Maak een verzorgde tabel uit geplakte tekst, met kopregel, zebrastrepen, randen en getallen netjes rechts. | document wijzigen |
-| <img src="plugins/typeschaal/icoon.svg" width="40" alt=""> | [**Typeschaal**](plugins/typeschaal) | Maak een specimenblad met een modulaire letterschaal van H1 tot klein, met maten in pt en advies voor de regelafstand. | document wijzigen |
-| <img src="plugins/woordzoeker/icoon.svg" width="40" alt=""> | [**Woordzoeker**](plugins/woordzoeker) | Maak een woordzoeker uit je eigen woordenlijst, met de lijst eronder en desgewenst de oplossing. | document wijzigen |
-
-### Ordenen
-
-| | Plugin | Wat hij doet | Mag |
-|---|---|---|---|
-| <img src="plugins/etiketvel/icoon.svg" width="40" alt=""> | [**Etiketvel**](plugins/etiketvel) | Zet de contouren van rechthoekige, ronde of ovale etiketten netjes in kolommen en rijen op een vel. | document wijzigen |
-| <img src="plugins/folder-indeling/icoon.svg" width="40" alt=""> | [**Folder-indeling**](plugins/folder-indeling) | Deel het tekengebied in voor een vouwfolder, met vouwlijnen, vouwtekens en benoemde panelen. | document wijzigen |
-| <img src="plugins/grafiek/icoon.svg" width="40" alt=""> | [**Grafiek**](plugins/grafiek) | Maak een staaf-, lijn-, taart- of donutdiagram als nette vectoren uit getypte of geplakte gegevens. | document wijzigen |
-| <img src="plugins/in-raster-schikken/icoon.svg" width="40" alt=""> | [**In raster schikken**](plugins/in-raster-schikken) | Zet de geselecteerde objecten netjes in kolommen en rijen, uitgelijnd in gelijke cellen en desgewenst even groot. | selectie lezen, document wijzigen |
-| <img src="plugins/kalender/icoon.svg" width="40" alt=""> | [**Kalender**](plugins/kalender) | Maak een maand- of jaarkalender met ISO-weeknummers, Nederlandse feestdagen en ruimte voor notities. | document wijzigen |
-| <img src="plugins/op-cirkel-schikken/icoon.svg" width="40" alt=""> | [**Op cirkel schikken**](plugins/op-cirkel-schikken) | Zet de geselecteerde objecten op gelijke afstand op een cirkel of boog, desgewenst meegedraaid naar buiten of naar het midden. | selectie lezen, document wijzigen |
-| <img src="plugins/tijdlijn/icoon.svg" width="40" alt=""> | [**Tijdlijn**](plugins/tijdlijn) | Maak een nette tijdlijn uit regels met datum, titel en tekst, horizontaal of verticaal. | document wijzigen |
-| <img src="plugins/willekeurig/icoon.svg" width="40" alt=""> | [**Willekeurig**](plugins/willekeurig) | Geef elk geselecteerd object een eigen kleine afwijking in plek, draaiing, grootte, dekking of kleur, met een zaadje om terug te halen. | selectie lezen, document wijzigen |
+| <img src="plugins/dobbelstenen/icoon.svg" width="40" alt=""> | [**Spelmateriaal**](plugins/dobbelstenen) | Maak dobbelstenen met een vouwbare bouwplaat, speelkaarten met eigen kleursymbolen en een speelbord met genummerde vakken. | document wijzigen |
+| <img src="plugins/sterrenhemel/icoon.svg" width="40" alt=""> | [**Sterrenhemel**](plugins/sterrenhemel) | Teken een nachtelijke hemel met sterren, twinkels, een melkweg, bekende sterrenbeelden en de maan in de fase die je kiest. | selectie lezen, document wijzigen |
+| <img src="plugins/tekstballon/icoon.svg" width="40" alt=""> | [**Tekstballonnen**](plugins/tekstballon) | Teken spraak-, gedachte-, schreeuw- en fluisterballonnen met een staart die vloeiend in de vorm overloopt. | selectie lezen, document wijzigen |
 
 ### Patronen
 
@@ -103,16 +105,67 @@ onbereikbaar is.
 | <img src="plugins/korrel/icoon.svg" width="40" alt=""> | [**Korrel**](plugins/korrel) | Maak een spikkel- of stippeltextuur van vectorstippen, met een verloop van dicht naar ijl. | selectie lezen, document wijzigen |
 | <img src="plugins/mozaiek/icoon.svg" width="40" alt=""> | [**Mozaïek**](plugins/mozaiek) | Vul het tekengebied of de selectie met een low-poly- of celmozaïek in een zacht kleurverloop. | selectie lezen, document wijzigen |
 | <img src="plugins/papier/icoon.svg" width="40" alt=""> | [**Papier**](plugins/papier) | Zet lijntjes, ruitjes, stippen, millimeterpapier, een isometrisch raster, zeshoeken of notenbalken op het tekengebied. | document wijzigen |
+| <img src="plugins/rolcirkels/icoon.svg" width="40" alt=""> | [**Rolcirkels**](plugins/rolcirkels) | Teken gelaagde rolcirkelfiguren van een wiel dat binnen of buiten een ring rolt, in kleurverloop en als gladde krommen. | selectie lezen, document wijzigen |
 | <img src="plugins/rozet/icoon.svg" width="40" alt=""> | [**Rozet**](plugins/rozet) | Teken een sierlijk rozetpatroon als één pad, met instelbare lussen, straal en verhouding. | document wijzigen |
 | <img src="plugins/speels-patroon/icoon.svg" width="40" alt=""> | [**Speels patroon**](plugins/speels-patroon) | Vul het tekengebied met een speels patroon in jaren-80-stijl: kronkels, driehoekjes, stippen en zigzagjes. | document wijzigen |
+| <img src="plugins/stromingsveld/icoon.svg" width="40" alt=""> | [**Stromingsveld**](plugins/stromingsveld) | Vul het tekengebied of de selectie met gelijk verdeelde, taps toelopende lijnen die een vloeiend stromingsveld volgen. | selectie lezen, document wijzigen |
+| <img src="plugins/terrazzo/icoon.svg" width="40" alt=""> | [**Terrazzo**](plugins/terrazzo) | Vul het tekengebied of de selectie met terrazzo-stenen, confetti-steen of golvende marmer-aders in een eigen palet. | selectie lezen, document wijzigen |
 | <img src="plugins/truchet/icoon.svg" width="40" alt=""> | [**Truchet**](plugins/truchet) | Vul het tekengebied of de selectie met een truchetpatroon van kwartbogen, diagonalen of driehoeken. | selectie lezen, document wijzigen |
+| <img src="plugins/voronoi/icoon.svg" width="40" alt=""> | [**Voronoi-cellen**](plugins/voronoi) | Vul het tekengebied of een vorm met organische, afgeronde cellen met een voeg ertussen, van kiezels tot honingraat. | selectie lezen, document wijzigen |
 | <img src="plugins/zonnestralen/icoon.svg" width="40" alt=""> | [**Zonnestralen**](plugins/zonnestralen) | Vul het tekengebied tot in de afloop, of je selectie, met stralen in twee kleuren vanuit een middelpunt. | selectie lezen, document wijzigen |
+
+### Kleur
+
+| | Plugin | Wat hij doet | Mag |
+|---|---|---|---|
+| <img src="plugins/aura/icoon.svg" width="40" alt=""> | [**Aura**](plugins/aura) | Vul het tekengebied met zachte, in elkaar overlopende kleurvlekken als achtergrond, helemaal in vectoren. | document wijzigen |
+| <img src="plugins/contrastcheck/icoon.svg" width="40" alt=""> | [**Contrastcheck**](plugins/contrastcheck) | Controleer of tekst goed leesbaar is op zijn achtergrond volgens de WCAG-normen en krijg zo nodig een kleur die het wel haalt. | selectie lezen, document wijzigen |
+| <img src="plugins/kleurenblind/icoon.svg" width="40" alt=""> | [**Kleurenblindheid**](plugins/kleurenblind) | Bekijk je ontwerp zoals mensen met een vorm van kleurenblindheid het zien en vind kleuren die samenvallen. | selectie lezen, document wijzigen |
+| <img src="plugins/kleurenkaart/icoon.svg" width="40" alt=""> | [**Kleurenkaart**](plugins/kleurenkaart) | Zet een drukproef-kleurenkaart met tintenladders per inkt en een rijk-zwartvergelijking op het tekengebied. | document wijzigen |
+| <img src="plugins/kleurharmonie/icoon.svg" width="40" alt=""> | [**Kleurharmonie**](plugins/kleurharmonie) | Zet een rij CMYK-kleurvlakjes neer die passen bij de vulkleur van je selectie. | selectie lezen, document wijzigen |
+
+### Tekst en puzzels
+
+| | Plugin | Wat hij doet | Mag |
+|---|---|---|---|
+| <img src="plugins/bingo/icoon.svg" width="40" alt=""> | [**Bingokaarten**](plugins/bingo) | Maak unieke bingokaarten voor 75 of 90 ballen of met eigen woorden, verdeeld over vellen, met trekkingslijst. | document wijzigen |
+| <img src="plugins/blindtekst/icoon.svg" width="40" alt=""> | [**Blindtekst**](plugins/blindtekst) | Vul een vlak of je tekengebied met natuurlijk ogende Nederlandse opvultekst, netjes afgebroken op de breedte. | selectie lezen, document wijzigen |
+| <img src="plugins/kruiswoord/icoon.svg" width="40" alt=""> | [**Kruiswoordraster**](plugins/kruiswoord) | Maak uit je eigen woorden met omschrijvingen een compacte kruiswoordpuzzel met nummers en een verborgen oplossing. | document wijzigen |
+| <img src="plugins/nummeren/icoon.svg" width="40" alt=""> | [**Nummeren**](plugins/nummeren) | Maak genummerde tickets, bonnen en loten met afscheurstrook en perforatielijn, netjes verdeeld over vellen. | selectie lezen, document wijzigen |
+| <img src="plugins/oorkonde/icoon.svg" width="40" alt=""> | [**Oorkonde**](plugins/oorkonde) | Maak een oorkonde, certificaat of diploma met sierlijke rand, handtekeningen en zegel, in vier stijlen. | document wijzigen |
+| <img src="plugins/sudoku/icoon.svg" width="40" alt=""> | [**Sudoku**](plugins/sudoku) | Maak sudoku's met precies één oplossing, in vier niveaus en ook 6 × 6, netjes verdeeld over het vel. | document wijzigen |
+| <img src="plugins/tabel/icoon.svg" width="40" alt=""> | [**Tabel**](plugins/tabel) | Maak een verzorgde tabel uit geplakte tekst, met kopregel, zebrastrepen, randen en getallen netjes rechts. | document wijzigen |
+| <img src="plugins/typeschaal/icoon.svg" width="40" alt=""> | [**Typeschaal**](plugins/typeschaal) | Maak een specimenblad met een modulaire letterschaal van H1 tot klein, met maten in pt en advies voor de regelafstand. | document wijzigen |
+| <img src="plugins/woordzoeker/icoon.svg" width="40" alt=""> | [**Woordzoeker**](plugins/woordzoeker) | Maak een woordzoeker uit je eigen woordenlijst, met de lijst eronder en desgewenst de oplossing. | document wijzigen |
+
+### Ordenen en diagrammen
+
+| | Plugin | Wat hij doet | Mag |
+|---|---|---|---|
+| <img src="plugins/etiketvel/icoon.svg" width="40" alt=""> | [**Etiketvel**](plugins/etiketvel) | Zet de contouren van rechthoekige, ronde of ovale etiketten netjes in kolommen en rijen op een vel. | document wijzigen |
+| <img src="plugins/folder-indeling/icoon.svg" width="40" alt=""> | [**Folder-indeling**](plugins/folder-indeling) | Deel het tekengebied in voor een vouwfolder, met vouwlijnen, vouwtekens en benoemde panelen. | document wijzigen |
+| <img src="plugins/gedachtekaart/icoon.svg" width="40" alt=""> | [**Gedachtekaart**](plugins/gedachtekaart) | Maak een gedachtekaart met een onderwerp in het midden en vloeiende, taps toelopende takken uit een ingesprongen lijst. | document wijzigen |
+| <img src="plugins/grafiek/icoon.svg" width="40" alt=""> | [**Grafiek**](plugins/grafiek) | Maak een staaf-, lijn-, taart- of donutdiagram als nette vectoren uit getypte of geplakte gegevens. | document wijzigen |
+| <img src="plugins/in-raster-schikken/icoon.svg" width="40" alt=""> | [**In raster schikken**](plugins/in-raster-schikken) | Zet de geselecteerde objecten netjes in kolommen en rijen, uitgelijnd in gelijke cellen en desgewenst even groot. | selectie lezen, document wijzigen |
+| <img src="plugins/kalender/icoon.svg" width="40" alt=""> | [**Kalender**](plugins/kalender) | Maak een maand- of jaarkalender met ISO-weeknummers, Nederlandse feestdagen en ruimte voor notities. | document wijzigen |
+| <img src="plugins/meter/icoon.svg" width="40" alt=""> | [**Meter en voortgang**](plugins/meter) | Maak voortgangsringen, halve meters met naald en voortgangsbalken uit een lijst als "Label: 72". | document wijzigen |
+| <img src="plugins/hernoemen/icoon.svg" width="40" alt=""> | [**Objecten hernoemen**](plugins/hernoemen) | Geef geselecteerde objecten in één keer een nette naam met een patroon, nummers, zoeken en vervangen en hoofdletters. | selectie lezen, document wijzigen |
+| <img src="plugins/op-cirkel-schikken/icoon.svg" width="40" alt=""> | [**Op cirkel schikken**](plugins/op-cirkel-schikken) | Zet de geselecteerde objecten op gelijke afstand op een cirkel of boog, desgewenst meegedraaid naar buiten of naar het midden. | selectie lezen, document wijzigen |
+| <img src="plugins/organogram/icoon.svg" width="40" alt=""> | [**Organogram**](plugins/organogram) | Maak een net organogram met vakken en haakse lijnen uit een ingesprongen lijst met namen en functies. | document wijzigen |
+| <img src="plugins/pictogramgrafiek/icoon.svg" width="40" alt=""> | [**Pictogramgrafiek**](plugins/pictogramgrafiek) | Laat cijfers als "8 van de 10" zien met rijen pictogrammen, gedeeltelijk gevuld, ook met je eigen vorm als pictogram. | selectie lezen, document wijzigen |
+| <img src="plugins/stroomdiagram/icoon.svg" width="40" alt=""> | [**Stroomdiagram**](plugins/stroomdiagram) | Typ stappen met pijlen en keuzes in gewone tekst en krijg een net stroomschema met vormen, pijlen en labels. | document wijzigen |
+| <img src="plugins/tijdlijn/icoon.svg" width="40" alt=""> | [**Tijdlijn**](plugins/tijdlijn) | Maak een nette tijdlijn uit regels met datum, titel en tekst, horizontaal of verticaal. | document wijzigen |
+| <img src="plugins/venn/icoon.svg" width="40" alt=""> | [**Venn-diagram**](plugins/venn) | Maak een Venn-diagram met twee tot vier verzamelingen, overlappen als echte eigen vlakken en tekst per vlak. | document wijzigen |
+| <img src="plugins/willekeurig/icoon.svg" width="40" alt=""> | [**Willekeurig**](plugins/willekeurig) | Geef elk geselecteerd object een eigen kleine afwijking in plek, draaiing, grootte, dekking of kleur, met een zaadje om terug te halen. | selectie lezen, document wijzigen |
 
 ### Hulpmiddelen
 
 | | Plugin | Wat hij doet | Mag |
 |---|---|---|---|
+| <img src="plugins/boekomslag/icoon.svg" width="40" alt=""> | [**Boekomslag**](plugins/boekomslag) | Teken de complete indeling van een boekomslag, met de rugdikte berekend uit pagina's, papier en bindwijze. | document wijzigen |
 | <img src="plugins/maatlijnen/icoon.svg" width="40" alt=""> | [**Maatlijnen**](plugins/maatlijnen) | Zet maatlijnen met pijlpunten en een maatlabel in mm, cm of inch bij de geselecteerde objecten. | selectie lezen, document wijzigen |
+| <img src="plugins/meten/icoon.svg" width="40" alt=""> | [**Meten**](plugins/meten) | Meet de echte oppervlakte, omtrek en snijlijnlengte van je selectie, met totalen en een label ernaast. | selectie lezen, document wijzigen |
+| <img src="plugins/perspectief/icoon.svg" width="40" alt=""> | [**Perspectiefraster**](plugins/perspectief) | Teken een perspectiefraster met 1, 2 of 3 verdwijnpunten en zet platte paden op een vlak in perspectief. | selectie lezen, document wijzigen |
 
 ## Een plugin maken in 5 minuten
 

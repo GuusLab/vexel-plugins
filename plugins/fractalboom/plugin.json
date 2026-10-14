@@ -1,0 +1,12 @@
+{
+  "id": "fractalboom",
+  "naam": "Fractalboom",
+  "beschrijving": "Laat een boom, varen, koraal, wilg of bloesemtak groeien uit vertakkende, taps toelopende takken met bladeren of bloesem.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "vormen",
+  "rechten": ["selectie.lezen", "document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Fractalboom…", "venster": { "breedte": 480, "hoogte": 790 } }
+  ]
+}

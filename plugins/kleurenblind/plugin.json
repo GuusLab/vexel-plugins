@@ -1,0 +1,12 @@
+{
+  "id": "kleurenblind",
+  "naam": "Kleurenblindheid",
+  "beschrijving": "Bekijk je ontwerp zoals mensen met een vorm van kleurenblindheid het zien en vind kleuren die samenvallen.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "kleur",
+  "rechten": ["selectie.lezen", "document.schrijven"],
+  "commandos": [
+    { "id": "bekijken", "titel": "Kleurenblindheid…", "venster": { "breedte": 600, "hoogte": 660 } }
+  ]
+}

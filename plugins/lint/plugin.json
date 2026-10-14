@@ -1,0 +1,12 @@
+{
+  "id": "lint",
+  "naam": "Linten en banners",
+  "beschrijving": "Maak linten met omgevouwen uiteinden, gebogen banners, hoeklinten, vaandels en labels met tekst erop.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "vormen",
+  "rechten": ["selectie.lezen", "document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Lint maken…", "venster": { "breedte": 660, "hoogte": 375 } }
+  ]
+}

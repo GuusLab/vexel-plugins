@@ -1,0 +1,12 @@
+{
+  "id": "oorkonde",
+  "naam": "Oorkonde",
+  "beschrijving": "Maak een oorkonde, certificaat of diploma met sierlijke rand, handtekeningen en zegel, in vier stijlen.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "tekst",
+  "rechten": ["document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Oorkonde…", "venster": { "breedte": 480, "hoogte": 720 } }
+  ]
+}

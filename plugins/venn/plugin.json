@@ -1,0 +1,12 @@
+{
+  "id": "venn",
+  "naam": "Venn-diagram",
+  "beschrijving": "Maak een Venn-diagram met twee tot vier verzamelingen, overlappen als echte eigen vlakken en tekst per vlak.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "ordenen",
+  "rechten": ["document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Venn-diagram maken…", "venster": { "breedte": 480, "hoogte": 760 } }
+  ]
+}

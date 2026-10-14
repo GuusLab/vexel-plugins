@@ -1,0 +1,12 @@
+{
+  "id": "lichtlek",
+  "naam": "Lichtlek",
+  "beschrijving": "Zet warme, filmachtige lichtvlekken en gloed langs de rand van een foto, desgewenst met stofjes en krasjes.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "kleur",
+  "rechten": ["selectie.lezen", "beeld.lezen", "beeld.schrijven"],
+  "commandos": [
+    { "id": "lichtlek", "titel": "Lichtlek…", "venster": { "breedte": 800, "hoogte": 600 } }
+  ]
+}

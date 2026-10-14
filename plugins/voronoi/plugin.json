@@ -1,0 +1,12 @@
+{
+  "id": "voronoi",
+  "naam": "Voronoi-cellen",
+  "beschrijving": "Vul het tekengebied of een vorm met organische, afgeronde cellen met een voeg ertussen, van kiezels tot honingraat.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "patronen",
+  "rechten": ["selectie.lezen", "document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Voronoi-cellen…", "venster": { "breedte": 460, "hoogte": 700 } }
+  ]
+}

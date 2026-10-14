@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200">
+<defs><clipPath id="lh"><rect width="160" height="200"/></clipPath><clipPath id="rh"><rect x="160" width="160" height="200"/></clipPath>
+<linearGradient id="al" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4a5878"/><stop offset="1" stop-color="#b09a88"/></linearGradient>
+<linearGradient id="aw" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b39a84"/><stop offset="1" stop-color="#3c4a62"/></linearGradient>
+<radialGradient id="az"><stop offset="0" stop-color="#e8d6b0"/><stop offset=".25" stop-color="#e8d6b0" stop-opacity=".9"/><stop offset="1" stop-color="#e8d6b0" stop-opacity="0"/></radialGradient>
+<g id="as">
+<rect width="320" height="200" fill="url(#al)"/>
+<circle cx="210" cy="104" r="56" fill="url(#az)"/>
+<path d="M0 98 C40 80 80 74 120 86 S200 72 240 92 S300 84 320 90 V130 H0Z" fill="#636887"/>
+<path d="M0 118 C50 104 90 108 140 116 S230 104 320 112 V132 H0Z" fill="#4d6a58"/>
+<path d="M40 128 l7 -26 l7 26z M58 128 l6 -20 l6 20z M150 128 l6 -22 l6 22z M168 128 l5 -16 l5 16z M268 128 l6 -18 l6 18z" fill="#334f42"/>
+<path d="M84 128 v-14 l12 -10 l12 10 v14z" fill="#96524a"/>
+<rect x="0" y="128" width="320" height="72" fill="url(#aw)"/>
+<path d="M200 134 h22 M196 142 h30 M203 150 h16 M198 158 h26 M205 166 h12" stroke="#e8d6b0" stroke-opacity=".55" stroke-width="2"/>
+</g>
+<linearGradient id="bl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1d3c8f"/><stop offset="1" stop-color="#ff9a4d"/></linearGradient>
+<linearGradient id="bw" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffad6b"/><stop offset="1" stop-color="#0f2d63"/></linearGradient>
+<radialGradient id="bz"><stop offset="0" stop-color="#fff0b8"/><stop offset=".25" stop-color="#fff0b8" stop-opacity=".9"/><stop offset="1" stop-color="#fff0b8" stop-opacity="0"/></radialGradient>
+<g id="bs">
+<rect width="320" height="200" fill="url(#bl)"/>
+<circle cx="210" cy="104" r="56" fill="url(#bz)"/>
+<path d="M0 98 C40 80 80 74 120 86 S200 72 240 92 S300 84 320 90 V130 H0Z" fill="#56529a"/>
+<path d="M0 118 C50 104 90 108 140 116 S230 104 320 112 V132 H0Z" fill="#2f7a46"/>
+<path d="M40 128 l7 -26 l7 26z M58 128 l6 -20 l6 20z M150 128 l6 -22 l6 22z M168 128 l5 -16 l5 16z M268 128 l6 -18 l6 18z" fill="#134a2c"/>
+<path d="M84 128 v-14 l12 -10 l12 10 v14z" fill="#d8261c"/>
+<rect x="0" y="128" width="320" height="72" fill="url(#bw)"/>
+<path d="M200 134 h22 M196 142 h30 M203 150 h16 M198 158 h26 M205 166 h12" stroke="#fff0b8" stroke-opacity=".55" stroke-width="2"/>
+</g>
+</defs>
+<use href="#as" clip-path="url(#lh)"/><use href="#bs" clip-path="url(#rh)"/>
+<path d="M160 0 V200" stroke="#fff" stroke-width="1.5"/><circle cx="160" cy="100" r="9" fill="#fff"/>
+<path d="M156.5 96.5 l-3 3.5 l3 3.5 M163.5 96.5 l3 3.5 l-3 3.5" fill="none" stroke="#1f2a3a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><rect x="8" y="8" width="34.4" height="16" rx="8" fill="#000" fill-opacity=".45"/>
+<text x="14" y="19.5" font-family="Inter,Arial,sans-serif" font-size="9.5" fill="#fff">Voor</text><rect x="277" y="8" width="23.2" height="16" rx="8" fill="#000" fill-opacity=".45"/>
+<text x="283" y="19.5" font-family="Inter,Arial,sans-serif" font-size="9.5" fill="#fff">Na</text>
+<g transform="translate(176 150)"><rect width="134" height="42" rx="7" fill="#11161f" fill-opacity=".72"/>
+<g stroke-linecap="round"><path d="M10 13 H124 M10 29 H124" stroke="#fff" stroke-opacity=".3" stroke-width="2"/>
+<path d="M10 13 H86" stroke="#9cc8ff" stroke-width="2"/><path d="M10 29 H52" stroke="#ffbf3f" stroke-width="2"/></g>
+<circle cx="86" cy="13" r="4.5" fill="#fff"/><circle cx="52" cy="29" r="4.5" fill="#fff"/></g>
+</svg>

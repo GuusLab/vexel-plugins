@@ -1,0 +1,12 @@
+{
+  "id": "stroomdiagram",
+  "naam": "Stroomdiagram",
+  "beschrijving": "Typ stappen met pijlen en keuzes in gewone tekst en krijg een net stroomschema met vormen, pijlen en labels.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "ordenen",
+  "rechten": ["document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Stroomdiagram maken…", "venster": { "breedte": 480, "hoogte": 700 } }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "lijngravure",
+  "naam": "Lijngravure",
+  "beschrijving": "Maak van een foto een gravure van rechte of golvende lijnen, cirkels of een spiraal, met een dikte die de donkerte volgt.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "patronen",
+  "rechten": ["selectie.lezen", "beeld.lezen", "document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Lijngravure…", "venster": { "breedte": 760, "hoogte": 560 } }
+  ]
+}

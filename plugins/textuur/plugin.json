@@ -1,0 +1,12 @@
+{
+  "id": "textuur",
+  "naam": "Textuur",
+  "beschrijving": "Maak een doorzichtige textuurfoto met korrel, papiervezel, vlekken, een rasterpatroon of krassen om over je ontwerp te leggen.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "patronen",
+  "rechten": ["selectie.lezen", "document.schrijven", "beeld.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Textuur maken…", "venster": { "breedte": 800, "hoogte": 600 } }
+  ]
+}

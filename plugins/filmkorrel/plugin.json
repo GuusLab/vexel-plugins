@@ -1,0 +1,12 @@
+{
+  "id": "filmkorrel",
+  "naam": "Filmkorrel",
+  "beschrijving": "Geef een foto echte, klonterige filmkorrel, fijn of grof, in zwart-wit of kleur.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "kleur",
+  "rechten": ["selectie.lezen", "beeld.lezen", "beeld.schrijven"],
+  "commandos": [
+    { "id": "korrel", "titel": "Filmkorrel…", "venster": { "breedte": 760, "hoogte": 560 } }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "meten",
+  "naam": "Meten",
+  "beschrijving": "Meet de echte oppervlakte, omtrek en snijlijnlengte van je selectie, met totalen en een label ernaast.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "hulpmiddelen",
+  "rechten": ["selectie.lezen", "document.schrijven"],
+  "commandos": [
+    { "id": "meten", "titel": "Meten…", "venster": { "breedte": 460, "hoogte": 560 } }
+  ]
+}

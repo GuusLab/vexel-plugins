@@ -1,0 +1,13 @@
+{
+  "id": "isometrisch",
+  "naam": "Isometrische blokken",
+  "beschrijving": "Bouw isometrische blokken, trappen en cilinders uit een hoogteraster, in drie tinten van één kleur.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "vormen",
+  "rechten": ["document.schrijven"],
+  "commandos": [
+    { "id": "blokken", "titel": "Blokken maken…", "venster": { "breedte": 680, "hoogte": 460 } },
+    { "id": "raster", "titel": "Isometrisch hulpraster…", "venster": { "breedte": 560, "hoogte": 330 } }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "gedachtekaart",
+  "naam": "Gedachtekaart",
+  "beschrijving": "Maak een gedachtekaart met een onderwerp in het midden en vloeiende, taps toelopende takken uit een ingesprongen lijst.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "ordenen",
+  "rechten": ["document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Gedachtekaart maken…", "venster": { "breedte": 480, "hoogte": 690 } }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "kortingsbon",
+  "naam": "Bonnen en vouchers",
+  "beschrijving": "Maak genummerde cadeaubonnen, kortingsbonnen en stempelkaarten in vier stijlen, met afscheurstrook en zoveel per vel als past.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "vormen",
+  "rechten": ["document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Bonnen maken…", "venster": { "breedte": 540, "hoogte": 640 } }
+  ]
+}

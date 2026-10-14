@@ -1,0 +1,13 @@
+{
+  "id": "perspectief",
+  "naam": "Perspectiefraster",
+  "beschrijving": "Teken een perspectiefraster met 1, 2 of 3 verdwijnpunten en zet platte paden op een vlak in perspectief.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "hulpmiddelen",
+  "rechten": ["selectie.lezen", "document.schrijven"],
+  "commandos": [
+    { "id": "raster", "titel": "Perspectiefraster…", "venster": { "breedte": 660, "hoogte": 400 } },
+    { "id": "vlak", "titel": "Vlak in perspectief…", "venster": { "breedte": 660, "hoogte": 375 } }
+  ]
+}

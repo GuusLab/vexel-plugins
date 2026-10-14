@@ -399,7 +399,8 @@ function voer(soort, data) {
         if (w.draai !== undefined) { const r = getal(w.draai, -36000, 36000, 'draai') * Math.PI / 180, c = Math.cos(r), s2 = Math.sin(r); maal([c, s2, -s2, c, cx - c * cx + s2 * cy, cy - s2 * cx - c * cy]); }
         if (w.verplaats !== undefined) maal([1, 0, 0, 1, getal(w.verplaats.dx, -G, G, 'verplaats.dx'), getal(w.verplaats.dy, -G, G, 'verplaats.dy')]);
         if (m.join() !== '1,0,0,1,0,0') transformeer(o, m);
-        const s3 = stijl(w); if (Object.keys(s3).length) { const zet = (x) => { if (x.stijl) Object.assign(x.stijl, s3); (x.kinderen || []).forEach(zet); }; zet(o); } }
+        const s3 = stijl(w); if (Object.keys(s3).length) { const zet = (x) => { if (x.stijl) Object.assign(x.stijl, s3); (x.kinderen || []).forEach(zet); }; zet(o); }
+        if (w.naam !== undefined) o.naam = String(w.naam).slice(0, 200); }
       teken(); log('wijzig: ' + plan.length + ' object(en)', 'ok'); return { aangepast: plan.length }; }
     case 'wijzigSelectie': { mag('document.schrijven'); schrijven(); const s = stijl(data || {}); if (!Object.keys(s).length) fout('Er is niets om te veranderen.'); if (!gekozen.size) fout('Selecteer eerst iets.');
       const zet = (o) => { if (o.stijl) Object.assign(o.stijl, s); (o.kinderen || []).forEach(zet); }; vormen.filter((o) => gekozen.has(o.id)).forEach(zet); teken(); log('wijzigSelectie: ' + JSON.stringify(s), 'ok'); return { aangepast: gekozen.size }; }

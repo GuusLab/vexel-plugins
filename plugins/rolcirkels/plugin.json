@@ -1,0 +1,12 @@
+{
+  "id": "rolcirkels",
+  "naam": "Rolcirkels",
+  "beschrijving": "Teken gelaagde rolcirkelfiguren van een wiel dat binnen of buiten een ring rolt, in kleurverloop en als gladde krommen.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "patronen",
+  "rechten": ["selectie.lezen", "document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Rolcirkels…", "venster": { "breedte": 460, "hoogte": 680 } }
+  ]
+}

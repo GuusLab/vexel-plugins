@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200">
+<rect width="320" height="200" fill="#eceae4"/>
+<rect x="10" y="12" width="300" height="176" rx="6" fill="#ffffff"/>
+<defs><clipPath id="foto"><rect x="20" y="22" width="172" height="107.5" rx="3"/></clipPath></defs>
+<g clip-path="url(#foto)"><g transform="translate(20 22) scale(0.5375)"><defs>
+    <linearGradient id="m-lucht" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2d5fa8"/><stop offset="0.55" stop-color="#8fb6dd"/><stop offset="1" stop-color="#f3d9a6"/></linearGradient>
+    <radialGradient id="m-zon" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#fff6d8"/><stop offset="0.45" stop-color="#ffd27a"/><stop offset="1" stop-color="#ffd27a" stop-opacity="0"/></radialGradient>
+    <linearGradient id="m-heuvel1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6f8fb0"/><stop offset="1" stop-color="#4a6a8c"/></linearGradient>
+    <linearGradient id="m-heuvel2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3f7a4e"/><stop offset="1" stop-color="#24502f"/></linearGradient>
+    <linearGradient id="m-water" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e8c58e"/><stop offset="0.25" stop-color="#5f86b3"/><stop offset="1" stop-color="#1d3557"/></linearGradient>
+  </defs>
+  <rect width="320" height="200" fill="url(#m-lucht)"/>
+  <circle cx="214" cy="92" r="52" fill="url(#m-zon)"/>
+  <circle cx="214" cy="92" r="17" fill="#fff3cf"/>
+  <path d="M0 112 C40 92 70 96 104 106 C140 86 180 90 214 104 C250 92 290 94 320 104 L320 140 L0 140 Z" fill="url(#m-heuvel1)"/>
+  <path d="M0 128 C30 116 66 118 96 126 C130 112 168 118 200 130 C240 120 280 122 320 128 L320 142 L0 142 Z" fill="url(#m-heuvel2)"/>
+  <rect x="0" y="140" width="320" height="60" fill="url(#m-water)"/>
+  <g fill="#1f3b2a"><path d="M52 140 L60 108 L68 140 Z"/><path d="M66 140 L73 116 L80 140 Z"/><path d="M262 140 L270 112 L278 140 Z"/></g>
+  <path d="M98 120 L112 108 L126 120 L126 140 L98 140 Z" fill="#b8342c"/><path d="M95 121 L112 105 L129 121 Z" fill="#7a1f1a"/>
+  <rect x="104" y="125" width="6" height="6" fill="#ffe6a0"/><rect x="115" y="125" width="6" height="6" fill="#ffe6a0"/>
+  <g fill="#fff4d6" opacity="0.8"><rect x="200" y="146" width="28" height="2"/><rect x="204" y="153" width="20" height="2"/><rect x="207" y="160" width="14" height="1.6"/><rect x="209" y="167" width="10" height="1.4"/></g>
+</g></g>
+<rect x="204" y="24.0" width="19" height="19" rx="1.5" fill="#E5CE9F"/>
+<text x="229" y="32.0" font-family="Inter, system-ui, sans-serif" font-size="7" font-weight="600" fill="#262626">Zandgeel</text>
+<text x="229" y="40.0" font-family="Inter, system-ui, sans-serif" font-size="5.6" fill="#666">C 11 M 16 Y 41 K 0</text>
+<rect x="204" y="50.5" width="19" height="19" rx="1.5" fill="#A1A8A7"/>
+<text x="229" y="58.5" font-family="Inter, system-ui, sans-serif" font-size="7" font-weight="600" fill="#262626">Grijs</text>
+<text x="229" y="66.5" font-family="Inter, system-ui, sans-serif" font-size="5.6" fill="#666">C 47 M 20 Y 29 K 0</text>
+<rect x="204" y="77.0" width="19" height="19" rx="1.5" fill="#668DBA"/>
+<text x="229" y="85.0" font-family="Inter, system-ui, sans-serif" font-size="7" font-weight="600" fill="#262626">Blauw</text>
+<text x="229" y="93.0" font-family="Inter, system-ui, sans-serif" font-size="5.6" fill="#666">C 74 M 27 Y 8 K 0</text>
+<rect x="204" y="103.5" width="19" height="19" rx="1.5" fill="#3B639A"/>
+<text x="229" y="111.5" font-family="Inter, system-ui, sans-serif" font-size="7" font-weight="600" fill="#262626">Donkerblauw</text>
+<text x="229" y="119.5" font-family="Inter, system-ui, sans-serif" font-size="5.6" fill="#666">C 89 M 52 Y 8 K 0</text>
+<rect x="204" y="130.0" width="19" height="19" rx="1.5" fill="#A73028"/>
+<text x="229" y="138.0" font-family="Inter, system-ui, sans-serif" font-size="7" font-weight="600" fill="#262626">Donkerrood</text>
+<text x="229" y="146.0" font-family="Inter, system-ui, sans-serif" font-size="5.6" fill="#666">C 38 M 89 Y 81 K 0</text>
+<rect x="204" y="156.5" width="19" height="19" rx="1.5" fill="#30603D"/>
+<text x="229" y="164.5" font-family="Inter, system-ui, sans-serif" font-size="7" font-weight="600" fill="#262626">Donkergroen</text>
+<text x="229" y="172.5" font-family="Inter, system-ui, sans-serif" font-size="5.6" fill="#666">C 88 M 27 Y 73 K 31</text>
+<rect x="20.0" y="137" width="12.1" height="10" fill="#E5CE9F"/>
+<rect x="31.9" y="137" width="10.4" height="10" fill="#A1A8A7"/>
+<rect x="42.1" y="137" width="73.4" height="10" fill="#668DBA"/>
+<rect x="115.4" y="137" width="61.5" height="10" fill="#3B639A"/>
+<rect x="176.7" y="137" width="1.9" height="10" fill="#A73028"/>
+<rect x="178.4" y="137" width="13.8" height="10" fill="#30603D"/>
+<text x="20" y="160" font-family="Inter, system-ui, sans-serif" font-size="6.5" fill="#666">6 hoofdkleuren · CMYK-waarden voor de pers</text>
+</svg>

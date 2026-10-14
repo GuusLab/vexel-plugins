@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs><clipPath id="vlak"><rect width="64" height="64" rx="14"/></clipPath></defs>
+  <rect width="64" height="64" rx="14" fill="#1f2a3a"/>
+  <g clip-path="url(#vlak)">
+    <path d="M6 18C16 8 28 22 38 14S54 6 60 10C54 9 46 14 38 18S16 14 6 18Z" fill="#9cc8ff"/>
+    <path d="M4 30C16 19 28 34 40 25S54 17 60 20C53 21 47 27 40 30S18 26 4 30Z" fill="#5aa2ff"/>
+    <path d="M5 42C16 32 29 46 41 37S55 30 61 32C54 34 48 40 41 43S18 38 5 42Z" fill="#ff8a6b"/>
+    <path d="M8 54C18 45 30 57 42 49S55 43 60 45C54 47 49 52 42 55S20 51 8 54Z" fill="#ffc35c"/>
+  </g>
+</svg>

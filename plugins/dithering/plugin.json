@@ -1,0 +1,12 @@
+{
+  "id": "dithering",
+  "naam": "Dithering",
+  "beschrijving": "Zet een foto om in 1-bit of een klein palet met foutverdeling of een geordend raster, met grove of fijne pixels.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "kleur",
+  "rechten": ["selectie.lezen", "beeld.lezen", "beeld.schrijven"],
+  "commandos": [
+    { "id": "dithering", "titel": "Dithering…", "venster": { "breedte": 760, "hoogte": 560 } }
+  ]
+}

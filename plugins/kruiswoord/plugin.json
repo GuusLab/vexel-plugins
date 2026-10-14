@@ -1,0 +1,12 @@
+{
+  "id": "kruiswoord",
+  "naam": "Kruiswoordraster",
+  "beschrijving": "Maak uit je eigen woorden met omschrijvingen een compacte kruiswoordpuzzel met nummers en een verborgen oplossing.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "tekst",
+  "rechten": ["document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Kruiswoordpuzzel maken…", "venster": { "breedte": 520, "hoogte": 530 } }
+  ]
+}

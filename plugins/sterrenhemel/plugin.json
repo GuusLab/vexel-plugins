@@ -1,0 +1,12 @@
+{
+  "id": "sterrenhemel",
+  "naam": "Sterrenhemel",
+  "beschrijving": "Teken een nachtelijke hemel met sterren, twinkels, een melkweg, bekende sterrenbeelden en de maan in de fase die je kiest.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "vormen",
+  "rechten": ["selectie.lezen", "document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Sterrenhemel…", "venster": { "breedte": 460, "hoogte": 600 } }
+  ]
+}

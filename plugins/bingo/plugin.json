@@ -1,0 +1,12 @@
+{
+  "id": "bingo",
+  "naam": "Bingokaarten",
+  "beschrijving": "Maak unieke bingokaarten voor 75 of 90 ballen of met eigen woorden, verdeeld over vellen, met trekkingslijst.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "tekst",
+  "rechten": ["document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Bingokaarten…", "venster": { "breedte": 440, "hoogte": 660 } }
+  ]
+}

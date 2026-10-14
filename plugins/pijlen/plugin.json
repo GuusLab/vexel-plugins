@@ -1,0 +1,12 @@
+{
+  "id": "pijlen",
+  "naam": "Pijlen",
+  "beschrijving": "Teken verzorgde pijlen als gevulde vormen, of zet een verbindingspijl tussen twee geselecteerde objecten.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "vormen",
+  "rechten": ["selectie.lezen", "document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Pijl maken…", "venster": { "breedte": 660, "hoogte": 420 } }
+  ]
+}

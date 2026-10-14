@@ -1,0 +1,12 @@
+{
+  "id": "sudoku",
+  "naam": "Sudoku",
+  "beschrijving": "Maak sudoku's met precies één oplossing, in vier niveaus en ook 6 × 6, netjes verdeeld over het vel.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "tekst",
+  "rechten": ["document.schrijven"],
+  "commandos": [
+    { "id": "maken", "titel": "Sudoku…", "venster": { "breedte": 420, "hoogte": 610 } }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "glitch",
+  "naam": "Glitch",
+  "beschrijving": "Geef een foto een digitale storing met verschoven kleurkanalen, verspringende stroken, scanlijnen en ruisblokken.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "kleur",
+  "rechten": ["selectie.lezen", "beeld.lezen", "beeld.schrijven"],
+  "commandos": [
+    { "id": "glitch", "titel": "Glitch…", "venster": { "breedte": 800, "hoogte": 600 } }
+  ]
+}

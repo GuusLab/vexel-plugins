@@ -1,0 +1,14 @@
+{
+  "id": "scherpte",
+  "naam": "Vervagen en verscherpen",
+  "beschrijving": "Vervaag een foto zacht, verscherp hem met een onscherpmasker of geef hem bewegingsonscherpte onder elke hoek.",
+  "auteur": { "naam": "GuusLab", "github": "GuusLab" },
+  "licentie": "MIT",
+  "categorie": "kleur",
+  "rechten": ["selectie.lezen", "beeld.lezen", "beeld.schrijven"],
+  "commandos": [
+    { "id": "vervagen", "titel": "Vervagen…", "venster": { "breedte": 760, "hoogte": 560 } },
+    { "id": "verscherpen", "titel": "Verscherpen…", "venster": { "breedte": 760, "hoogte": 560 } },
+    { "id": "beweging", "titel": "Bewegingsonscherpte…", "venster": { "breedte": 760, "hoogte": 560 } }
+  ]
+}
