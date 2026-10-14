@@ -169,7 +169,9 @@ of in de drie plugins hierboven hoe dat gaat.
 **4. Voeg een icoon en een README toe.** `icoon.svg` is een vierkante SVG
 zonder tekst, script of externe verwijzingen, hooguit 16 KB. In `README.md`
 leg je uit wat de plugin doet, hoe je hem gebruikt en waarom hij elk recht
-nodig heeft.
+nodig heeft. Wil je in de winkel een groot plaatje bij je plugin, voeg dan
+ook een `voorbeeld.svg` toe: dezelfde regels als het icoon, maar de verhouding
+is vrij (liefst 16:10, bijvoorbeeld `viewBox="0 0 320 200"`) en hooguit 40 KB.
 
 **5. Controleer en probeer hem uit.**
 
@@ -231,7 +233,8 @@ Wat een plugin wel en niet kan, in gewone woorden:
   maat en de kleurruimte, en met het juiste recht je selectie.
 - **Hij kan alleen wat zijn rechten toestaan.** Zonder `selectie.lezen` ziet
   hij je selectie niet; zonder `document.schrijven` kan hij niets tekenen of
-  wijzigen. Wat een plugin verandert, kun je ongedaan maken zoals elke
+  wijzigen; zonder `beeld.lezen` en `beeld.schrijven` kan hij de pixels van
+  je foto's niet lezen of vervangen. Wat een plugin verandert, kun je ongedaan maken zoals elke
   andere wijziging.
 - **De code wordt gelezen.** Voordat een plugin hier verschijnt, controleert
   CI hem automatisch en leest een beheerder de code. De controle weigert onder
@@ -245,7 +248,7 @@ gat, meld het dan zoals in [SECURITY.md](SECURITY.md) staat.
 ## Deze repo
 
 ```
-plugins/<id>/          één map per plugin: plugin.json, plugin.js, icoon.svg, README.md (en LICENSE)
+plugins/<id>/          één map per plugin: plugin.json, plugin.js, icoon.svg, README.md (en LICENSE, voorbeeld.svg)
 ingetrokken.json       plugins die niet meer gebruikt mogen worden
 tools/valideer.mjs     de controle (dezelfde als in CI)
 tools/proefbank.mjs    een plugin uitproberen zonder Vexel-account

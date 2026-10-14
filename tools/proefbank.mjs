@@ -9,6 +9,12 @@
 // commando: de proefbank leest het bestand elke keer opnieuw. Geen
 // afhankelijkheden; alleen Node.js 20 of nieuwer.
 //
+// Foto's (API 1.2): de knop "Testfoto" zet een zelfgemaakte foto van 1200×800
+// px neer (JPEG, of PNG met doorzichtige hoeken; met "CMYK" doet hij alsof de
+// foto CMYK is), en "Eigen foto…" plaatst een foto van je schijf. Selecteer de
+// foto en start je commando: vexel.beeld(), vexel.zetBeeld() en maak() met
+// soort 'beeld' werken zoals in Vexel (alleen ongedaan maken is er niet).
+//
 // Dit is een benadering van Vexel, geen kopie: hoe vormen er precies uitzien
 // (lettertype, lijnen) kan in Vexel iets anders zijn. Heb je een account, probeer
 // hem dan ook in Vexel met Plugins › Plugin uitproberen….
@@ -43,10 +49,21 @@ const RUNTIME = `(function () {
     try { Object.defineProperty(window, n, { value: undefined, writable: false, configurable: false }); } catch (x) {}
   });
   var kanaal = new MessageChannel(), poort = kanaal.port1, volgende = 1, wacht = new Map(), handlers = new Map(), gestart = null;
-  function vraag(soort, data) {
+  /* API 1.2: pixels gaan als buffer met transfer (geen kopie); de plugin is de buffer daarna kwijt. */
+  function buffers(v, lijst, diepte) {
+    if (!v || typeof v !== 'object' || diepte > 12) return lijst;
+    if (v instanceof ArrayBuffer) { lijst.add(v); return lijst; }
+    if (ArrayBuffer.isView(v)) { if (v.buffer instanceof ArrayBuffer) lijst.add(v.buffer); return lijst; }
+    if (Array.isArray(v)) { for (var i = 0; i < v.length; i++) buffers(v[i], lijst, diepte + 1); return lijst; }
+    for (var k in v) if (Object.prototype.hasOwnProperty.call(v, k)) buffers(v[k], lijst, diepte + 1);
+    return lijst;
+  }
+  function vraag(soort, data, metBuffers) {
     return new Promise(function (klaar, fout) {
       var id = volgende++; wacht.set(id, { klaar: klaar, fout: fout });
-      poort.postMessage({ id: id, soort: soort, data: data === undefined ? null : data });
+      var bericht = { id: id, soort: soort, data: data === undefined ? null : data };
+      try { if (metBuffers) poort.postMessage(bericht, Array.from(buffers(data, new Set(), 0))); else poort.postMessage(bericht); }
+      catch (e) { wacht.delete(id); fout(new Error('Deze gegevens kan Vexel niet ontvangen (is de buffer al eens verstuurd?).')); }
     });
   }
   poort.onmessage = function (e) {
@@ -63,9 +80,11 @@ const RUNTIME = `(function () {
     opCommando: function (id, fn) { handlers.set(String(id), fn); if (gestart === String(id)) start(); },
     document: function () { return vraag('document'); },
     selectie: function () { return vraag('selectie'); },
-    maak: function (v, o) { return vraag('maak', o ? { vormen: v, opties: o } : v); },
+    maak: function (v, o) { return vraag('maak', o ? { vormen: v, opties: o } : v, true); },
     wijzigSelectie: function (s) { return vraag('wijzigSelectie', s); },
     wijzig: function (l) { return vraag('wijzig', l); },
+    beeld: function (id, o) { return vraag('beeld', { id: id, opties: o || null }).then(function (r) { if (r && r.pixels instanceof ArrayBuffer) r.pixels = new Uint8ClampedArray(r.pixels); return r; }); },
+    zetBeeld: function (id, b) { return vraag('zetBeeld', { id: id, beeld: b }, true); },
     melding: function (t, s) { vraag('melding', { tekst: String(t), soort: s || 'info' }); },
     bewaar: function (k, w) { return vraag('bewaar', { sleutel: String(k), waarde: w }); },
     haal: function (k) { return vraag('haal', { sleutel: String(k) }); },
@@ -130,6 +149,90 @@ const log = (t, soort = 'info') => { const li = document.createElement('li'); li
 const fout = (t) => { throw Object.assign(new Error(t), { plugin: true }); };
 const getal = (v, min, max, wat) => (typeof v === 'number' && Number.isFinite(v) && v >= min && v <= max) ? v : fout('Ongeldige waarde voor ' + wat + '.');
 const G = 1e6;
+/* ---- foto's (API 1.2) */
+const MAXPX = 16000000;
+function leesPixels(p) {
+  if (!p || typeof p !== 'object') fout("Geef de pixels als { breedte, hoogte, pixels }.");
+  const b = p.breedte, h = p.hoogte, d = p.pixels;
+  if (!Number.isInteger(b) || !Number.isInteger(h) || b < 1 || h < 1 || b > 16384 || h > 16384) fout('breedte en hoogte zijn hele getallen van 1 tot 16384.');
+  if (b * h > MAXPX) fout('Een foto heeft hooguit 16 000 000 pixels.');
+  let data;
+  if (d instanceof Uint8ClampedArray || d instanceof Uint8Array) data = new Uint8ClampedArray(d.buffer, d.byteOffset, d.byteLength);
+  else if (d instanceof ArrayBuffer) data = new Uint8ClampedArray(d);
+  else fout('pixels is een Uint8ClampedArray, Uint8Array of ArrayBuffer met RGBA-waarden.');
+  if (data.length !== b * h * 4) fout('pixels moet precies ' + (b * h * 4) + ' bytes hebben (breedte × hoogte × 4).');
+  return { breedte: b, hoogte: h, data };
+}
+async function codeer(p, mime) {
+  const c = new OffscreenCanvas(p.breedte, p.hoogte);
+  const data = (p.data.byteOffset || p.data.byteLength !== p.data.buffer.byteLength) ? p.data.slice() : p.data;
+  c.getContext('2d').putImageData(new ImageData(data, p.breedte, p.hoogte), 0, 0);
+  const blob = await c.convertToBlob(mime === 'image/jpeg' ? { type: mime, quality: 0.92 } : { type: 'image/png' });
+  return { blob, url: URL.createObjectURL(blob), mime: blob.type, breedte: p.breedte, hoogte: p.hoogte, cmyk: false };
+}
+async function leesBron(bron, maxZijde) {
+  const w0 = bron.breedte, h0 = bron.hoogte;
+  let w = w0, h = h0;
+  if (maxZijde !== undefined && Math.max(w0, h0) > maxZijde) { const s = maxZijde / Math.max(w0, h0); w = Math.min(Math.round(w0 * s), Math.floor(maxZijde)); h = Math.min(Math.round(h0 * s), Math.floor(maxZijde)); }
+  else if (maxZijde === undefined && (w0 * h0 > MAXPX || Math.max(w0, h0) > 16384)) { const s = Math.min(Math.sqrt(MAXPX / (w0 * h0)), 16384 / Math.max(w0, h0)); w = Math.floor(w0 * s); h = Math.floor(h0 * s); }
+  w = Math.max(1, w); h = Math.max(1, h);
+  // net als Vexel: createImageBitmap met de standaardopties en tekenen op een canvas
+  const bmp = await createImageBitmap(bron.blob);
+  const c = new OffscreenCanvas(w, h), ctx = c.getContext('2d', { willReadFrequently: true });
+  ctx.imageSmoothingQuality = 'high'; ctx.drawImage(bmp, 0, 0, w, h); bmp.close();
+  return { breedte: w, hoogte: h, pixels: ctx.getImageData(0, 0, w, h).data.buffer, origineel: [w0, h0] };
+}
+function zoek(id, lijst = vormen) { for (const o of lijst) { if (o.id === id) return o; const k = o.kinderen && zoek(id, o.kinderen); if (k) return k; } return null; }
+function geselecteerdeFoto(id) { const o = typeof id === 'string' && gekozen.has(id) ? zoek(id) : null; return o && o.soort === 'beeld' ? o : fout('Dit object is geen geselecteerde foto.'); }
+async function beeld(data) {
+  mag('beeld.lezen'); const o = geselecteerdeFoto(data && data.id), opties = (data && data.opties) || {};
+  const maxZijde = opties.maxZijde === undefined ? undefined : getal(opties.maxZijde, 16, 8192, 'maxZijde');
+  const r = await leesBron(o.bron, maxZijde);
+  log('beeld: ' + o.id + ' ' + r.breedte + '×' + r.hoogte + (maxZijde ? ' (maxZijde ' + maxZijde + ')' : '') + ' van ' + r.origineel.join('×'), 'ok'); return r;
+}
+async function zetBeeld(data) {
+  mag('beeld.schrijven'); schrijven(); const o = geselecteerdeFoto(data && data.id), p = leesPixels(data && data.beeld);
+  let opaak = true; for (let i = 3; i < p.data.length; i += 4) if (p.data[i] !== 255) { opaak = false; break; }
+  const mime = o.bron.mime === 'image/jpeg' && opaak ? 'image/jpeg' : 'image/png';
+  const oud = o.bron, nieuw = await codeer(p, mime), cmykOmgezet = !!oud.cmyk;
+  o.bron = nieuw; URL.revokeObjectURL(oud.url); teken();
+  if (cmykOmgezet && lopend && !lopend.cmykGemeld) { lopend.cmykGemeld = true; log('De foto was CMYK; na de bewerking is hij RGB en gaat hij bij het drukken door het kleurprofiel.', 'let'); }
+  log('zetBeeld: ' + o.id + ' ' + p.breedte + '×' + p.hoogte + ' → ' + nieuw.mime + ' (kader blijft ' + o.b.toFixed(1) + '×' + o.h.toFixed(1) + ' pt)', 'ok');
+  return { id: o.id, mime: nieuw.mime, cmykOmgezet };
+}
+function rng(zaad) { let a = zaad >>> 0; return () => { a = (a + 0x6D2B79F5) >>> 0; let t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+/* Een zelfgemaakte "foto" van 1200×800: lucht, zon, heuvels, water, een huisje, kleurstalen, ruis en vignet. */
+async function testfoto(mime) {
+  const W = 1200, HH = 800, c = new OffscreenCanvas(W, HH), g = c.getContext('2d'), r = rng(20261014);
+  let lg = g.createLinearGradient(0, 0, 0, 470); lg.addColorStop(0, '#1d3f73'); lg.addColorStop(0.55, '#6f8fc0'); lg.addColorStop(1, '#f4b37a'); g.fillStyle = lg; g.fillRect(0, 0, W, 470);
+  const rg = g.createRadialGradient(860, 360, 10, 860, 360, 280); rg.addColorStop(0, 'rgba(255,244,210,1)'); rg.addColorStop(0.18, 'rgba(255,220,150,0.85)'); rg.addColorStop(1, 'rgba(255,190,120,0)');
+  g.fillStyle = rg; g.fillRect(0, 0, W, 470); g.fillStyle = '#fff6dc'; g.beginPath(); g.arc(860, 360, 46, 0, 7); g.fill();
+  for (let i = 0; i < 14; i++) { g.fillStyle = 'rgba(255,255,255,' + (0.08 + r() * 0.14) + ')'; g.beginPath(); g.ellipse(r() * W, 50 + r() * 210, 60 + r() * 130, 10 + r() * 18, 0, 0, 7); g.fill(); }
+  const heuvel = (basis, amp, kleur, f, fase) => { g.fillStyle = kleur; g.beginPath(); g.moveTo(0, 470);
+    for (let x = 0; x <= W; x += 6) g.lineTo(x, basis - amp * (0.55 + 0.45 * Math.sin(x * f + fase) * Math.cos(x * f * 0.37 + 0.4)) - r() * 4); g.lineTo(W, 470); g.closePath(); g.fill(); };
+  heuvel(410, 170, '#6a7590', 0.006, 1.3); heuvel(445, 95, '#3f5a52', 0.011, 0.2); heuvel(472, 42, '#2c4636', 0.02, 2.1);
+  lg = g.createLinearGradient(0, 470, 0, HH); lg.addColorStop(0, '#c99a74'); lg.addColorStop(0.25, '#557499'); lg.addColorStop(1, '#162b45'); g.fillStyle = lg; g.fillRect(0, 470, W, HH - 470);
+  for (let i = 0; i < 40; i++) { const y = 478 + i * 7 + r() * 4, b = (72 - i) * (0.6 + r() * 0.8); g.fillStyle = 'rgba(255,230,170,' + (0.5 - i * 0.011) + ')'; g.fillRect(860 - b / 2 + (r() - 0.5) * 30, y, b, 2 + r() * 2); }
+  g.fillStyle = '#b8322a'; g.fillRect(150, 404, 90, 62); g.fillStyle = '#5b1d17'; g.beginPath(); g.moveTo(140, 406); g.lineTo(195, 362); g.lineTo(250, 406); g.fill();
+  g.fillStyle = '#ffe9a8'; g.fillRect(170, 424, 18, 16); g.fillRect(205, 424, 18, 16);
+  for (let i = 0; i < 9; i++) { const x = 300 + i * 38 + r() * 20, hb = 60 + r() * 50; g.fillStyle = i % 2 ? '#1f3a25' : '#27482c'; g.beginPath(); g.moveTo(x, 472); g.lineTo(x + 14, 472 - hb); g.lineTo(x + 28, 472); g.fill(); }
+  ['#d62828', '#f6c90e', '#2a9d3f', '#1fb5c9', '#2643b8', '#c4329b', '#ffffff', '#808080', '#000000'].forEach((k, i) => { g.fillStyle = k; g.fillRect(40 + i * 46, 724, 40, 40); });
+  const d = g.getImageData(0, 0, W, HH), px = d.data, R = 70;
+  for (let y = 0; y < HH; y++) for (let x = 0; x < W; x++) {
+    const i = (y * W + x) * 4, dx = (x - W / 2) / (W / 2), dy = (y - HH / 2) / (HH / 2), v = 1 - 0.3 * Math.min(1, (dx * dx + dy * dy) * 0.5), n = (r() + r() + r() - 1.5) * 18;
+    px[i] = px[i] * v + n; px[i + 1] = px[i + 1] * v + n; px[i + 2] = px[i + 2] * v + n;
+    if (mime === 'image/png') { const hx = x < R ? R - x : x >= W - R ? x - (W - R - 1) : 0, hy = y < R ? R - y : y >= HH - R ? y - (HH - R - 1) : 0;
+      if (hx && hy) px[i + 3] = Math.max(0, Math.min(1, R + 0.5 - Math.hypot(hx, hy))) * 255; }
+  }
+  return codeer({ breedte: W, hoogte: HH, data: px }, mime);
+}
+function plaatsFoto(bron, naam) {
+  let b = 475, h = b * bron.hoogte / bron.breedte; if (h > 720) { b = b * 720 / h; h = 720; }
+  bron.cmyk = document.getElementById('fotoCmyk').checked;
+  const o = { id: 'o' + (++teller), soort: 'beeld', naam, zichtbaar: true, x: 60, y: 60, b, h, bron };
+  vormen.push(o); gekozen = new Set([o.id]); teken();
+  log('foto geplaatst: ' + o.id + ', ' + bron.breedte + '×' + bron.hoogte + ' px, ' + bron.mime + (bron.cmyk ? ', CMYK' : ''), 'info');
+}
 const stalen = new Map();
 function kleur(k, wat) {
   if (k === undefined) return undefined; if (k === null) return null;
@@ -191,6 +294,10 @@ function bouw(v, t, d = 0) {
       if (d >= 8) fout('Groepen gaan hooguit 8 diep.');
       if (!Array.isArray(v.kinderen) || !v.kinderen.length) fout('Een groep heeft kinderen nodig.');
       o.kinderen = v.kinderen.map((k) => bouw(k, t, d + 1)); delete o.stijl; return o;
+    case 'beeld': { mag('beeld.schrijven');
+      Object.assign(o, { x: x(v.x, 'x'), y: x(v.y, 'y'), b: getal(v.b, 0.01, G, 'b'), h: getal(v.h, 0.01, G, 'h') });
+      const p = leesPixels(v.pixels); t.px = (t.px || 0) + p.breedte * p.hoogte; if (t.px > MAXPX) fout('Te veel pixels in één keer (hooguit 16 000 000 per aanroep).');
+      o.nieuwePixels = p; delete o.stijl; return o; }
     default: fout('Onbekende soort vorm: ' + String(v.soort).slice(0, 20) + '.');
   }
   Object.assign(o.stijl, stijl(v));
@@ -206,6 +313,7 @@ function alsPad(o) {
   return o.subpaden;
 }
 function geometrie(o) {
+  if (o.soort === 'beeld') return { beeld: { px: [o.bron.breedte, o.bron.hoogte], mime: o.bron.mime, masker: false, cmyk: !!o.bron.cmyk } };
   if (o.soort === 'tekst') return { inhoud: o.inhoud, grootte: o.grootte };
   if (o.soort === 'groep') return { aantal: o.kinderen.length };
   return { subpaden: JSON.parse(JSON.stringify(alsPad(o))), vulregel: o.vulregel || 'nonzero' };
@@ -213,11 +321,13 @@ function geometrie(o) {
 function transformeer(o, m) {
   const tp = (p) => { const x = m[0] * p.x + m[2] * p.y + m[4], y = m[1] * p.x + m[3] * p.y + m[5]; p.x = x; p.y = y; };
   if (o.soort === 'groep') { o.kinderen.forEach((k) => transformeer(k, m)); return; }
-  if (o.soort === 'tekst') { const a = o.m || [1, 0, 0, 1, 0, 0]; o.m = [m[0] * a[0] + m[2] * a[1], m[1] * a[0] + m[3] * a[1], m[0] * a[2] + m[2] * a[3], m[1] * a[2] + m[3] * a[3], m[0] * a[4] + m[2] * a[5] + m[4], m[1] * a[4] + m[3] * a[5] + m[5]]; return; }
+  if (o.soort === 'tekst' || o.soort === 'beeld') { const a = o.m || [1, 0, 0, 1, 0, 0]; o.m = [m[0] * a[0] + m[2] * a[1], m[1] * a[0] + m[3] * a[1], m[0] * a[2] + m[2] * a[3], m[1] * a[2] + m[3] * a[3], m[0] * a[4] + m[2] * a[5] + m[4], m[1] * a[4] + m[3] * a[5] + m[5]]; return; }
   if (o.soort === 'rechthoek' || o.soort === 'ellips') { o.subpaden = alsPad(o); o.soort = 'pad'; }
   for (const s of o.subpaden) for (const p of s.punten) { tp(p); if (p.in) tp(p.in); if (p.uit) tp(p.uit); }
 }
 function kader(o) {
+  if (o.soort === 'beeld') { const m = o.m || [1, 0, 0, 1, 0, 0]; const hk = [[o.x, o.y], [o.x + o.b, o.y], [o.x, o.y + o.h], [o.x + o.b, o.y + o.h]].map(([a, c]) => [m[0] * a + m[2] * c + m[4], m[1] * a + m[3] * c + m[5]]);
+    const xs = hk.map((q) => q[0]), ys = hk.map((q) => q[1]), x0 = Math.min(...xs), y0 = Math.min(...ys); return { x: x0, y: y0, b: Math.max(...xs) - x0, h: Math.max(...ys) - y0 }; }
   if (o.soort === 'rechthoek') return { x: o.x, y: o.y, b: o.b, h: o.h };
   if (o.soort === 'ellips') return { x: o.cx - o.rx, y: o.cy - o.ry, b: 2 * o.rx, h: 2 * o.ry };
   if (o.soort === 'tekst') return { x: o.x, y: o.y - o.grootte, b: o.inhoud.length * o.grootte * 0.5, h: o.grootte * 1.2 };
@@ -235,6 +345,7 @@ function teken() {
     if (o.soort === 'groep') { e = document.createElementNS(NS, 'g'); o.kinderen.forEach((k) => e.append(el(k))); }
     else if (o.soort === 'rechthoek') { e = document.createElementNS(NS, 'rect'); [['x', o.x], ['y', o.y], ['width', o.b], ['height', o.h]].forEach(([k, v]) => e.setAttribute(k, v)); }
     else if (o.soort === 'ellips') { e = document.createElementNS(NS, 'ellipse'); [['cx', o.cx], ['cy', o.cy], ['rx', o.rx], ['ry', o.ry]].forEach(([k, v]) => e.setAttribute(k, v)); }
+    else if (o.soort === 'beeld') { e = document.createElementNS(NS, 'image'); [['href', o.bron.url], ['x', o.x], ['y', o.y], ['width', o.b], ['height', o.h], ['preserveAspectRatio', 'none']].forEach(([k, v]) => e.setAttribute(k, v)); }
     else if (o.soort === 'tekst') { e = document.createElementNS(NS, 'text'); e.setAttribute('x', o.x); e.setAttribute('y', o.y); e.setAttribute('font-size', o.grootte); e.setAttribute('font-family', 'Inter, system-ui, sans-serif');
       if (o.gewicht) e.setAttribute('font-weight', o.gewicht);
       if (o.letterafstand) e.setAttribute('letter-spacing', o.letterafstand / 1000 * o.grootte);
@@ -249,6 +360,7 @@ function teken() {
       if (o.stijl.lijnhoek) e.setAttribute('stroke-linejoin', o.stijl.lijnhoek); }
     if (o.m) e.setAttribute('transform', 'matrix(' + o.m.join(' ') + ')');
     if (!o.zichtbaar) e.setAttribute('display', 'none');
+    e.setAttribute('data-id', o.id);
     if (gekozen.has(o.id)) { e.setAttribute('outline', '1'); e.style.filter = 'drop-shadow(0 0 2px #4f7cff)'; }
     e.addEventListener('click', (ev) => { ev.stopPropagation(); if (!ev.shiftKey) gekozen.clear(); gekozen.add(o.id); teken(); });
     return e;
@@ -259,19 +371,26 @@ function teken() {
 svg.addEventListener('click', () => { gekozen.clear(); teken(); });
 const mag = (r) => M.rechten.includes(r) || fout(M.naam + ' heeft geen toestemming hiervoor (' + r + ' staat niet in plugin.json).');
 function schrijven() { if (document.getElementById('alleenLezen').checked) fout('Je kunt dit document alleen bekijken.'); }
+async function maak(data) {
+  mag('document.schrijven'); schrijven();
+  const lijstV = Array.isArray(data) ? data : data && data.vormen, opties = Array.isArray(data) ? {} : (data && data.opties) || {};
+  if (!Array.isArray(lijstV) || !lijstV.length) fout('Geef een lijst met vormen.');
+  if (opties.vervangSelectie && !gekozen.size) fout('Selecteer eerst wat er vervangen moet worden.');
+  const t = { n: 0, p: 0 }; const nieuw = lijstV.map((v) => bouw(v, t));
+  const fotos = []; const verzamel = (o) => { if (o.nieuwePixels) fotos.push(o); (o.kinderen || []).forEach(verzamel); }; nieuw.forEach(verzamel);
+  await Promise.all(fotos.map(async (o) => { o.bron = await codeer(o.nieuwePixels, 'image/png'); delete o.nieuwePixels; }));
+  if (opties.vervangSelectie) { const plek = vormen.findIndex((o) => gekozen.has(o.id)); vormen = vormen.filter((o) => !gekozen.has(o.id)); vormen.splice(Math.max(0, plek), 0, ...nieuw); }
+  else if (opties.achteraan) vormen.unshift(...nieuw); else vormen.push(...nieuw);
+  gekozen = new Set(nieuw.map((o) => o.id)); teken();
+  log('maak: ' + nieuw.length + ' vorm(en), ' + t.n + ' in totaal, ' + t.p + ' punten' + (fotos.length ? ', ' + fotos.length + ' foto(s)' : '') + (opties.vervangSelectie ? ' (selectie vervangen)' : ''), 'ok'); return nieuw.map((o) => o.id);
+}
 function voer(soort, data) {
   switch (soort) {
     case 'document': return { naam: 'Proefbank', eenheid: 'mm', kleurruimte: document.getElementById('ruimte').value, tekengebied: { b: B, h: H }, afloop: { boven: 3 * PT, rechts: 3 * PT, onder: 3 * PT, links: 3 * PT }, alleenLezen: document.getElementById('alleenLezen').checked };
     case 'selectie': mag('selectie.lezen'); return vormen.filter((o) => gekozen.has(o.id)).map((o) => ({ id: o.id, soort: soortVoorPlugin(o), naam: o.naam, kader: kader(o), vulling: o.stijl ? o.stijl.vulling : null, lijn: o.stijl ? o.stijl.lijn : null, lijndikte: o.stijl && o.stijl.lijn ? o.stijl.lijndikte : 0, dekking: o.stijl ? o.stijl.dekking : 1, ...geometrie(o) }));
-    case 'maak': { mag('document.schrijven'); schrijven();
-      const lijstV = Array.isArray(data) ? data : data && data.vormen, opties = Array.isArray(data) ? {} : (data && data.opties) || {};
-      if (!Array.isArray(lijstV) || !lijstV.length) fout('Geef een lijst met vormen.');
-      if (opties.vervangSelectie && !gekozen.size) fout('Selecteer eerst wat er vervangen moet worden.');
-      const t = { n: 0, p: 0 }; const nieuw = lijstV.map((v) => bouw(v, t));
-      if (opties.vervangSelectie) { const plek = vormen.findIndex((o) => gekozen.has(o.id)); vormen = vormen.filter((o) => !gekozen.has(o.id)); vormen.splice(Math.max(0, plek), 0, ...nieuw); }
-      else if (opties.achteraan) vormen.unshift(...nieuw); else vormen.push(...nieuw);
-      gekozen = new Set(nieuw.map((o) => o.id)); teken();
-      log('maak: ' + nieuw.length + ' vorm(en), ' + t.n + ' in totaal, ' + t.p + ' punten' + (opties.vervangSelectie ? ' (selectie vervangen)' : ''), 'ok'); return nieuw.map((o) => o.id); }
+    case 'maak': return maak(data);
+    case 'beeld': return beeld(data);
+    case 'zetBeeld': return zetBeeld(data);
     case 'wijzig': { mag('document.schrijven'); schrijven(); if (!Array.isArray(data) || !data.length) fout('Geef een lijst met wijzigingen: [{ id, … }].');
       const plan = data.map((w) => { if (!w || !gekozen.has(w.id)) fout('Je kunt alleen objecten wijzigen die geselecteerd zijn.'); return w; });
       for (const w of plan) { const o = vormen.find((x) => x.id === w.id); const k = kader(o), cx = k.x + k.b / 2, cy = k.y + k.h / 2;
@@ -300,7 +419,7 @@ function start(c) {
   l.luister = (e) => {
     if (lopend !== l || e.source !== frame.contentWindow || l.poort || !e.data || e.data.vexelPlugin !== 1 || !e.ports[0]) return;
     l.poort = e.ports[0];
-    l.poort.onmessage = (m) => { const q = m.data || {}; Promise.resolve().then(() => voer(q.soort, q.data)).then((d) => l.poort.postMessage({ antwoord: q.id, data: d }),
+    l.poort.onmessage = (m) => { const q = m.data || {}; Promise.resolve().then(() => voer(q.soort, q.data)).then((d) => l.poort.postMessage({ antwoord: q.id, data: d }, d && d.pixels instanceof ArrayBuffer ? [d.pixels] : []),
       (x) => { log((x.plugin ? 'geweigerd: ' : 'fout in de proefbank: ') + x.message, 'fout'); l.poort.postMessage({ antwoord: q.id, fout: x.plugin ? x.message : 'Dat lukte niet.' }); }); };
     l.poort.postMessage({ start: c.id });
   };
@@ -313,6 +432,10 @@ function start(c) {
 }
 document.getElementById('sluit').addEventListener('click', stop);
 document.getElementById('wis').addEventListener('click', () => { vormen = []; gekozen.clear(); teken(); });
+document.getElementById('foto').addEventListener('click', async () => { const mime = document.getElementById('fotoSoort').value; plaatsFoto(await testfoto(mime), mime === 'image/png' ? 'Testfoto (PNG)' : 'Testfoto'); });
+document.getElementById('eigenFoto').addEventListener('change', async (e) => { const f = e.target.files && e.target.files[0]; e.target.value = ''; if (!f) return;
+  try { const bmp = await createImageBitmap(f); const bron = { blob: f, url: URL.createObjectURL(f), mime: f.type || 'image/png', breedte: bmp.width, hoogte: bmp.height, cmyk: false }; bmp.close(); plaatsFoto(bron, f.name.slice(0, 100)); }
+  catch (x) { log('Deze foto kan de proefbank niet openen: ' + x.message, 'fout'); } });
 document.getElementById('voorbeeld').addEventListener('click', () => { const o = bouw({ soort: 'rechthoek', x: 60, y: 60, b: 160, h: 100, vulling: { cmyk: [0, 60, 100, 0] }, naam: 'Voorbeeld' }, { n: 0, p: 0 }); vormen.push(o); gekozen = new Set([o.id]); teken(); });
 const knoppen = document.getElementById('commandos');
 M.commandos.forEach((c) => { const k = document.createElement('button'); k.className = 'knop primair'; k.textContent = c.titel; k.addEventListener('click', () => start(c)); knoppen.append(k); });
@@ -343,15 +466,19 @@ select,label{font:inherit;color:#e8e9ec}select{background:#24262c;border:1px sol
   <div class="rij"><label>Kleurruimte <select id="ruimte"><option value="cmyk">CMYK</option><option value="rgb">RGB</option></select></label>
     <label><input type="checkbox" id="alleenLezen"> alleen-lezen</label></div>
   <div class="rij"><button class="knop" id="voorbeeld">Voorbeeldvorm (geselecteerd)</button><button class="knop" id="wis">Alles wissen</button></div>
+  <div class="rij"><button class="knop" id="foto">Testfoto (geselecteerd)</button>
+    <select id="fotoSoort" title="Bestandssoort van de testfoto"><option value="image/jpeg">JPEG</option><option value="image/png">PNG, doorzichtige hoeken</option></select>
+    <label title="Doe alsof de foto CMYK is (zetBeeld zet hem dan om naar RGB)"><input type="checkbox" id="fotoCmyk"> CMYK</label>
+    <label class="knop" style="display:inline-flex;align-items:center">Eigen foto…<input type="file" id="eigenFoto" accept="image/*" hidden></label></div>
   <div class="zacht" id="telling"></div>
-  <div class="zacht">Klik een vorm om hem te selecteren (Shift voor meer). Wat de plugin doet en wat er geweigerd wordt, staat hieronder.</div>
+  <div class="zacht">Klik een vorm of foto om hem te selecteren (Shift voor meer). Wat de plugin doet en wat er geweigerd wordt, staat hieronder.</div>
   <ul id="log"></ul>
 </aside>
 <script type="application/json" id="manifest">${veilig}</script><script src="/bank.js"></script>
 </body></html>`;
 }
 
-const HOST_CSP = `default-src 'none'; script-src 'self'; style-src 'unsafe-inline'; img-src data:; frame-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'`;
+const HOST_CSP = `default-src 'none'; script-src 'self'; style-src 'unsafe-inline'; img-src data: blob:; frame-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'`;
 
 http.createServer((q, r) => {
   const pad = q.url.split('?')[0];

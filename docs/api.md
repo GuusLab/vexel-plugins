@@ -1,4 +1,4 @@
-# De plugin-API (v1.1)
+# De plugin-API (v1.2)
 
 Alles wat een plugin nodig heeft: de bestanden, het manifest, de API in de
 plugin, het venster, wat de controle afwijst en het formaat van de index.
@@ -7,6 +7,7 @@ plugin, het venster, wat de controle afwijst en het formaat van de index.
 - [Het manifest](#het-manifest-pluginjson)
 - [De API](#de-api-windowvexel)
 - [Vormen](#vormen)
+- [Foto's](#fotos)
 - [Kleuren](#kleuren)
 - [Het venster](#het-venster)
 - [Wat de controle afwijst](#wat-de-controle-afwijst)
@@ -21,11 +22,28 @@ Elke plugin staat in `plugins/<id>/`:
 | `plugin.json` | ja | het manifest |
 | `plugin.js` | ja | de code: een gewoon script (geen module), hooguit 200 KB |
 | `icoon.svg` | ja | vierkant icoon, hooguit 16 KB, zonder script, events of externe verwijzingen |
+| `voorbeeld.svg` | nee | een groot plaatje voor de winkel (zie [hieronder](#voorbeeldsvg)), hooguit 40 KB |
 | `README.md` | ja | wat de plugin doet, hoe je hem gebruikt, waarom hij zijn rechten nodig heeft |
 | `LICENSE` | alleen als `licentie` niet `MIT` is | de licentietekst |
 
 Samen hooguit 256 KB (1 KB = 1024 bytes). Andere bestanden en submappen worden
 geweigerd. Alle tekstbestanden zijn UTF-8 zonder BOM.
+
+### `voorbeeld.svg`
+
+Optioneel. De winkel in Vexel toont het groot boven de beschrijving, en de
+[galerij](https://guuslab.github.io/vexel-plugins/) ook. Laat zien wat je
+plugin maakt. Regels:
+
+- dezelfde veiligheidsregels als het icoon: geen `<script`, geen
+  `on…`-attributen, geen `<foreignObject`, geen `href` of `url(...)` naar iets
+  buiten het bestand (dus ook geen `<image>` met een adres of data-URI);
+- een `viewBox` is verplicht; de verhouding is vrij, maar liefst 16:10, zoals
+  `viewBox="0 0 320 200"`;
+- hooguit 40 KB, en het telt mee voor de 256 KB.
+
+Een voor-en-na van een foto teken je dus na met vectoren (vlakken,
+verlopen, filters zoals `feTurbulence`), niet met een ingesloten foto.
 
 ## Het manifest (`plugin.json`)
 
@@ -53,7 +71,7 @@ geweigerd. Alle tekstbestanden zijn UTF-8 zonder BOM.
 | `auteur.github` | optioneel, `^[A-Za-z0-9-]{1,39}$` |
 | `licentie` | `MIT`, `Apache-2.0`, `BSD-2-Clause`, `BSD-3-Clause`, `ISC` of `0BSD` |
 | `categorie` | `vormen`, `kleur`, `tekst`, `ordenen`, `patronen` of `hulpmiddelen` |
-| `rechten` | een deel van `selectie.lezen`, `document.schrijven` (mag leeg) |
+| `rechten` | een deel van `selectie.lezen`, `document.schrijven`, `beeld.lezen`, `beeld.schrijven` (mag leeg) |
 | `commandos` | 1 tot 10 commando's |
 | `commandos[].id` | zelfde patroon als het plugin-id, uniek binnen de plugin |
 | `commandos[].titel` | 2 tot 40 tekens; eindigt op `…` als er een venster opengaat, anders niet |
@@ -67,7 +85,20 @@ Andere velden zijn niet toegestaan. Er is geen versienummer: de
 | recht | wat de plugin dan mag |
 |---|---|
 | `selectie.lezen` | `vexel.selectie()`: zien wat er geselecteerd is (soort, naam, kader, kleuren, lijndikte) |
-| `document.schrijven` | `vexel.maak()` en `vexel.wijzigSelectie()`: vormen toevoegen en de selectie aanpassen |
+| `document.schrijven` | `vexel.maak()`, `vexel.wijzig()` en `vexel.wijzigSelectie()`: vormen toevoegen en de selectie aanpassen |
+| `beeld.lezen` | `vexel.beeld()`: de pixels lezen van foto's die geselecteerd zijn |
+| `beeld.schrijven` | `vexel.zetBeeld()`: de pixels van geselecteerde foto's vervangen; met `document.schrijven` erbij ook nieuwe foto's plaatsen (`maak` met soort `beeld`) |
+
+Wat Vexel bij het installeren laat zien:
+
+| recht | tekst in Vexel |
+|---|---|
+| `beeld.lezen` | De pixels lezen van foto's die je geselecteerd hebt. |
+| `beeld.schrijven` | De pixels van geselecteerde foto's vervangen en nieuwe foto's plaatsen. |
+
+Een fotoplugin heeft meestal `selectie.lezen` (om de foto te vinden),
+`beeld.lezen` en `beeld.schrijven` nodig. Een update die er een recht bij
+vraagt, vraagt de gebruiker opnieuw om toestemming.
 
 Vraag alleen wat je echt gebruikt. `vexel.document()`, `vexel.melding()`,
 `vexel.bewaar()` en `vexel.haal()` werken altijd.
@@ -128,6 +159,16 @@ const items = await vexel.selectie();
 // }]
 ```
 
+Bij een foto (`soort: 'beeld'`) staat er ook:
+
+```js
+beeld: { px: [1200, 800], mime: 'image/jpeg', masker: false, cmyk: false }
+//       pixelmaat        bestandssoort       uitknipmasker  CMYK-foto
+```
+
+De maat in pt staat in `kader`. De pixels zelf zitten niet in `selectie()`:
+die haal je met [`vexel.beeld()`](#vexelbeeldid-opties-recht-beeldlezen).
+
 Een lege lijst betekent: niets geselecteerd. Een rechthoek of ellips is in
 Vexel gewoon een `pad`. Bij `pad` en `samengesteld` krijg je de `subpaden`
 (in hetzelfde stelsel als bij `maak`, hooguit 50 000 punten) en de `vulregel`; bij `tekst`
@@ -146,7 +187,8 @@ const ids = await vexel.maak([
 ```
 
 Maximaal 5000 vormen en 50 000 punten per aanroep, 1000 subpaden per pad; groepen hooguit 8 diep.
-Zie [Vormen](#vormen).
+Zie [Vormen](#vormen). Een nieuwe foto plaatsen kan ook, zie
+[Foto's](#een-nieuwe-foto-plaatsen).
 
 Met `{ achteraan: true }` komt het nieuwe onderin de actieve laag, achter
 alles wat er al staat: gebruik dit voor achtergronden en patronen.
@@ -189,6 +231,58 @@ await vexel.wijzigSelectie({ vulling: { cmyk: [100, 0, 0, 0] }, dekking: 0.5 });
 await vexel.wijzigSelectie({ lijn: null });          // lijn weghalen
 await vexel.wijzigSelectie({ lijn: { hex: '#000000' }, lijndikte: 0.25 });
 ```
+
+### `vexel.beeld(id, opties?)` (recht `beeld.lezen`)
+
+Leest de pixels van een geselecteerde foto. `id` komt uit `selectie()` en
+moet een geselecteerd object van soort `beeld` zijn, anders: "Dit object is
+geen geselecteerde foto."
+
+```js
+const b = await vexel.beeld(foto.id, { maxZijde: 800 });
+// {
+//   breedte: 800, hoogte: 533,
+//   pixels: Uint8ClampedArray,   // RGBA, breedte × hoogte × 4 bytes, rij voor rij vanaf linksboven
+//   origineel: [1200, 800]       // de echte pixelmaat
+// }
+```
+
+- `maxZijde` (16 tot 8192): verkleint zo dat de lange zijde hooguit zo groot
+  is. Er wordt nooit vergroot.
+- Zonder `maxZijde` krijg je de volle resolutie, maar hooguit 16 000 000
+  pixels (een grotere foto wordt evenredig verkleind).
+- Je krijgt de ruwe foto: een uitknipmasker telt niet mee.
+- De pixels komen zonder kopie binnen (een overgedragen buffer), dus ook een
+  grote foto is snel.
+
+### `vexel.zetBeeld(id, { breedte, hoogte, pixels })` (recht `beeld.schrijven`)
+
+Vervangt de pixels van een geselecteerde foto. Niet in een alleen-lezen
+document.
+
+```js
+const r = await vexel.zetBeeld(foto.id, { breedte: b.breedte, hoogte: b.hoogte, pixels: b.pixels });
+// { id: 'o12', mime: 'image/jpeg', cmykOmgezet: false }
+```
+
+- `pixels` is een `Uint8ClampedArray`, `Uint8Array` of `ArrayBuffer` met
+  precies `breedte × hoogte × 4` bytes (RGBA). `breedte` en `hoogte` zijn hele
+  getallen van 1 tot 16 384, samen hooguit 16 000 000 pixels.
+- Vexel slaat het op als JPEG (kwaliteit 0,92) als de foto een JPEG was en
+  alle pixels dekkend zijn (alfa 255), en anders als PNG.
+- Het kader, de transformatie en het masker blijven gelijk. Geef je een andere
+  pixelmaat dan het origineel, dan rekt de foto in hetzelfde kader: houd de
+  verhouding gelijk als je dat niet wilt.
+- Elke aanroep is één stap voor ongedaan maken.
+- Was de foto CMYK, dan is hij daarna RGB: `cmykOmgezet` is dan `true` en
+  Vexel meldt eenmalig "De foto was CMYK; na de bewerking is hij RGB en gaat
+  hij bij het drukken door het kleurprofiel."
+
+**De buffer wordt overgedragen.** De pixels gaan zonder kopie naar Vexel, en
+daarna is jouw `pixels` leeg (`byteLength` is 0). Heb je ze nog nodig (voor
+een tweede bewerking of een voorvertoning), maak dan eerst een kopie:
+`new Uint8ClampedArray(pixels)`. Dezelfde buffer twee keer versturen geeft
+een fout.
 
 ### `vexel.melding(tekst, soort)`
 
@@ -304,6 +398,74 @@ await vexel.maak([{
 }]);
 ```
 
+## Foto's
+
+Een foto (in Vexel: een object van soort `beeld`) bewerk je in drie stappen:
+vind hem in `selectie()`, lees de pixels met `vexel.beeld()` en zet het
+resultaat terug met `vexel.zetBeeld()`. Rechten: `selectie.lezen`,
+`beeld.lezen` en `beeld.schrijven`.
+
+### Voorbeeld: kleuren omkeren
+
+```js
+vexel.opCommando('omkeren', async () => {
+  const foto = (await vexel.selectie()).find((o) => o.soort === 'beeld');
+  if (!foto) {
+    vexel.melding('Selecteer eerst een foto.', 'let');
+    return vexel.sluit();
+  }
+  const b = await vexel.beeld(foto.id);
+  const px = b.pixels;
+  for (let i = 0; i < px.length; i += 4) {
+    px[i] = 255 - px[i];         // rood
+    px[i + 1] = 255 - px[i + 1]; // groen
+    px[i + 2] = 255 - px[i + 2]; // blauw (alfa blijft)
+  }
+  await vexel.zetBeeld(foto.id, { breedte: b.breedte, hoogte: b.hoogte, pixels: px });
+  vexel.melding('Kleuren omgekeerd.', 'ok');
+  vexel.sluit();
+});
+```
+
+### Een nieuwe foto plaatsen
+
+Met `document.schrijven` én `beeld.schrijven` kan `maak` ook een foto
+plaatsen. Hij wordt altijd als PNG opgeslagen, dus doorzichtigheid blijft.
+Hij telt als één vorm en mag in een groep; per `maak` samen hooguit
+16 000 000 pixels. Ook hier wordt de buffer overgedragen.
+
+```js
+await vexel.maak([{
+  soort: 'beeld', x: 0, y: 0, b: vexel.mm(80), h: vexel.mm(50), naam: 'Verloop',
+  pixels: { breedte: 800, hoogte: 500, pixels: mijnPixels },
+}]);
+```
+
+### Tips
+
+- **Voorvertoning klein, toepassen groot.** Lees voor een live voorbeeld in
+  je venster de foto met `{ maxZijde: 800 }` (of kleiner), en teken het
+  resultaat op een `canvas` met `putImageData`. Pas bij **Toepassen** lees je
+  de volle resolutie en roep je `zetBeeld` aan. Bewaar de kleine pixels als
+  bron en bewerk steeds een kopie, want na `zetBeeld` is een buffer weg.
+- **Ruis en korrel met een zaadje.** Gebruik een eigen randomgenerator met
+  een seed (bijvoorbeeld mulberry32) in plaats van `Math.random()`. Dan geeft
+  de voorvertoning hetzelfde beeld als het eindresultaat, en kan de gebruiker
+  een mooie variant terughalen. Schaal korrel mee met de resolutie
+  (`b.breedte / klein.breedte`), anders is hij op de volle foto te fijn.
+- **Zware filters.** Een foto van 24 megapixel is bijna 100 MB aan pixels.
+  Werk in één lus over de array, maak geen objecten per pixel, en toon
+  "Bezig…" voordat je begint. Workers zijn niet toegestaan.
+- **Pixelfuncties mogen.** `ImageData`, `getImageData`, `putImageData`,
+  `createImageBitmap`, `OffscreenCanvas` en getypte arrays zijn gewoon
+  toegestaan; netwerk en opslag buiten `vexel.bewaar()` blijven verboden.
+- **CMYK.** De pixels zijn altijd RGB(A). Een CMYK-foto wordt na `zetBeeld`
+  RGB; zeg dat zo nodig in je README.
+- **Proberen.** In de proefbank zet de knop **Testfoto** een foto van
+  1200 × 800 neer (JPEG, of PNG met doorzichtige hoeken; met **CMYK** doet
+  hij alsof het een CMYK-foto is). Met **Eigen foto…** kies je een foto van
+  je schijf.
+
 ## Kleuren
 
 Een `Kleur` is een van:
@@ -403,7 +565,7 @@ vexel.opCommando('maken', async () => {
 - `document.write`, `</script` (ook in tekst en commentaar)
 - `setTimeout` of `setInterval` met tekst als eerste argument
 - `atob` en `btoa` (geen verstopte code), en backslash-escapes in namen
-  (zoals `fetch`)
+  (zoals `\u0066etch`)
 - regels langer dan 200 tekens (geen geminificeerde code)
 - bidi-stuurtekens en andere onzichtbare tekens (in elk bestand)
 - merknamen van anderen (in manifest, README, icoon en code, ook in commentaar
@@ -414,9 +576,14 @@ templates en commentaar zijn weggehaald, dus `'fetch'` in een melding of
 `// top` in commentaar is geen probleem. Je hoeft alleen te zorgen dat je geen
 variabele `top` of `parent` noemt.
 
-Het icoon wordt geweigerd bij `<script`, `on…`-attributen, `<foreignObject`,
-`<!DOCTYPE`, `<!ENTITY`, `javascript:`, `href` of `url(...)` naar iets buiten
-het bestand, of een viewBox die niet vierkant is.
+Pixelcode is gewoon toegestaan: `ImageData`, `getImageData`,
+`putImageData`, `createImageBitmap`, `OffscreenCanvas` en getypte arrays
+staan niet op de lijst.
+
+Het icoon en `voorbeeld.svg` worden geweigerd bij `<script`,
+`on…`-attributen, `<foreignObject`, `<!DOCTYPE`, `<!ENTITY`, `javascript:`,
+`href` of `url(...)` naar iets buiten het bestand, of zonder viewBox. Het
+icoon moet daarbij vierkant zijn; het voorbeeld niet.
 
 ## De index
 
@@ -439,6 +606,7 @@ GitHub Actions bouwt bij elke push naar `main` de index en zet hem op
       "rechten": ["document.schrijven"],
       "commandos": [{ "id": "maken", "titel": "Raster maken…", "venster": { "breedte": 340, "hoogte": 400 } }],
       "icoon": "data:image/svg+xml;base64,...",
+      "voorbeeld": "data:image/svg+xml;base64,...",
       "bron": "https://github.com/GuusLab/vexel-plugins/tree/<commit>/plugins/raster",
       "hash": "<64 hex>",
       "bestanden": { "plugin.js": { "sha256": "<64 hex>", "grootte": 1234 } }
@@ -449,6 +617,8 @@ GitHub Actions bouwt bij elke push naar `main` de index en zet hem op
 ```
 
 - `bestanden` noemt alleen `plugin.js`. Het icoon zit als data-URI in de index.
+- `voorbeeld` is er alleen als de plugin een `voorbeeld.svg` heeft, ook als
+  data-URI. Het telt niet mee in de hash; Vexel laat een fout voorbeeld weg.
 - De code staat op `plugins/<id>/<sha256>.js` naast de index. Het adres hangt af
   van de inhoud, dus een oude index wijst nooit naar nieuwe code.
 - `grootte` is het aantal bytes van `plugin.js`.

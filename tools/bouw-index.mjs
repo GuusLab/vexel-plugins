@@ -49,9 +49,12 @@ export function maakIndex({ plugins, ingetrokken }, commit, gemaakt = nu()) {
     if (ingetrokkenIds.has(p.id)) continue; // ingetrokken: niet meer aanbieden
     const m = canoniekManifest(p.manifest);
     const js = p.bestanden['plugin.js'];
+    const voorbeeld = p.bestanden['voorbeeld.svg'];
     lijst.push({
       ...m,
       icoon: 'data:image/svg+xml;base64,' + p.bestanden['icoon.svg'].toString('base64'),
+      // optioneel; het veld ontbreekt als de plugin geen voorbeeld.svg heeft
+      ...(voorbeeld ? { voorbeeld: 'data:image/svg+xml;base64,' + voorbeeld.toString('base64') } : {}),
       bron: `${REPO}/tree/${commit}/plugins/${p.id}`,
       hash: pluginHash(p.manifest, js),
       bestanden: { 'plugin.js': { sha256: sha256(js), grootte: js.length } },
@@ -64,9 +67,11 @@ export function maakIndex({ plugins, ingetrokken }, commit, gemaakt = nu()) {
 
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 
-const RECHT_UITLEG = {
+export const RECHT_UITLEG = {
   'selectie.lezen': 'Ziet wat je hebt geselecteerd: soort, plaats, maat en kleuren.',
   'document.schrijven': 'Mag vormen aan je document toevoegen en de selectie aanpassen. Elke wijziging kun je ongedaan maken.',
+  'beeld.lezen': "Mag de pixels lezen van foto's die je geselecteerd hebt.",
+  'beeld.schrijven': "Mag de pixels van geselecteerde foto's vervangen en nieuwe foto's plaatsen. Elke wijziging kun je ongedaan maken.",
 };
 const CATEGORIE_NAAM = {
   vormen: 'Vormen', kleur: 'Kleur', tekst: 'Tekst', ordenen: 'Ordenen', patronen: 'Patronen', hulpmiddelen: 'Hulpmiddelen',
@@ -87,7 +92,8 @@ function kaart(p) {
           <h2>${esc(p.naam)}</h2>
           <p class="meta">${esc(CATEGORIE_NAAM[p.categorie])} · ${esc(p.licentie)} · door ${auteur}</p>
         </div>
-      </header>
+      </header>${p.voorbeeld ? `
+      <img class="voorbeeld" src="${esc(p.voorbeeld)}" alt="Voorbeeld van ${esc(p.naam)}" loading="lazy">` : ''}
       <p>${esc(p.beschrijving)}</p>
       <h3>Wat de plugin mag</h3>
       <ul>${rechten}</ul>
@@ -121,7 +127,8 @@ export function maakGalerij(index) {
   .raster { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
   .kaart { background: var(--kaart); border: 1px solid var(--lijn); border-radius: 14px; padding: 20px; display: flex; flex-direction: column; }
   .kaart header { display: flex; gap: 14px; align-items: center; }
-  .kaart img { border-radius: 12px; flex: none; }
+  .kaart header img { border-radius: 12px; flex: none; }
+  .kaart .voorbeeld { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: contain; margin-top: 16px; border-radius: 10px; background: var(--bg-2); border: 1px solid var(--lijn); }
   .kaart h2 { margin: 0; font-size: 18px; }
   .kaart h3 { margin: 16px 0 6px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--zacht); font-weight: 600; }
   .kaart p { margin: 14px 0 0; }

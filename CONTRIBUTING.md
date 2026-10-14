@@ -16,8 +16,9 @@ that is easier for you. Names and messages shown inside Vexel should be Dutch.*
   geminificeerd, niet gecodeerd, geen gebundelde bibliotheken.
 - **Iets wat mensen in Vexel echt helpt.** Een kleine plugin die één ding goed
   doet, is beter dan een grote die alles een beetje doet.
-- **Zo min mogelijk rechten.** Vraag alleen `selectie.lezen` of
-  `document.schrijven` als je ze gebruikt, en leg in je README uit waarom.
+- **Zo min mogelijk rechten.** Vraag alleen `selectie.lezen`,
+  `document.schrijven`, `beeld.lezen` of `beeld.schrijven` als je ze gebruikt,
+  en leg in je README uit waarom.
 
 De exacte regels voor het manifest, de bestanden en de code staan in
 [docs/api.md](docs/api.md). `node tools/valideer.mjs plugins/<id>` controleert
@@ -27,7 +28,9 @@ ze allemaal, met bestand en regelnummer bij elke fout.
 
 1. Fork deze repo en maak een branch.
 2. Maak `plugins/<id>/` met `plugin.json`, `plugin.js`, `icoon.svg` en
-   `README.md` (en `LICENSE` als je licentie niet MIT is). Kijk naar
+   `README.md` (en `LICENSE` als je licentie niet MIT is). Een
+   `voorbeeld.svg` (bijvoorbeeld 320 × 200) is optioneel: dat plaatje toont de
+   winkel groot bij je plugin. Kijk naar
    [raster](plugins/raster), [kleurharmonie](plugins/kleurharmonie) en
    [rozet](plugins/rozet) als voorbeeld.
 3. Draai `node tools/valideer.mjs plugins/<id>` tot hij "In orde" zegt.

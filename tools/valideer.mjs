@@ -20,6 +20,7 @@ export const KB = 1024;
 export const GRENZEN = {
   pluginJs: 200 * KB,
   icoon: 16 * KB,
+  voorbeeld: 40 * KB,
   totaal: 256 * KB,
   regelLengte: 200,
 };
@@ -28,9 +29,9 @@ export const ID_PATROON = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 export const GITHUB_PATROON = /^[A-Za-z0-9-]{1,39}$/;
 export const LICENTIES = ['MIT', 'Apache-2.0', 'BSD-2-Clause', 'BSD-3-Clause', 'ISC', '0BSD'];
 export const CATEGORIEEN = ['vormen', 'kleur', 'tekst', 'ordenen', 'patronen', 'hulpmiddelen'];
-export const RECHTEN = ['selectie.lezen', 'document.schrijven'];
+export const RECHTEN = ['selectie.lezen', 'document.schrijven', 'beeld.lezen', 'beeld.schrijven'];
 
-const TOEGESTANE_BESTANDEN = ['plugin.json', 'plugin.js', 'icoon.svg', 'README.md', 'LICENSE'];
+const TOEGESTANE_BESTANDEN = ['plugin.json', 'plugin.js', 'icoon.svg', 'voorbeeld.svg', 'README.md', 'LICENSE'];
 // Bestanden die macOS zelf aanmaakt; ze staan in .gitignore en komen dus nooit in een PR.
 const GENEGEERD = new Set(['.DS_Store']);
 
@@ -483,9 +484,18 @@ export function controleerCode(tekst, fout) {
 }
 
 // ---------------------------------------------------------------------------
-// Icoon
+// Icoon en voorbeeld (dezelfde veiligheidsregels; het icoon is vierkant)
 
 export function controleerIcoon(tekst, fout) {
+  controleerSvg(tekst, fout, { code: 'icoon', wat: 'icoon', vierkant: true });
+}
+
+/** voorbeeld.svg: een plaatje voor de winkel; verhouding vrij (liefst 16:10, bv. viewBox "0 0 320 200"). */
+export function controleerVoorbeeld(tekst, fout) {
+  controleerSvg(tekst, fout, { code: 'voorbeeld', wat: 'voorbeeld', vierkant: false });
+}
+
+function controleerSvg(tekst, fout, { code, wat, vierkant }) {
   const zonderCommentaar = tekst.replace(/<!--[\s\S]*?-->/g, (m) => m.replace(/[^\n]/g, ' '));
   const regels = [
     [/<script/gi, 'geen <script>'],
@@ -502,19 +512,21 @@ export function controleerIcoon(tekst, fout) {
     [/attributeName\s*=\s*["']?(?:xlink:)?href/gi, 'geen animatie van href'],
   ];
   for (const [re, melding] of regels) {
-    for (const m of tekst.matchAll(re)) fout('icoon', `onveilig icoon: ${melding}`, regelVan(tekst, m.index));
+    for (const m of tekst.matchAll(re)) fout(code, `onveilig ${wat}: ${melding}`, regelVan(tekst, m.index));
   }
   const begin = zonderCommentaar.replace(/^\s*(<\?xml[^>]*\?>)?\s*/, '');
-  if (!/^<svg[\s>]/.test(begin)) return fout('icoon', 'het icoon moet met <svg beginnen');
+  if (!/^<svg[\s>]/.test(begin)) return fout(code, `het ${wat} moet met <svg beginnen`);
   const wortel = /^<svg\b([^>]*)>/.exec(begin);
   const vb = wortel && /\sviewBox\s*=\s*["']([^"']*)["']/.exec(wortel[1]);
-  if (!vb) return fout('icoon', 'het <svg>-element heeft geen viewBox');
+  if (!vb) return fout(code, 'het <svg>-element heeft geen viewBox');
   const getallen = vb[1].trim().split(/[\s,]+/).map(Number);
   if (getallen.length !== 4 || getallen.some((g) => !Number.isFinite(g))) {
-    return fout('icoon', `viewBox "${vb[1]}" is geen vier getallen`);
+    return fout(code, `viewBox "${vb[1]}" is geen vier getallen`);
   }
-  if (!(getallen[2] > 0) || getallen[2] !== getallen[3]) {
-    fout('icoon', `viewBox moet vierkant zijn (breedte = hoogte), nu ${getallen[2]} × ${getallen[3]}`);
+  if (!(getallen[2] > 0) || !(getallen[3] > 0)) {
+    fout(code, `viewBox moet een breedte en hoogte groter dan 0 hebben, nu ${getallen[2]} × ${getallen[3]}`);
+  } else if (vierkant && getallen[2] !== getallen[3]) {
+    fout(code, `viewBox moet vierkant zijn (breedte = hoogte), nu ${getallen[2]} × ${getallen[3]}`);
   }
 }
 
@@ -570,6 +582,9 @@ export function valideerPlugin(map, { merken = laadMerken(), basis = ROOT } = {}
   if (bestanden['icoon.svg'] && bestanden['icoon.svg'].length > GRENZEN.icoon) {
     fout('icoon.svg', 'grootte', `${(bestanden['icoon.svg'].length / KB).toFixed(1)} KB; maximaal ${GRENZEN.icoon / KB} KB`);
   }
+  if (bestanden['voorbeeld.svg'] && bestanden['voorbeeld.svg'].length > GRENZEN.voorbeeld) {
+    fout('voorbeeld.svg', 'grootte', `${(bestanden['voorbeeld.svg'].length / KB).toFixed(1)} KB; maximaal ${GRENZEN.voorbeeld / KB} KB`);
+  }
 
   // Tekst, onzichtbare tekens, merknamen
   const teksten = {};
@@ -619,6 +634,9 @@ export function valideerPlugin(map, { merken = laadMerken(), basis = ROOT } = {}
   }
   if (teksten['icoon.svg'] !== undefined) {
     controleerIcoon(teksten['icoon.svg'], (code, melding, regel) => fout('icoon.svg', code, melding, regel));
+  }
+  if (teksten['voorbeeld.svg'] !== undefined) {
+    controleerVoorbeeld(teksten['voorbeeld.svg'], (code, melding, regel) => fout('voorbeeld.svg', code, melding, regel));
   }
 
   return { fouten, manifest, bestanden };

@@ -13,9 +13,9 @@ import { cpSync, mkdtempSync, readFileSync, rmSync, writeFileSync, appendFileSyn
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import {
-  ROOT, controleerCode, laadMerken, merkHashes, pluginHash, sha256, valideerAlles, valideerPlugin, canoniekManifest,
+  ROOT, RECHTEN, controleerCode, laadMerken, merkHashes, pluginHash, sha256, valideerAlles, valideerPlugin, canoniekManifest,
 } from './valideer.mjs';
-import { maakIndex, maakGalerij } from './bouw-index.mjs';
+import { maakIndex, maakGalerij, RECHT_UITLEG } from './bouw-index.mjs';
 
 const GEVALLEN = join(ROOT, 'tools', 'testgevallen');
 // een verzonnen merk voor de tests (de echte namen staan alleen als hash in merken.json)
@@ -213,6 +213,12 @@ const MAG = [
   ['setTimeout(() => {}, 10);', 'setTimeout met functie'],
   ['const knop = { open: true }; knop.parentNode = 1;', 'open als sleutel, parentNode'],
   ['const tekst = "regel\\neen \\"citaat\\"";', 'escapes binnen tekst'],
+  // pixelcode voor foto's (API 1.2) mag gewoon
+  ['const d = new ImageData(px, 4, 4); ctx.putImageData(d, 0, 0); const e = ctx.getImageData(0, 0, 4, 4);', 'ImageData, getImageData, putImageData'],
+  ['const c = new OffscreenCanvas(8, 8); const g = c.getContext("2d");', 'OffscreenCanvas'],
+  ['createImageBitmap(new ImageData(1, 1)).then((b) => b.close());', 'createImageBitmap'],
+  ['const kopie = new Uint8ClampedArray(b.pixels); const buf = kopie.buffer.slice(0);', 'Uint8ClampedArray en ArrayBuffer'],
+  ['const f = async (id) => { const b = await vexel.beeld(id, { maxZijde: 800 }); await vexel.zetBeeld(id, b); };', 'vexel.beeld en vexel.zetBeeld'],
 ];
 for (const [code, uitleg] of MAG) {
   test(`codecontrole laat dit door: ${uitleg}`, () => {
@@ -253,6 +259,9 @@ const MAG_NIET = [
   ['const g = { ...window };', 'window'],
   ['f(...self)', 'self'],
   ['const a = [... frames];', 'frames'],
+  ['const c = new OffscreenCanvas(1, 1); localStorage.x = 1;', 'localStorage'],
+  ['createImageBitmap(x).then(() => fetch("/x"));', 'fetch'],
+  ['const ctx = doek.getContext("2d"); caches.open("x");', 'caches'],
 ];
 for (const [code, naam] of MAG_NIET) {
   test(`codecontrole houdt tegen: ${code}`, () => {
@@ -309,9 +318,10 @@ test('index heeft precies het contract-formaat', () => {
   for (const p of index.plugins) {
     assert.deepEqual(Object.keys(p), [
       'id', 'naam', 'beschrijving', 'auteur', 'licentie', 'categorie', 'rechten', 'commandos',
-      'icoon', 'bron', 'hash', 'bestanden',
+      'icoon', ...(p.voorbeeld !== undefined ? ['voorbeeld'] : []), 'bron', 'hash', 'bestanden',
     ]);
     assert.match(p.icoon, /^data:image\/svg\+xml;base64,[A-Za-z0-9+/=]+$/);
+    if (p.voorbeeld !== undefined) assert.match(p.voorbeeld, /^data:image\/svg\+xml;base64,[A-Za-z0-9+/=]+$/);
     assert.equal(p.bron, `https://github.com/GuusLab/vexel-plugins/tree/${commit}/plugins/${p.id}`);
     assert.match(p.hash, /^[0-9a-f]{64}$/);
     assert.deepEqual(Object.keys(p.bestanden), ['plugin.js']);
@@ -333,4 +343,104 @@ test('galerij ontsnapt tekst en heeft de strikte CSP', () => {
   assert.ok(!html.includes('<img src=x'));
   assert.ok(html.includes("default-src 'none'; img-src data:; style-src 'unsafe-inline'"));
   assert.ok(!/<script/i.test(html));
+});
+
+// ---- API 1.2: rechten voor foto's, voorbeeld.svg, merknamen -------------------------
+
+test('de rechten beeld.lezen en beeld.schrijven zijn toegestaan; een verzonnen recht niet', () => {
+  verwachtVariant('foto-rechten', (map, m) => schrijfManifest(map, {
+    ...m, rechten: ['selectie.lezen', 'document.schrijven', 'beeld.lezen', 'beeld.schrijven'],
+  }), []);
+  verwachtVariant('foto-fout-recht', (map, m) => schrijfManifest(map, { ...m, rechten: ['beeld.alles'] }), ['manifest.veld'],
+    (fouten) => assert.ok(fouten.some((f) => /beeld\.lezen, beeld\.schrijven/.test(f.melding)), toon(fouten)));
+});
+
+test('elk recht heeft een uitleg op de Pages-pagina', () => {
+  for (const r of RECHTEN) assert.equal(typeof RECHT_UITLEG[r], 'string', r);
+});
+
+const VOORBEELD = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200"><rect width="320" height="200" fill="#223"/>'
+  + '<circle cx="160" cy="100" r="60" fill="url(#v)"/><defs><linearGradient id="v"><stop offset="0" stop-color="#fc0"/></linearGradient></defs></svg>\n';
+
+test('een goed voorbeeld.svg (16:10, niet vierkant) mag', () => {
+  verwachtVariant('met-voorbeeld', (map) => writeFileSync(join(map, 'voorbeeld.svg'), VOORBEELD), []);
+});
+
+test('voorbeeld.svg met script, externe afbeelding of zonder viewBox wordt afgewezen', () => {
+  verwachtVariant('voorbeeld-script', (map) => writeFileSync(join(map, 'voorbeeld.svg'),
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200">\n<script>alert(1)</script>\n<rect width="1" height="1" onclick="x()"/></svg>\n'),
+  ['voorbeeld'], (fouten) => {
+    assert.ok(fouten.every((f) => f.bestand.endsWith('voorbeeld.svg')), toon(fouten));
+    assert.ok(fouten.some((f) => /<script>/.test(f.melding) && f.regel === 2), toon(fouten));
+    assert.ok(fouten.some((f) => /on…-attributen/.test(f.melding)), toon(fouten));
+  });
+  verwachtVariant('voorbeeld-extern', (map) => writeFileSync(join(map, 'voorbeeld.svg'),
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200"><image href="https://voorbeeld.invalid/foto.jpg" width="320" height="200"/>'
+    + '<foreignObject width="1" height="1"/></svg>\n'), ['voorbeeld'], (fouten) => assert.ok(fouten.length >= 2, toon(fouten)));
+  verwachtVariant('voorbeeld-zonder-viewbox', (map) => writeFileSync(join(map, 'voorbeeld.svg'),
+    '<svg xmlns="http://www.w3.org/2000/svg" width="320" height="200"><rect width="9" height="9"/></svg>\n'), ['voorbeeld'],
+  (fouten) => assert.ok(fouten.some((f) => /viewBox/.test(f.melding)), toon(fouten)));
+  verwachtVariant('voorbeeld-plat', (map) => writeFileSync(join(map, 'voorbeeld.svg'),
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 0"><rect width="9" height="9"/></svg>\n'), ['voorbeeld']);
+});
+
+test('voorbeeld.svg groter dan 40 KB wordt afgewezen', () => {
+  verwachtVariant('voorbeeld-groot', (map) => writeFileSync(join(map, 'voorbeeld.svg'),
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200">\n${'<g/>\n'.repeat(9000)}</svg>\n`), ['grootte'],
+  (fouten) => assert.ok(fouten.every((f) => f.bestand.endsWith('voorbeeld.svg')), toon(fouten)));
+});
+
+test('merknamen worden ook in voorbeeld.svg gevonden (via de hash, hoofdletterongevoelig)', () => {
+  // een verzonnen woord, met de gewone hashmethode in de set gezet
+  const eigen = new Set([...laadMerken(), ...merkHashes('Filmrolmerk')]);
+  const { map, opruimen } = variant('merk-in-voorbeeld', (m) => writeFileSync(join(m, 'voorbeeld.svg'),
+    VOORBEELD.replace('</svg>', '<text x="10" y="20">FILMROLMERK-look</text></svg>')));
+  try {
+    const fouten = valideerPlugin(map, { merken: eigen, basis: ROOT }).fouten;
+    assert.deepEqual(codes(fouten), ['merknaam'], toon(fouten));
+    assert.ok(fouten[0].bestand.endsWith('voorbeeld.svg'));
+    // zonder dat woord in de set is dezelfde plugin in orde
+    assert.equal(valideerPlugin(map, { merken: laadMerken(), basis: ROOT }).fouten.length, 0);
+  } finally {
+    opruimen();
+  }
+});
+
+test('merken.json: alleen hashes, uniek en gesorteerd, en de lijst is aangevuld', () => {
+  const { hashes } = JSON.parse(readFileSync(join(ROOT, 'tools', 'merken.json'), 'utf8'));
+  assert.ok(hashes.length >= 80, `nu ${hashes.length}`);
+  assert.equal(new Set(hashes).size, hashes.length);
+  assert.deepEqual([...hashes].sort(), hashes);
+  // merkHashes: kleine letters, en twee woorden ook aan elkaar
+  assert.deepEqual(merkHashes('Proef Merk'), [sha256('proef merk'), sha256('proefmerk')]);
+  assert.deepEqual(merkHashes('  FILMROLMERK '), [sha256('filmrolmerk')]);
+});
+
+test('index en galerij: voorbeeld als data-URI als het bestand er is, anders geen veld', () => {
+  const { map, opruimen } = variant('met-voorbeeld', (m) => writeFileSync(join(m, 'voorbeeld.svg'), VOORBEELD));
+  try {
+    const r = valideerPlugin(map, { merken, basis: ROOT });
+    assert.equal(r.fouten.length, 0, toon(r.fouten));
+    const zonder = valideerPlugin(join(GEVALLEN, 'goed'), { merken, basis: ROOT });
+    const index = maakIndex({
+      plugins: [{ id: 'met-voorbeeld', map, manifest: r.manifest, bestanden: r.bestanden },
+        { id: 'goed', map: join(GEVALLEN, 'goed'), manifest: zonder.manifest, bestanden: zonder.bestanden }],
+      ingetrokken: [],
+    }, 'c'.repeat(40), '2026-10-14T12:00:00Z');
+    const [met, kaal] = index.plugins;
+    assert.deepEqual(Object.keys(met), ['id', 'naam', 'beschrijving', 'auteur', 'licentie', 'categorie', 'rechten', 'commandos',
+      'icoon', 'voorbeeld', 'bron', 'hash', 'bestanden']);
+    assert.deepEqual(Object.keys(kaal), ['id', 'naam', 'beschrijving', 'auteur', 'licentie', 'categorie', 'rechten', 'commandos',
+      'icoon', 'bron', 'hash', 'bestanden']);
+    assert.match(met.voorbeeld, /^data:image\/svg\+xml;base64,[A-Za-z0-9+/=]+$/);
+    assert.equal(met.voorbeeld, 'data:image/svg+xml;base64,' + Buffer.from(VOORBEELD).toString('base64'));
+    assert.ok(!('voorbeeld' in kaal));
+    // de hash verandert niet door het voorbeeld
+    assert.equal(met.hash, pluginHash(r.manifest, r.bestanden['plugin.js']));
+    const html = maakGalerij(index);
+    assert.equal((html.match(/class="voorbeeld"/g) || []).length, 1);
+    assert.ok(html.includes(`src="${met.voorbeeld}"`));
+  } finally {
+    opruimen();
+  }
 });
